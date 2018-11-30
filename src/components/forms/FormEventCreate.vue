@@ -200,7 +200,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import data from '@/data/forms.js'
@@ -213,7 +212,7 @@ export default {
   mixins: [utilities],
   props: ['eventCategory', 'competition'],
   components: { DialogAddLocation, EventCategoryIcon },
-  data () {
+  data() {
     return {
       errors: [],
       formData: data,
@@ -223,9 +222,7 @@ export default {
       competitionEventCategories: null,
       opponent: true,
       dialogAddLocation: false,
-      recurrenceCategories: [
-        { title: 'Toutes les semaines', value: 'weekly' },
-      ],
+      recurrenceCategories: [{ title: 'Toutes les semaines', value: 'weekly' }],
       recurrenceDaysList: data.recurrenceDaysList,
       form: {
         locationCategory: 'Domicile',
@@ -243,57 +240,90 @@ export default {
         recurrence: 'weekly',
         recurentDays: [],
         periodStart: null,
-        periodEnd: null,
-
+        periodEnd: null
       },
       rules: {
         name: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'change'
+          }
         ],
         location: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'change'
+          }
         ],
         dateStart: [
-          { type: 'date', required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
+          {
+            type: 'date',
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'change'
+          }
         ],
         time: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'change'
+          }
         ],
         periodStart: [
-          { type: 'date', required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
+          {
+            type: 'date',
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'change'
+          }
         ],
         periodEnd: [
-          { type: 'date', required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
+          {
+            type: 'date',
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'change'
+          }
         ],
         recurentDays: [
-          { type: 'array', required: true, message: 'Choisis au moins un jour de récurrence', trigger: 'change' }
-        ],
+          {
+            type: 'array',
+            required: true,
+            message: 'Choisis au moins un jour de récurrence',
+            trigger: 'change'
+          }
+        ]
       }
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'currentTeamLocation']),
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
     },
-    filterLocationCategory () {
+    filterLocationCategory() {
       let filter
-      this.form.locationCategory === 'Domicile' ? filter = 'home' : filter = 'away'
+      this.form.locationCategory === 'Domicile'
+        ? (filter = 'home')
+        : (filter = 'away')
       return filter
     },
-    teamLocations () {
+    teamLocations() {
       return this.currentTeam.locations
     }
   },
   methods: {
-    openDialogAddLocation () {
+    openDialogAddLocation() {
       this.dialogAddLocation = true
     },
-    locationCreated (location) {
+    locationCreated(location) {
       this.form.location = location._id
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.newLocationName ? this.createLocation() : this.createEvent()
         } else {
@@ -302,60 +332,73 @@ export default {
         }
       })
     },
-    createEvent () {
-      this.form.recurring ? this.createRecurrentEvent() : this.createUniqueEvent()
+    createEvent() {
+      this.form.recurring
+        ? this.createRecurrentEvent()
+        : this.createUniqueEvent()
     },
-    async createUniqueEvent () {
+    async createUniqueEvent() {
       this.isLoading = true
       this.formatForm()
       try {
         const event = (await ApiEvents.post(this.form)).data.event
         this.isLoading = false
-        this.$notify({ title: 'Succès', message: "L'évenement a bien été crée", type: 'success' })
+        this.$notify({
+          title: 'Succès',
+          message: "L'évenement a bien été crée",
+          type: 'success'
+        })
         this.$router.push(`/team/${this.currentTeam._id}/event/${event._id}`)
       } catch (err) {
         this.errorNotify(err)
         this.isLoading = false
       }
     },
-    async createRecurrentEvent () {
+    async createRecurrentEvent() {
       this.isLoading = true
       this.formatForm()
       try {
         await ApiEvents.postRecurrent(this.form)
         this.isLoading = false
-        this.$notify({ title: 'Succès', message: "Les évenements ont bien été crées", type: 'success' })
+        this.$notify({
+          title: 'Succès',
+          message: 'Les évenements ont bien été crées',
+          type: 'success'
+        })
         this.$router.push(`/team/${this.currentTeam._id}/events`)
       } catch (err) {
         this.errorNotify(err)
         this.isLoading = false
       }
     },
-    formatForm () {
+    formatForm() {
       this.form.team = this.currentTeam._id
       this.form.season = this.currentSeason(this.currentTeam)._id
       this.form.locationCategory = this.filterLocationCategory
-      if (this.form.dateStart) this.form.dateStart = moment(this.form.dateStart).format()
-      if (this.form.name === 'Autre') this.form.name = this.otherCategory
+      if (this.form.dateStart)
+        if (this.form.name === 'Autre') this.form.name = this.otherCategory
       if (this.competition) this.form.competition = this.competition._id
       if (this.form.location._id) this.form.location = this.form.location._id
     },
-    fillCompetitionCategory () {
+    fillCompetitionCategory() {
       for (let competitionType of this.formData.competitionCategories) {
         if (competitionType.category === this.competition.category) {
           this.eventCategories = competitionType.eventCategories
         }
       }
     },
-    fillEventCategories () {
+    fillEventCategories() {
       if (this.eventCategory === 'friendly') this.form.name = 'Match Amical'
       if (this.eventCategory === 'training') this.form.name = 'Entrainement'
       if (this.eventCategory === 'other') this.form.name = 'Autre'
     }
   },
-  created () {
-    this.competition ? this.fillCompetitionCategory() : this.fillEventCategories()
-    if (this.currentTeamLocation) this.form.location = this.currentTeamLocation._id
+  created() {
+    this.competition
+      ? this.fillCompetitionCategory()
+      : this.fillEventCategories()
+    if (this.currentTeamLocation)
+      this.form.location = this.currentTeamLocation._id
     this.form.category = this.eventCategory
   }
 }

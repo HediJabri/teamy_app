@@ -168,8 +168,13 @@ import EventCategoryIcon from '@/components/global/events/EventCategoryIcon'
 export default {
   name: 'FormEventEdit',
   mixins: [utilities],
-  components: { DialogAddLocation, DialogEditEvent, DialogDeleteEvent, EventCategoryIcon },
-  data () {
+  components: {
+    DialogAddLocation,
+    DialogEditEvent,
+    DialogDeleteEvent,
+    EventCategoryIcon
+  },
+  data() {
     var validateField = (rule, value, callback) => {
       if (value === '' || null) {
         callback(new Error('Ce champ est obligatoire'))
@@ -197,47 +202,51 @@ export default {
         time: '18:00',
         location: null,
         timeAppointment: null,
-        placeAppointment: null,
+        placeAppointment: null
       },
       rules: {
         name: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'change'
+          }
         ],
         location: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'change'
+          }
         ],
-        dateStart: [
-          { validator: validateField, trigger: 'blur' }
-        ],
-        time: [
-          { validator: validateField, trigger: 'blur' }
-        ],
-        timeAppointment: [
-          { validator: validateField, trigger: 'blur' }
-        ]
+        dateStart: [{ validator: validateField, trigger: 'blur' }],
+        time: [{ validator: validateField, trigger: 'blur' }],
+        timeAppointment: [{ validator: validateField, trigger: 'blur' }]
       }
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'event']),
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
     },
-    filterLocationCategory () {
+    filterLocationCategory() {
       let filter
-      this.form.locationCategory === 'Domicile' ? filter = 'home' : filter = 'away'
+      this.form.locationCategory === 'Domicile'
+        ? (filter = 'home')
+        : (filter = 'away')
       return filter
     },
-    teamLocations () {
+    teamLocations() {
       return this.currentTeam.locations
     }
   },
   methods: {
     ...mapActions(['initEvent']),
-    openDialogDeleteEvent () {
+    openDialogDeleteEvent() {
       this.dialogDeleteEvent = true
     },
-    openDialogEditEvent () {
+    openDialogEditEvent() {
       this.dialogEditEvent = true
     },
     openDialogAddLocation() {
@@ -246,11 +255,11 @@ export default {
     locationCreated(location) {
       this.form.location = location._id
     },
-    toggleForm () {
+    toggleForm() {
       this.$emit('toggleForm')
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.openDialogEditEvent()
         } else {
@@ -259,7 +268,7 @@ export default {
         }
       })
     },
-    async editEvent (action) {
+    async editEvent(action) {
       this.isLoading = true
       this.form.sendEmail = action
       this.form.dateStart = moment(this.form.dateStart).format()
@@ -274,30 +283,35 @@ export default {
         this.isLoading = false
       }
     },
-    async getEvent (id) {
+    async getEvent(id) {
       try {
         const event = (await ApiEvents.get(id)).data.event
         this.initEvent(event)
         this.isLoading = false
         this.$emit('toggleForm')
-        this.$notify({ title: 'Succès', message: "L'évenement a bien été modifié", type: 'success' })
+        this.$notify({
+          title: 'Succès',
+          message: "L'évenement a bien été modifié",
+          type: 'success'
+        })
       } catch (err) {
         this.errorNotify(err)
         this.isLoading = false
       }
     },
-    fillEventForm () {
+    fillEventForm() {
       if (this.event) {
         this.form.name = this.event.name
         this.form.category = this.event.category
         this.form.dateStart = this.event.dateStart
         this.form.time = this.event.time
         this.form.location = this.event.location._id
-        this.form.locationCategory = this.event.locationCategory === 'home' ? 'Domicile' : 'Extérieur'
+        this.form.locationCategory =
+          this.event.locationCategory === 'home' ? 'Domicile' : 'Extérieur'
         this.form.opponent = this.event.opponent
         this.form.timeAppointment = this.event.timeAppointment
         this.form.placeAppointment = this.event.placeAppointment
-        this.event.opponent ? this.opponent = true : this.opponent = false
+        this.event.opponent ? (this.opponent = true) : (this.opponent = false)
       }
     },
     fillCompetitionCategory() {
@@ -313,15 +327,16 @@ export default {
       if (this.eventCategory === 'other') this.form.name = 'Autre'
     }
   },
-  created () {
+  created() {
     this.fillEventForm()
-    this.event.competition ? this.fillCompetitionCategory() : this.fillEventCategories()    
+    this.event.competition
+      ? this.fillCompetitionCategory()
+      : this.fillEventCategories()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .form-wrapper {
   width: 100%;
   margin: 0px auto;
@@ -374,16 +389,39 @@ export default {
   margin: 0 auto;
   text-align: center;
   padding-bottom: 10px;
-  p { text-align: center; }
-  .form-header-logo { @include flex-center(); }
-  .form-header-name { height: 18px; margin-top: 0; }
+  p {
+    text-align: center;
+  }
+  .form-header-logo {
+    @include flex-center();
+  }
+  .form-header-name {
+    height: 18px;
+    margin-top: 0;
+  }
 }
 
-.form-label { text-align: left!important; margin-bottom: 10px; height: 30px;}
-.form-label-group { @include flex-space-between();  height: 35px; .btn-m { margin-bottom: 5px; } }
-.form-label-small { height: 20px;}
-.form-custom { margin-top: 60px; }
-.form-other-category { margin-top: 20px; }
+.form-label {
+  text-align: left !important;
+  margin-bottom: 10px;
+  height: 30px;
+}
+.form-label-group {
+  @include flex-space-between();
+  height: 35px;
+  .btn-m {
+    margin-bottom: 5px;
+  }
+}
+.form-label-small {
+  height: 20px;
+}
+.form-custom {
+  margin-top: 60px;
+}
+.form-other-category {
+  margin-top: 20px;
+}
 .form-date-time-wrapper {
   @include flex-center();
   margin-top: 5px;
@@ -399,7 +437,9 @@ export default {
 
 .form-opponent {
   text-align: left;
-  span { margin-right: 5px }
+  span {
+    margin-right: 5px;
+  }
 }
 
 .form-btn-submit {
@@ -434,20 +474,40 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .el-form { padding: 0; }
-  .form-card { padding: 30px; }
-  .form-date-time-separator { margin: 0 5px 22px 5px; }
-  .form-header .form-header-tag { top: 65px;  z-index: 9; @include tag-flat-s() }
-  .el-select-dropdown.el-popper { left: 0!important }
-  .el-select-dropdown__item { font-size: 11px!important ; }
-  .btn-back { margin-bottom: 10px }
+  .el-form {
+    padding: 0;
+  }
+  .form-card {
+    padding: 30px;
+  }
+  .form-date-time-separator {
+    margin: 0 5px 22px 5px;
+  }
+  .form-header .form-header-tag {
+    top: 65px;
+    z-index: 9;
+    @include tag-flat-s();
+  }
+  .el-select-dropdown.el-popper {
+    left: 0 !important;
+  }
+  .el-select-dropdown__item {
+    font-size: 11px !important ;
+  }
+  .btn-back {
+    margin-bottom: 10px;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .el-form { padding: 0 10px; }
+  .el-form {
+    padding: 0 10px;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .el-form { padding: 0 80px; }
+  .el-form {
+    padding: 0 80px;
+  }
 }
 </style>

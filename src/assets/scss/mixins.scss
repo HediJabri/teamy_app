@@ -1,4 +1,4 @@
-@import "./variables";
+@import './variables';
 
 // Layout
 @mixin page-wrapper() {
@@ -53,7 +53,7 @@
 // Cards
 @mixin card() {
   background-color: white;
-  box-shadow: 0 2px 4px rgba(5,15,44,0.1);
+  box-shadow: 0 2px 4px rgba(5, 15, 44, 0.1);
   padding: 30px 20px;
   min-height: 120px;
   width: 95%;
@@ -62,23 +62,28 @@
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
-  h1, h2, h3, h4, h5, h6 {
-    color: $blue-dark
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $blue-dark;
   }
 }
 
 @mixin title-card() {
- width: 100%;
- background: white;
- border-top: solid 1px $grey-light;
- border-bottom: solid 1px $grey-light;
- height: 52px;
- position: absolute;
- top: 0px;
- left: 0px;
- padding: 10px 20px;
- border-radius: 3px 3px 0 0;
- h5 {
+  width: 100%;
+  background: white;
+  border-top: solid 1px $grey-light;
+  border-bottom: solid 1px $grey-light;
+  height: 52px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding: 10px 20px;
+  border-radius: 3px 3px 0 0;
+  h5 {
     font-weight: bold;
     letter-spacing: 0.6px;
   }
@@ -128,7 +133,7 @@
 
 // Box Shadow
 @mixin box-shadow() {
-  box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
 }
 
 // Emoji wrappers
@@ -163,21 +168,37 @@
   color: white;
   padding: 4px 7px;
   border-radius: 10px;
-  background-image: linear-gradient(-180deg, #FFFFFF 0%, #FAFBFC 100%);
+  background-image: linear-gradient(-180deg, #ffffff 0%, #fafbfc 100%);
 }
 @mixin tag-blue() {
-  background-image: linear-gradient(to bottom, HSL(200, 100%, 69%), HSL(213, 77%, 52%));
+  background-image: linear-gradient(
+    to bottom,
+    HSL(200, 100%, 69%),
+    HSL(213, 77%, 52%)
+  );
 }
 @mixin tag-red() {
-  background-image: linear-gradient(to bottom, HSL(3, 83%, 65%), HSL(353, 61%, 49%));
+  background-image: linear-gradient(
+    to bottom,
+    HSL(3, 83%, 65%),
+    HSL(353, 61%, 49%)
+  );
 }
 @mixin tag-orange() {
- background-image: linear-gradient(to bottom, HSL(32, 77%, 68%), HSL(20, 77%, 50%));
+  background-image: linear-gradient(
+    to bottom,
+    HSL(32, 77%, 68%),
+    HSL(20, 77%, 50%)
+  );
 }
 @mixin tag-green() {
-  background-image: linear-gradient(to bottom, HSL(157, 73%, 60%), HSL(170, 50%, 45%));
+  background-image: linear-gradient(
+    to bottom,
+    HSL(157, 73%, 60%),
+    HSL(170, 50%, 45%)
+  );
 }
-@mixin tag-flat-s () {
+@mixin tag-flat-s() {
   font-size: 11px;
   text-align: center;
   margin: 5px;
@@ -187,7 +208,7 @@
   border-radius: 10px;
 }
 
-@mixin tag-flat () {
+@mixin tag-flat() {
   font-size: 12px;
   text-align: center;
   margin: 5px;
@@ -197,7 +218,7 @@
   border-radius: 10px;
 }
 
-@mixin tag-flat-m () {
+@mixin tag-flat-m() {
   font-size: 12px;
   text-align: center;
   margin: 5px;
@@ -207,7 +228,7 @@
   border-radius: 10px;
 }
 
-@mixin tag-flat-l () {
+@mixin tag-flat-l() {
   font-size: 13px;
   text-align: center;
   margin: 5px;
@@ -220,15 +241,16 @@
 //Icon
 @mixin icon-button-default() {
   i {
-    border: 1px solid #D4DDF0;
+    border: 1px solid #d4ddf0;
     padding: 3px;
     font-size: 13px;
     border-radius: 2px;
     color: $blue-grey;
-    transition: all .2s ease;
+    transition: all 0.2s ease;
   }
-  i.active, :hover {
-    background-image: linear-gradient(to bottom, #53AEEF, #1790E6);
+  i.active,
+  :hover {
+    background-image: linear-gradient(to bottom, #53aeef, #1790e6);
     border: 1px solid $blue;
     padding: 3px;
     font-size: 13px;
@@ -241,7 +263,11 @@
   height: 45px;
   font-size: 16px;
   color: $ghost-white;
-  background-image: linear-gradient(110deg, HSL(213, 77%, 52%),HSL(200, 100%, 69%));
+  background-image: linear-gradient(
+    110deg,
+    HSL(213, 77%, 52%),
+    HSL(200, 100%, 69%)
+  );
   border-radius: 50%;
   @include flex-center;
   margin: 0 auto;
@@ -262,40 +288,40 @@
 @mixin avatar() {
   width: 30px;
   height: 29px;
-  @include avatar-wrapper
+  @include avatar-wrapper;
 }
 @mixin avatar-s() {
   width: 40px;
   height: 40px;
-  @include avatar-wrapper
+  @include avatar-wrapper;
 }
 @mixin avatar-m() {
   width: 45px;
   height: 45px;
-  @include avatar-wrapper
+  @include avatar-wrapper;
 }
 @mixin avatar-l() {
   width: 80px;
   height: 80px;
-  @include avatar-wrapper
+  @include avatar-wrapper;
 }
 @mixin avatar-xl() {
   width: 110px;
   height: 110px;
-  @include avatar-wrapper
+  @include avatar-wrapper;
 }
 @mixin avatar-bordered() {
   width: 30px;
   height: 30px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   border: white 1px solid;
-  @include avatar-wrapper
+  @include avatar-wrapper;
 }
 @mixin avatar-square() {
   width: 20px;
   height: 20px;
   border-radius: 0px;
-  @include avatar-wrapper
+  @include avatar-wrapper;
 }
 
 // Flexbox
@@ -415,6 +441,7 @@
     margin: 0px;
     border-bottom-width: 3px;
     border-top-width: 0px;
+    font-size: 16px;
   }
 }
 
@@ -521,7 +548,8 @@
       display: flex;
     }
   }
-  &:hover, &.active {
+  &:hover,
+  &.active {
     background: $background-grey;
   }
 }
@@ -564,9 +592,12 @@
     left: 24px;
     bottom: -7px;
     color: $blue;
-    i { font-size: 14px;}
+    i {
+      font-size: 14px;
+    }
   }
-  &:hover, &.active {
+  &:hover,
+  &.active {
     background: $background-grey;
   }
 }

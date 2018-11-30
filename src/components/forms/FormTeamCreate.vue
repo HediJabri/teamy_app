@@ -81,9 +81,11 @@ export default {
   mixins: [guards, utilities],
   props: ['mode'],
   components: {
-    CardTeamPreview, ImageUpload, InputSearchCities
+    CardTeamPreview,
+    ImageUpload,
+    InputSearchCities
   },
-  data () {
+  data() {
     return {
       isLoading: false,
       photoIsLoading: false,
@@ -97,41 +99,53 @@ export default {
         name: null,
         sport: null,
         city: null,
-        country: null,
+        country: null
       },
       rules: {
         name: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'blur'
+          }
         ],
         sport: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'change'
+          }
         ],
         city: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
-        ],
-      },
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'change'
+          }
+        ]
+      }
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'sports']),
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
     }
   },
   methods: {
     ...mapActions(['initUser', 'initTeam']),
-    addCity (data) {
+    addCity(data) {
       this.form.city = data.city
       this.form.country = data.country
     },
-    addTeamPhoto (url) {
+    addTeamPhoto(url) {
       this.form.photo = url
     },
-    addTeamLogo (url) {
+    addTeamLogo(url) {
       this.form.logo = url
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.createTeam()
         } else {
@@ -140,7 +154,7 @@ export default {
         }
       })
     },
-    async createTeam () {
+    async createTeam() {
       this.isLoading = true
       let body = this.form
       body.mainAdmin = this.currentUser._id
@@ -156,7 +170,7 @@ export default {
         this.impossibleActionNotify()
         this.isLoading = false
       }
-    },
+    }
   }
 }
 </script>

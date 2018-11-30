@@ -74,8 +74,13 @@ import InputSearchCities from '@/components/global/InputSearchCities'
 export default {
   name: 'form-team',
   mixins: [guards, utilities],
-  components: { CardTeamPreview, CardTeamLocationEdit, ImageUpload, InputSearchCities },
-  data () {
+  components: {
+    CardTeamPreview,
+    CardTeamLocationEdit,
+    ImageUpload,
+    InputSearchCities
+  },
+  data() {
     return {
       isLoading: false,
       photoIsLoading: false,
@@ -88,31 +93,39 @@ export default {
         logo: null,
         name: null,
         city: null,
-        country: null,
+        country: null
       },
       rules: {
         name: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'blur'
+          }
         ],
         city: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
-        ],
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'change'
+          }
+        ]
       }
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'sports']),
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
     }
   },
   methods: {
     ...mapActions(['initUser', 'initTeam', 'updateUserMembershipTeam']),
-    addCity (data) {
+    addCity(data) {
       this.form.city = data.city
       this.form.country = data.country
     },
-    fillFormTeam () {
+    fillFormTeam() {
       if (this.currentTeam) {
         this.form.photo = this.currentTeam.photo
         this.form.logo = this.currentTeam.logo
@@ -121,14 +134,14 @@ export default {
         this.form.country = this.currentTeam.country
       }
     },
-    addTeamPhoto (url) {
+    addTeamPhoto(url) {
       this.form.photo = url
     },
-    addTeamLogo (url) {
+    addTeamLogo(url) {
       this.form.logo = url
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.form.locationName ? this.createLocation() : this.editTeam()
         } else {
@@ -137,7 +150,7 @@ export default {
         }
       })
     },
-    async editTeam () {
+    async editTeam() {
       this.isLoading = true
       try {
         const res = await ApiTeams.patch(this.currentTeam._id, this.form)
@@ -147,7 +160,7 @@ export default {
         this.isLoading = false
       }
     },
-    afterRequestSucceed (team) {
+    afterRequestSucceed(team) {
       this.initTeam(team)
       this.getUser(this.currentUser._id)
       this.isLoading = false
@@ -158,25 +171,25 @@ export default {
         type: 'success'
       })
     },
-    async getUser (id) {
+    async getUser(id) {
       try {
         const user = (await ApiUsers.get(id)).data.user
         this.initUser(user)
       } catch (err) {
         this.errorNotify(err)
       }
-    },
+    }
   },
   watch: {
-    currentTeam (newValue) {
+    currentTeam(newValue) {
       if (newValue) {
         this.fillFormTeam()
       }
-    },
+    }
   },
-  created () {
+  created() {
     this.fillFormTeam()
-  },
+  }
 }
 </script>
 
@@ -204,6 +217,7 @@ export default {
 .form-team-card {
   @include card();
   padding: 20px 60px 30px 60px;
+  overflow: visible;
 }
 .form-team-title {
   @include title-card();
@@ -240,7 +254,6 @@ export default {
 .form-label-small {
   height: 30px !important;
 }
-
 // Element UI
 .el-form {
   margin-top: 60px;
@@ -255,7 +268,7 @@ export default {
   width: 100%;
 }
 .el-select-dropdown__item span {
-  text-transform: capitalize !important;
+  text-transform: capitalize;
 }
 
 @media only screen and (max-width: 479px) {
