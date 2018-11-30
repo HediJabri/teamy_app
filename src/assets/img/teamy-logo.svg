@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="359px" height="109px" viewBox="0 0 359 109" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 23</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="19.2227409%" y1="17.0935138%" x2="86.726536%" y2="93.682872%" id="linearGradient-1">
+            <stop stop-color="#2D7DE0" offset="0%"></stop>
+            <stop stop-color="#62D0FF" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="54.5200617 64.1525163 38.2736885 73.5765904 42.9537008 56.3880366 28.2328777 45.0238809 47.3716575 43.8248445 54.5200617 27.3773359 61.6684658 43.8248445 80.8072456 45.0238809 66.0864225 56.3880366 70.7664348 73.5765904"></polygon>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.378736413 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-23">
+            <g id="Group-19">
+                <g id="Group-18">
+                    <g id="Group-17">
+                        <g id="Group-16">
+                            <g id="Group-4">
+                                <text id="teamy" opacity="0.899999976" font-family="StarAvenue, Star Avenue" font-size="75" font-weight="normal" fill="#343C4F">
+                                    <tspan x="133" y="83">teamy</tspan>
+                                </text>
+                                <g id="Group-2" transform="translate(0.000000, 0.590878)">
+                                    <rect id="Rectangle-2" fill="url(#linearGradient-1)" x="0" y="0" width="109.050714" height="103.118446" rx="51.5592229"></rect>
+                                    <g id="Star-1">
+                                        <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                                        <use fill="#F6F4F4" fill-rule="evenodd" xlink:href="#path-2"></use>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

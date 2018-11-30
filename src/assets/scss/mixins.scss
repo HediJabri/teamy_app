@@ -1,0 +1,572 @@
+@import "./variables";
+
+// Layout
+@mixin page-wrapper() {
+  width: 100%;
+  margin: 0px auto;
+  padding: 0px 20px 60px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+@mixin page-left-container() {
+  display: flex;
+  flex-direction: column;
+  margin: 0px auto;
+  width: 27%;
+}
+@mixin page-right-container() {
+  display: flex;
+  flex-direction: column;
+  margin: 0px auto;
+  width: 27%;
+}
+@mixin page-center-container() {
+  display: flex;
+  flex-direction: column;
+  margin: 0px auto;
+  width: 46%;
+}
+@mixin page-center-container-l() {
+  display: flex;
+  flex-direction: column;
+  margin: 0px auto;
+  width: 73%;
+}
+
+// Pages
+@mixin page-header() {
+  margin-bottom: 20px;
+  text-align: center;
+  @include page-title();
+}
+@mixin page-title() {
+  margin-bottom: 20px;
+  h5 {
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    font-size: 14px;
+  }
+}
+
+// Cards
+@mixin card() {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(5,15,44,0.1);
+  padding: 30px 20px;
+  min-height: 120px;
+  width: 95%;
+  border-radius: 3px;
+  margin: 0px auto;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  h1, h2, h3, h4, h5, h6 {
+    color: $blue-dark
+  }
+}
+
+@mixin title-card() {
+ width: 100%;
+ background: white;
+ border-top: solid 1px $grey-light;
+ border-bottom: solid 1px $grey-light;
+ height: 52px;
+ position: absolute;
+ top: 0px;
+ left: 0px;
+ padding: 10px 20px;
+ border-radius: 3px 3px 0 0;
+ h5 {
+    font-weight: bold;
+    letter-spacing: 0.6px;
+  }
+}
+
+@mixin logo-team-card() {
+  background: white;
+  padding: 10px;
+  position: absolute;
+  top: 135px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75px;
+  height: 75px;
+  border-radius: 3px;
+}
+
+@mixin logo-team-card-s {
+  background: white;
+  padding: 8px;
+  position: absolute;
+  top: 135px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60px;
+  height: 60px;
+  border-radius: 3px;
+}
+
+@mixin logo-team-card-large() {
+  background: white;
+  padding: 10px;
+  position: absolute;
+  top: 250px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95px;
+  height: 95px;
+  border-radius: 3px;
+}
+
+// Box Shadow
+@mixin box-shadow() {
+  box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+}
+
+// Emoji wrappers
+@mixin emoji-wrapper {
+  @include flex-center();
+  background: $mystic;
+  border-radius: 50%;
+  height: 30px;
+  width: 31px;
+  font-size: 16px;
+  padding-top: 3px;
+  padding-left: 6px;
+}
+
+@mixin emoji-text-wrapper() {
+  @include flex-start();
+  margin-bottom: 4px;
+  .text-item {
+    padding-bottom: 1px;
+  }
+  .emoji {
+    font-size: 15px;
+    margin-right: 5px;
+  }
+}
+
+// Tags
+@mixin tag() {
+  font-size: 9px;
+  line-height: 12px;
+  letter-spacing: 1px;
+  color: white;
+  padding: 4px 7px;
+  border-radius: 10px;
+  background-image: linear-gradient(-180deg, #FFFFFF 0%, #FAFBFC 100%);
+}
+@mixin tag-blue() {
+  background-image: linear-gradient(to bottom, HSL(200, 100%, 69%), HSL(213, 77%, 52%));
+}
+@mixin tag-red() {
+  background-image: linear-gradient(to bottom, HSL(3, 83%, 65%), HSL(353, 61%, 49%));
+}
+@mixin tag-orange() {
+ background-image: linear-gradient(to bottom, HSL(32, 77%, 68%), HSL(20, 77%, 50%));
+}
+@mixin tag-green() {
+  background-image: linear-gradient(to bottom, HSL(157, 73%, 60%), HSL(170, 50%, 45%));
+}
+@mixin tag-flat-s () {
+  font-size: 11px;
+  text-align: center;
+  margin: 5px;
+  font-weight: 400;
+  background: $solitude;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+@mixin tag-flat () {
+  font-size: 12px;
+  text-align: center;
+  margin: 5px;
+  font-weight: 400;
+  background: $solitude;
+  padding: 4px 7px;
+  border-radius: 10px;
+}
+
+@mixin tag-flat-m () {
+  font-size: 12px;
+  text-align: center;
+  margin: 5px;
+  font-weight: 400;
+  background: $solitude;
+  padding: 6px 9px;
+  border-radius: 10px;
+}
+
+@mixin tag-flat-l () {
+  font-size: 13px;
+  text-align: center;
+  margin: 5px;
+  font-weight: 500;
+  background: $solitude;
+  padding: 7px 10px;
+  border-radius: 16px;
+}
+
+//Icon
+@mixin icon-button-default() {
+  i {
+    border: 1px solid #D4DDF0;
+    padding: 3px;
+    font-size: 13px;
+    border-radius: 2px;
+    color: $blue-grey;
+    transition: all .2s ease;
+  }
+  i.active, :hover {
+    background-image: linear-gradient(to bottom, #53AEEF, #1790E6);
+    border: 1px solid $blue;
+    padding: 3px;
+    font-size: 13px;
+    border-radius: 2px;
+    color: white;
+  }
+}
+@mixin icon-logo-wrapper() {
+  width: 45px;
+  height: 45px;
+  font-size: 16px;
+  color: $ghost-white;
+  background-image: linear-gradient(110deg, HSL(213, 77%, 52%),HSL(200, 100%, 69%));
+  border-radius: 50%;
+  @include flex-center;
+  margin: 0 auto;
+}
+
+// Avatars
+@mixin avatar-wrapper {
+  position: relative;
+  border-radius: 50%;
+  img {
+    object-fit: cover;
+    object-position: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+  }
+}
+@mixin avatar() {
+  width: 30px;
+  height: 29px;
+  @include avatar-wrapper
+}
+@mixin avatar-s() {
+  width: 40px;
+  height: 40px;
+  @include avatar-wrapper
+}
+@mixin avatar-m() {
+  width: 45px;
+  height: 45px;
+  @include avatar-wrapper
+}
+@mixin avatar-l() {
+  width: 80px;
+  height: 80px;
+  @include avatar-wrapper
+}
+@mixin avatar-xl() {
+  width: 110px;
+  height: 110px;
+  @include avatar-wrapper
+}
+@mixin avatar-bordered() {
+  width: 30px;
+  height: 30px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border: white 1px solid;
+  @include avatar-wrapper
+}
+@mixin avatar-square() {
+  width: 20px;
+  height: 20px;
+  border-radius: 0px;
+  @include avatar-wrapper
+}
+
+// Flexbox
+@mixin flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-space-between() {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-space-around() {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+@mixin flex-start() {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+@mixin flex-end() {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+@mixin flex-start-column() {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+@mixin flex-center-top() {
+  display: flex;
+  justify-content: flex-start;
+  align-items: top;
+}
+
+// Text Utilities
+@mixin text-overflow-ellipsis() {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// Calendars
+@mixin calendar-date() {
+  .calendar-date {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    box-shadow: 0 1px 2px $grey;
+    border-radius: 3px;
+    padding: 0px;
+    margin-right: 15px;
+    float: left;
+  }
+  .month {
+    background: $blue;
+    width: 60px;
+    border-top-left-radius: 3px;
+    border-radius: 3px 3px 0px 0px;
+    overflow: hidden;
+    padding: 2px 0px;
+    color: $white-light;
+    font-size: 13px;
+    border: 1px solid #2f9be7;
+    font-weight: 500;
+    line-height: 1.4;
+    text-transform: capitalize;
+  }
+  .day {
+    border: 1px solid $grey-normal;
+    border-radius: 0px 0px 3px 3px;
+    padding: 10px;
+    margin: 0px;
+    border-bottom-width: 3px;
+    border-top-width: 0px;
+    font-size: 18px;
+  }
+}
+
+@mixin calendar-date-s() {
+  .calendar-date {
+    width: 50px;
+    height: 55px;
+    text-align: center;
+    box-shadow: 0 1px 2px $grey;
+    border-radius: 3px;
+    padding: 0px;
+    margin-right: 10px;
+    margin-top: 5px;
+    float: left;
+  }
+  .month {
+    background: $blue;
+    width: 50px;
+    border-top-left-radius: 3px;
+    border-radius: 3px 3px 0px 0px;
+    overflow: hidden;
+    padding: 2px 0px;
+    color: $white-light;
+    font-size: 11px;
+    border: 1px solid #2f9be7;
+    font-weight: 500;
+    line-height: 1.4;
+    text-transform: capitalize;
+  }
+  .day {
+    border: 1px solid $grey-normal;
+    border-radius: 0px 0px 3px 3px;
+    padding: 8px;
+    margin: 0px;
+    border-bottom-width: 3px;
+    border-top-width: 0px;
+  }
+}
+
+@mixin calendar-date-xs() {
+  text-align: center;
+  .calendar-date {
+    width: 40px;
+    height: 47px;
+    text-align: center;
+    box-shadow: 0 1px 2px $grey;
+    border-radius: 3px;
+    padding: 0px;
+    margin-right: 10px;
+    float: left;
+    font-size: 15px;
+  }
+  .month {
+    width: 40px;
+    background: $blue;
+    border-top-left-radius: 3px;
+    border-radius: 3px 3px 0px 0px;
+    overflow: hidden;
+    padding: 1px 0px;
+    color: $white-light;
+    font-size: 11px;
+    border: 1px solid #2f9be7;
+    font-weight: 500;
+    line-height: 1.4;
+    text-transform: capitalize;
+  }
+  .day {
+    width: 40px;
+    border: 1px solid $grey-normal;
+    border-radius: 0px 0px 3px 3px;
+    padding: 5px;
+    margin: 0px;
+    border-bottom-width: 3px;
+    border-top-width: 0px;
+    font-size: 14px;
+  }
+}
+
+@mixin calendar-date-xxs() {
+  text-align: center;
+  .calendar-date {
+    width: 28px;
+    height: 32px;
+    text-align: center;
+    box-shadow: 0 1px 2px $grey;
+    border-radius: 3px;
+    padding: 0px;
+    margin-right: 5px;
+    float: left;
+  }
+  .month {
+    width: 28px;
+    background: $blue;
+    border-top-left-radius: 3px;
+    border-radius: 3px 3px 0px 0px;
+    overflow: hidden;
+    padding: 1px 0px;
+    color: $white-light;
+    font-size: 9px;
+    border: 1px solid #2f9be7;
+    font-weight: 500;
+    line-height: 1.4;
+    text-transform: capitalize;
+  }
+  .day {
+    width: 28px;
+    border: 1px solid $grey-normal;
+    border-radius: 0px 0px 3px 3px;
+    padding: 3px;
+    margin: 0px;
+    border-bottom-width: 3px;
+    border-top-width: 0px;
+    font-size: 9px;
+  }
+}
+
+// List Card
+@mixin list-item-m() {
+  @include flex-start();
+  width: 100%;
+  background: white;
+  height: 60px;
+  padding: 13px 20px;
+  cursor: pointer;
+  .list-item-img.avatar {
+    @include avatar-s();
+    margin-right: 15px;
+  }
+  .list-item-body {
+    text-align: left;
+    .list-item-body-top {
+      overflow: hidden;
+      text-transform: capitalize;
+      font-weight: 500;
+    }
+    .list-item-body-top,
+    .list-item-body-bottom {
+      margin: 2px 0;
+      height: 20px;
+      display: flex;
+    }
+  }
+  &:hover, &.active {
+    background: $background-grey;
+  }
+}
+
+@mixin list-item-s() {
+  @include flex-space-between();
+  width: 100%;
+  background: white;
+  height: 45px;
+  padding: 13px 20px;
+  font-size: 13px;
+  .list-item-img.avatar {
+    @include avatar();
+    margin-right: 10px;
+  }
+  .list-item-content {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 85%;
+    cursor: pointer;
+  }
+  .list-item-body {
+    width: 78%;
+    text-align: left;
+    .list-item-body-top {
+      overflow: hidden;
+      text-transform: capitalize;
+      font-weight: 500;
+    }
+    .list-item-body-top,
+    .list-item-body-bottom {
+      margin: 2px 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  .list-item-badge {
+    position: absolute;
+    left: 24px;
+    bottom: -7px;
+    color: $blue;
+    i { font-size: 14px;}
+  }
+  &:hover, &.active {
+    background: $background-grey;
+  }
+}
