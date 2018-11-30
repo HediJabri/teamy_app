@@ -1,0 +1,155 @@
+<template lang="html">
+<div>
+  <div v-if="competition" class="card">
+    <div class="card-title">
+      <h5>{{ competition.name }}</h5>
+      <span v-if="isAdmin(currentUser, competition.team) && !competition.clotured" 
+        class="card-icon-edit" @click="toggleForm()">
+        <el-tooltip content="Modifier la compétition" placement="left" :open-delay="300">
+          <i class="material-icons">settings</i>
+        </el-tooltip>
+      </span>
+    </div>
+    <div class="card-header">
+      <p>{{ formatCompetition(competition.category) }}</p>
+      <img v-if="competition.image" :src="competition.image" alt="">
+      <div class="card-competition-item-large-icon" v-else>
+        <i class="fa fa-trophy" ></i>
+      </div>
+      <p class="season">{{ competition.season.name }}</p>
+    </div>
+    <div class="card-body">
+      <div class="card-buttons" v-if="isAdmin(currentUser, competition.team)">
+        <el-button type="default"
+          v-if="!competition.clotured"
+          @click="openDialogCloseCompetition()">
+          Clôturer la compétition
+          <i class="fa fa-ban red margin-left"></i>
+        </el-button>
+        <p class="" v-else><i class="fa fa-ban red margin-left"></i> Compétition clôturée</p>
+        <el-button type="primary"
+          v-if="!competition.clotured"
+          class="card-activity-dash-title-btn"
+          @click="(routeUrl(`/team/${currentTeam._id}/event-new/competition/${competition._id}`))">
+          Ajouter un évenement
+        <i class="fa fa-plus-circle margin-left"></i>
+        </el-button>
+      </div>
+    </div>
+  </div>
+  <card-events-table :events="competition.events"/>
+  <dialog-close-competition
+    v-show="competition"
+    :competition="competition"
+    :openDialog="dialogCloseCompetition"
+    @closeDialog="dialogCloseCompetition = false" />
+</div>
+  
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+import { utilities } from '@/mixins/utilities.js'
+import EventResultInfo from '@/components/global/events/EventResultInfo'
+import CardEventsTable from '@/components/cards/events/CardEventsTable'
+import DialogCloseCompetition from '@/components/dialogs/DialogCloseCompetition'
+
+export default {
+  name: 'CardCompetitionLarge',
+  mixins: [utilities],
+  props: ['competition'],
+  components: { EventResultInfo, CardEventsTable, DialogCloseCompetition },
+  data() {
+    return {
+      dialogCloseCompetition: false,
+    }
+  },
+  computed: {
+    ...mapGetters(['currentUser', 'currentTeam']),
+  },
+  methods: {
+    openDialogCloseCompetition () {
+      this.dialogCloseCompetition = true
+    },
+    toggleForm (brand) {
+      this.$emit('toggleForm', brand)
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+
+.card {
+  @include card();
+  text-align: center;
+  padding: 30px 0 0 0;
+}
+.card-title {
+  @include title-card();
+  @include flex-center();
+  text-transform: uppercase;
+  color: $blue-dark;
+  h5 {
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .card-icon-edit {
+    color: $blue-grey;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 16px;
+    i { font-size: 17px;}
+  }
+}
+.card-header {
+  padding: 35px 90px 0px 90px;
+  position: relative;
+  h5 {
+    font-size: 17px;
+    text-transform: uppercase;
+  }
+  p {
+    color: $text-grey-blue;
+    font-weight: 300;
+    font-size: 16px;
+    text-align: center;
+  }
+  .season {
+    color: $blue-dark;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  img {
+    width: 85px;
+  }
+}
+.card-competition-item-large-icon {
+  @include icon-logo-wrapper();
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.card-body {
+  padding: 8px 160px;
+  font-size: 13px;
+}
+.card-buttons {
+  margin: 30px 0;
+  @include flex-center();
+  p { color: $grey-medium; font-size: 14px;}
+}
+
+
+@media only screen and (max-width: 479px) {
+  .card-header { padding: 35px 15px 10px 15px; }
+  .card-title .card-icon-edit { top: 60px; z-index: 9; }
+  .card-body {  padding: 20px;  font-size: 12px; }
+  .card-buttons { flex-direction: column; button { margin: 5px auto } }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 719px) {
+  .card-body { padding: 20px 60px; }
+}
+
+</style>
