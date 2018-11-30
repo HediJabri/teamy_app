@@ -1,9 +1,9 @@
 // ----- General Style ----- //
-@import "./variables";
-@import "./mixins";
+@import './variables';
+@import './mixins';
 
 #app {
-  font-family: "Avenir Next", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
   color: $primary-color-dark;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -13,7 +13,7 @@
   h4,
   h5,
   h6 {
-    font-family: "Montserrat", Helvetica, Arial, sans-serif;
+    font-family: 'Montserrat', Helvetica, Arial, sans-serif;
     color: $blue-dark-transparent;
   }
 }
@@ -473,11 +473,6 @@ p {
     font-size: 16px;
   }
 }
-
-/* Element ToolTip */
-// .el-tooltip__popper {
-//   background: $blue-dark-transparent!important;
-// }
 
 /* Element DatePicker */
 .el-date-picker {

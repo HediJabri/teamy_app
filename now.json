@@ -1,0 +1,16 @@
+{
+  "name": "app.teamy",
+  "version": 1,
+  "type": "static",
+  "static": {
+    "public": "dist",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "alias": "app.teamy",
+  "files": ["dist"]
+}
