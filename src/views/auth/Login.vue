@@ -2,7 +2,7 @@
   <div class="banner">
     <div class="banner-wrapper">
       <div class="banner-logo-wrapper">
-        <a href="https://www.teamy.us">
+        <a href="https://teamy.us">
           <img src="../../assets/img/teamy-logo-white.png" class="logo">
         </a>
       </div>
@@ -58,7 +58,7 @@ import ButtonFbAuth from '@/components/buttons/ButtonFbAuth'
 export default {
   name: 'Login',
   components: { ButtonFbAuth },
-  data () {
+  data() {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('Ce champ est obligatoire'))
@@ -75,24 +75,20 @@ export default {
         password: ''
       },
       rules: {
-        email: [
-          { validator: validatePass, trigger: 'blur' }
-        ],
-        password: [
-          { validator: validatePass, trigger: 'blur' }
-        ]
+        email: [{ validator: validatePass, trigger: 'blur' }],
+        password: [{ validator: validatePass, trigger: 'blur' }]
       }
     }
   },
   computed: {
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
     }
   },
   methods: {
     ...mapActions(['initUser']),
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.login()
         } else {
@@ -101,7 +97,7 @@ export default {
         }
       })
     },
-    async login () {
+    async login() {
       this.errors = []
       this.isLoading = true
       try {
@@ -112,7 +108,7 @@ export default {
         this.isLoading = false
       }
     },
-    async loginWithFb (token) {
+    async loginWithFb(token) {
       this.errors = []
       this.isLoading = true
       try {
@@ -123,11 +119,11 @@ export default {
         this.isLoading = false
       }
     },
-    authUser (data) {
+    authUser(data) {
       Auth.setToken(data.token)
       Auth.setUser(data.user)
       this.$router.push('/')
-    },
+    }
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <div class="banner">
     <div class="banner-wrapper">
       <div class="banner-logo-wrapper">
-        <a href="https://www.teamy.co">
+        <a href="https://teamy.us">
           <img src="../../assets/img/teamy-logo-white.jpg" class="logo">
         </a>
       </div>
@@ -51,7 +51,7 @@ import ApiUsers from '@/services/ApiUsers.js'
 export default {
   name: 'Contact',
   mixins: [utilities],
-  data () {
+  data() {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('Ce champ est obligatoire'))
@@ -60,7 +60,7 @@ export default {
       }
     }
     var validateEmail = (rule, value, callback) => {
-      function validateEmail (email) {
+      function validateEmail(email) {
         var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         return re.test(email)
       }
@@ -83,21 +83,19 @@ export default {
           { validator: validatePass, trigger: 'blur' },
           { validator: validateEmail, trigger: 'blur' }
         ],
-        message: [
-          { validator: validatePass, trigger: 'blur' }
-        ]
+        message: [{ validator: validatePass, trigger: 'blur' }]
       }
     }
   },
   computed: {
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
     }
   },
   methods: {
     ...mapActions(['initUser']),
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.sendMessage()
         } else {
@@ -109,26 +107,34 @@ export default {
     async sendMessage() {
       this.isLoading = true
       try {
-        const body = { content: this.form.message, email: this.form.email, user: null, sender: null }
+        const body = {
+          content: this.form.message,
+          email: this.form.email,
+          user: null,
+          sender: null
+        }
         await ApiUsers.sendMessage(body)
         this.isLoading = false
         this.$emit('closeDialog')
         this.form.message = ''
         this.form.email = ''
-        this.$notify({ title: 'Succès', message: "Le message a bien été envoyé", type: 'success' })
+        this.$notify({
+          title: 'Succès',
+          message: 'Le message a bien été envoyé',
+          type: 'success'
+        })
       } catch (err) {
         this.isLoading = false
         this.errorNotify(err)
-      }     
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .banner {
-  background-image: linear-gradient(to bottom, #1F69BD , $blue);
+  background-image: linear-gradient(to bottom, #1f69bd, $blue);
   min-height: 100vh;
   @include flex-center();
 }
@@ -136,7 +142,9 @@ export default {
 .banner-logo-wrapper {
   @include flex-center();
   margin-bottom: 30px;
-  a { cursor: pointer; }
+  a {
+    cursor: pointer;
+  }
   .logo {
     height: 40px;
   }
@@ -172,8 +180,12 @@ export default {
 .header {
   margin: 10px 0;
   text-align: center;
-  p { margin: 20px 0; }
-  span { font-weight: 600 }
+  p {
+    margin: 20px 0;
+  }
+  span {
+    font-weight: 600;
+  }
 }
 
 .header-social-auth {
@@ -215,11 +227,18 @@ export default {
       font-size: 13px;
       padding: 7px 20px;
     }
-    .el-input { font-size: 13px; }
-    .el-input__inner { height: 34px;}
-    .el-form-item__error { font-size: 11px;}
-    .error-message { font-size: 13px; }
+    .el-input {
+      font-size: 13px;
+    }
+    .el-input__inner {
+      height: 34px;
+    }
+    .el-form-item__error {
+      font-size: 11px;
+    }
+    .error-message {
+      font-size: 13px;
+    }
   }
 }
-
 </style>
