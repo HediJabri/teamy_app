@@ -3,7 +3,7 @@
     <div class="banner-wrapper">
       <div class="banner-logo-wrapper">
         <a href="https://teamy.us">
-          <img src="../../assets/img/teamy-logo-white.jpg" class="logo">
+          <img src="../../assets/img/teamy-logo-white.png" class="logo">
         </a>
       </div>
       <div class="card">
