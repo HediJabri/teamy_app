@@ -1,5 +1,5 @@
 {
-  "name": "app.teamy",
+  "name": "app-teamy",
   "version": 1,
   "type": "static",
   "static": {
@@ -11,6 +11,6 @@
       }
     ]
   },
-  "alias": "app.teamy",
+  "alias": "app.teamy.us",
   "files": ["dist"]
 }
