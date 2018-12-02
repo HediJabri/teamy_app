@@ -6,15 +6,18 @@
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
-          v-for="language in languages"
-          :key="language.flag"
+          v-for="lang in languages"
+          :key="lang.flag"
         >
-          <span class="dropdown-text">
+          <span
+            class="dropdown-text"
+            @click="changeLocale(lang.locale)"
+          >
             <flag
-              :iso="language.flag"
+              :iso="lang.flag"
               v-bind:squared=false
             />
-            <span>{{ language.title }}</span>
+            <span>{{ lang.title }}</span>
           </span>
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -28,9 +31,14 @@ export default {
   data() {
     return {
       languages: [
-        { flag: 'gb', type: 'en', title: 'English' },
-        { flag: 'fr', type: 'fr', title: 'French' }
+        { flag: 'gb', locale: 'en', title: 'English' },
+        { flag: 'fr', locale: 'fr', title: 'French' }
       ]
+    }
+  },
+  methods: {
+    changeLocale(locale) {
+      this.$i18n.locale = locale
     }
   }
 }
@@ -51,8 +59,9 @@ export default {
     }
   }
   .flag-icon {
-    width: 16px;
-    margin-right: 5px;
+    width: 13px;
+    margin-right: 6px;
+    margin-bottom: 1px;
   }
 }
 </style>

@@ -139,7 +139,7 @@ export default {
   name: 'MainNavbar',
   components: { DialogInfoPage, DropdownLanguage },
   mixins: [utilities],
-  data () {
+  data() {
     return {
       dialogInfoPage: false
     }
@@ -148,10 +148,10 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam', 'infoHighlighted'])
   },
   methods: {
-    logout () {
+    logout() {
       Auth.logout()
     },
-    openModalInfo () {
+    openModalInfo() {
       this.dialogInfoPage = true
     }
   }
