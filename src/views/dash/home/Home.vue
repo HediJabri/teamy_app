@@ -11,9 +11,9 @@ import { mapActions } from 'vuex'
 export default {
   name: 'Home',
   methods: {
-    ...mapActions(['resetTeam', 'resetNotifications']),
+    ...mapActions(['resetTeam', 'resetNotifications'])
   },
-  created () {
+  created() {
     this.resetTeam()
     this.resetNotifications()
   }

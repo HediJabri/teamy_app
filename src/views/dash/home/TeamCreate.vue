@@ -14,7 +14,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
-import TeamySpinner from '@/components/global/TeamySpinner'
 import CardUser from '@/components/cards/users/CardUser'
 import FormTeamCreate from '@/components/forms/FormTeamCreate'
 
@@ -22,9 +21,10 @@ export default {
   name: 'TeamCreate',
   mixins: [utilities],
   components: {
-    TeamySpinner, CardUser, FormTeamCreate
+    CardUser,
+    FormTeamCreate
   },
-  data () {
+  data() {
     return {
       formMode: null
     }
@@ -36,7 +36,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -48,23 +47,41 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { padding: 0px 10px 60px 10px; }
-  .page-left-container { display: none }
-  .page-center-container-l { width: 100% }
+  .page-wrapper {
+    padding: 0px 10px 60px 10px;
+  }
+  .page-left-container {
+    display: none;
+  }
+  .page-center-container-l {
+    width: 100%;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-left-container { display: none }
-  .page-center-container-l { width: 100% }
+  .page-left-container {
+    display: none;
+  }
+  .page-center-container-l {
+    width: 100%;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 959px) {
-  .page-left-container { display: none }
-  .page-center-container-l { width: 100% }
+  .page-left-container {
+    display: none;
+  }
+  .page-center-container-l {
+    width: 100%;
+  }
 }
 
 @media only screen and (min-width: 960px) and (max-width: 1160px) {
-  .page-left-container { display: none }
-  .page-center-container-l { width: 100% }
+  .page-left-container {
+    display: none;
+  }
+  .page-center-container-l {
+    width: 100%;
+  }
 }
 </style>

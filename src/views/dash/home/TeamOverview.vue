@@ -34,23 +34,29 @@ import CardTeamInfos from '@/components/cards/teams/CardTeamInfos'
 import CardTeamCompetitions from '@/components/cards/teams/CardTeamCompetitions'
 import CardTeamLarge from '@/components/cards/teams/CardTeamLarge'
 import CardUserLarge from '@/components/cards/users/CardUserLarge'
-import CardTeamPrizes from '@/components/cards/teams/CardTeamPrizes'
 import CardMembers from '@/components/cards/memberships/CardMembers'
 
 export default {
   name: 'TeamShow',
   mixins: [utilities],
-  components: { TeamySpinner, CardTeamInfos, CardTeamCompetitions, CardTeamLarge, CardTeamPrizes, CardMembers, CardUserLarge },
-  data () {
+  components: {
+    TeamySpinner,
+    CardTeamInfos,
+    CardTeamCompetitions,
+    CardTeamLarge,
+    CardMembers,
+    CardUserLarge
+  },
+  data() {
     return {
       teamId: null,
       team: null,
       teamLoaded: false,
-      memberShowed: null,
+      memberShowed: null
     }
   },
   computed: {
-    ...mapGetters(['currentTeam', 'currentUser']),
+    ...mapGetters(['currentTeam', 'currentUser'])
   },
   methods: {
     async getTeam(id) {
@@ -60,26 +66,26 @@ export default {
         this.teamLoaded = true
       } catch (err) {
         this.errorNotify(err)
-      }     
+      }
     },
-    showMember (event) {
+    showMember(event) {
       this.memberShowed = event
       console.log(this.memberShowed)
     },
-    showTeam () {
+    showTeam() {
       this.memberShowed = null
     },
-    openDialogShareInvitation () {
+    openDialogShareInvitation() {
       this.dialogShareInvitation = true
-    } 
+    }
   },
   watch: {
-    '$route' () {
+    $route() {
       const teamId = this.$route.params.id
       if (teamId) this.getTeam(teamId)
     }
   },
-  created () {
+  created() {
     this.teamId = this.$route.params.teamId
     this.getTeam(this.teamId)
   }
@@ -87,7 +93,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -102,21 +107,35 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { flex-direction: column }
-  .page-right-container, .page-left-container, 
-  .page-center-container { width: 100% !important; }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-right-container,
+  .page-left-container,
+  .page-center-container {
+    width: 100% !important;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-wrapper { flex-direction: column }
-  .page-right-container, .page-left-container, 
-  .page-center-container { width: 90% !important; }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-right-container,
+  .page-left-container,
+  .page-center-container {
+    width: 90% !important;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .page-wrapper { flex-direction: column }
-  .page-right-container, .page-left-container, 
-  .page-center-container { width: 80% !important; }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-right-container,
+  .page-left-container,
+  .page-center-container {
+    width: 80% !important;
+  }
 }
-
 </style>
