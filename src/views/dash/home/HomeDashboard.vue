@@ -34,12 +34,15 @@ export default {
   name: 'HomeDashboard',
   mixins: [utilities],
   components: {
-    TeamySpinner, DialogUserWelcome, CardHomeUser, CardTeamsUserList
+    TeamySpinner,
+    DialogUserWelcome,
+    CardHomeUser,
+    CardTeamsUserList
   },
-  data () {
+  data() {
     return {
       userLoaded: false,
-      teamJoined: null,
+      teamJoined: null
     }
   },
   computed: {
@@ -60,10 +63,10 @@ export default {
         this.userLoaded = true
       } catch (err) {
         this.errorNotify(err)
-      }     
-    },
+      }
+    }
   },
-  created () {
+  created() {
     this.resetTeam()
     this.resetNotifications()
     this.reloadUser(this.currentUser._id)
@@ -72,7 +75,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -85,29 +87,57 @@ export default {
   .page-center-title {
     margin-bottom: 15px;
     @include flex-space-between();
-    h5 { font-weight: 600; text-transform: uppercase; margin-left: 8px}
-    .title-margin-top { margin-top: 35px }
+    h5 {
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-left: 8px;
+    }
+    .title-margin-top {
+      margin-top: 35px;
+    }
   }
+}
+.teamy-spinner {
+  @include flex-center();
+  height: 300px;
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { flex-direction: column; padding: 0px 10px 60px 10px; }
-  .page-center-container-l, .page-left-container { width: 100% !important; }
-  .page-center-title { 
+  .page-wrapper {
+    flex-direction: column;
+    padding: 0px 10px 60px 10px;
+  }
+  .page-center-container-l,
+  .page-left-container {
+    width: 100% !important;
+  }
+  .page-center-title {
     flex-direction: column-reverse;
-    h5 { margin-top: 30px; }
+    h5 {
+      margin-top: 30px;
+    }
   }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-wrapper { flex-direction: column }
-  .page-center-container-l, .page-left-container { width: 90% !important; }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-center-container-l,
+  .page-left-container {
+    width: 90% !important;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-   .page-center-container-l  { width: 67%!important; }
-   .page-left-container { width: 33%!important; }
-   .card-home-user { padding-right: 20px; }
+  .page-center-container-l {
+    width: 67% !important;
+  }
+  .page-left-container {
+    width: 33% !important;
+  }
+  .card-home-user {
+    padding-right: 20px;
+  }
 }
 </style>
-

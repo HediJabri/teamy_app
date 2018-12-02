@@ -21,7 +21,7 @@
           <el-form :model="form" :rules="rules" ref="form">
             <div class="row">
               <div class="col-xs-12">
-                <div class="form-label-group">
+                <div class="form-label-group form-label-column">
                   <p class="form-label form-label-small">Nom de l'évenement</p>
                   <el-radio-group v-model="form.locationCategory">
                     <el-radio label="Domicile"></el-radio>
@@ -556,6 +556,14 @@ export default {
 @media only screen and (min-width: 720px) and (max-width: 960px) {
   .el-form {
     padding: 0 80px;
+  }
+}
+
+@media only screen and (max-width: 1160px) {
+  .form-label-column {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    height: 55px;
   }
 }
 </style>

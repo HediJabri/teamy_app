@@ -29,11 +29,16 @@ import CardUserMemberships from '@/components/cards/users/CardUserMemberships'
 
 export default {
   name: 'UserShow',
-  components: { TeamySpinner, CardUser, CardMembershipInfo, CardUserMemberships },
-  data () {
+  components: {
+    TeamySpinner,
+    CardUser,
+    CardMembershipInfo,
+    CardUserMemberships
+  },
+  data() {
     return {
       user: null,
-      membershipSelected: null,
+      membershipSelected: null
     }
   },
   computed: {
@@ -47,14 +52,16 @@ export default {
       try {
         const user = (await ApiUsers.get(id)).data.user
         this.user = user
-        this.membershipSelected = user.memberships[0] ? user.memberships[0] : null
+        this.membershipSelected = user.memberships[0]
+          ? user.memberships[0]
+          : null
         console.log(user)
       } catch (err) {
         this.errorNotify(err)
-      }     
-    },
+      }
+    }
   },
-  created () {
+  created() {
     const userId = this.$route.params.id
     if (userId) this.getUser(userId)
   }
@@ -62,7 +69,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -77,20 +83,41 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { flex-direction: column; padding: 0px 10px 60px 10px; }
-  .page-center-container, .page-left-container { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    flex-direction: column;
+    padding: 0px 10px 60px 10px;
+  }
+  .page-center-container,
+  .page-left-container {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-wrapper { flex-direction: column }
-  .page-center-container, .page-left-container { width: 90% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-center-container,
+  .page-left-container {
+    width: 90% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .page-left-container { width: 33% !important; }
-  .page-center-container { width: 67% !important; }
-  .page-right-container { display: none }
+  .page-left-container {
+    width: 33% !important;
+  }
+  .page-center-container {
+    width: 67% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 </style>
