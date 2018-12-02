@@ -29,12 +29,12 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-xs-6">
+          <div class="col-xs-12 col-sm-6">
             <el-form-item prop="phone">
               <el-input placeholder="Numéro de téléphone" v-model="form.phone"></el-input>
             </el-form-item>
           </div>
-          <div class="col-xs-6">
+          <div class="col-xs-12 col-sm-6">
             <el-form-item prop="birthdate">
               <el-date-picker
                 type="date"
@@ -82,14 +82,13 @@ import ApiUsers from '@/services/ApiUsers.js'
 import { utilities } from '@/mixins/utilities.js'
 import formData from '@/data/forms.js'
 import ImageUpload from '@/components/global/ImageUpload'
-import TagPosition from '@/components/global/TagPosition'
 import DialogDeleteAccount from '@/components/dialogs/DialogDeleteAccount'
 
 export default {
   name: 'FormUserEdit',
   mixins: [utilities],
   props: ['onbordingMode'],
-  components: { TagPosition, ImageUpload, DialogDeleteAccount },
+  components: { ImageUpload, DialogDeleteAccount },
 
   data () {
     var validatePhone = (rule, value, callback) => {
@@ -116,20 +115,36 @@ export default {
         firstName: '',
         lastName: '',
         birthdate: '',
-        phone: null,
+        phone: null
       },
       rules: {
         firstName: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'blur'
+          }
         ],
         lastName: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'blur'
+          }
         ],
         birthdate: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'blur'
+          }
         ],
         phone: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' },
+          {
+            required: true,
+            message: 'Ce champ est obligatoire',
+            trigger: 'blur'
+          },
           { validator: validatePhone, trigger: 'blur' }
         ]
       },
@@ -149,10 +164,14 @@ export default {
     },
     fillFormUser () {
       if (this.currentUser) {
-        this.form.avatar = this.currentUser.avatar ? this.currentUser.avatar : null
+        this.form.avatar = this.currentUser.avatar
+          ? this.currentUser.avatar
+          : null
         this.form.firstName = this.currentUser.firstName
         this.form.lastName = this.currentUser.lastName
-        this.form.birthdate = this.currentUser.birthdate ? this.currentUser.birthdate : null
+        this.form.birthdate = this.currentUser.birthdate
+          ? this.currentUser.birthdate
+          : null
         this.form.phone = this.currentUser.phone ? this.currentUser.phone : null
       }
     },
@@ -160,7 +179,7 @@ export default {
       this.form.avatar = url
     },
     submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.editUser()
         } else {

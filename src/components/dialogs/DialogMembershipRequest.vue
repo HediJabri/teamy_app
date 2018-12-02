@@ -64,26 +64,30 @@ export default {
   props: ['team', 'openDialog'],
   mixins: [utilities],
   components: { FormRoleSelect },
-  data () {
+  data() {
     return {
       dialogVisible: false,
-      isLoading: false,
+      isLoading: false
     }
   },
   computed: {
-    ...mapGetters(['currentUser', 'sports']),
+    ...mapGetters(['currentUser', 'sports'])
   },
   methods: {
     membershipCreated() {
       this.dialogVisible = false
-      this.$notify({ title: 'Succès', message: "La demande a bien été envoyée par mail", type: 'success' }) 
-    },
+      this.$notify({
+        title: 'Succès',
+        message: 'La demande a bien été envoyée par mail',
+        type: 'success'
+      })
+    }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }
@@ -93,21 +97,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .dialog-body {
   padding: 0px 25px 10px 25px;
   text-align: center;
   color: $blue-dark-medium;
-  p { text-align: center; font-size: 15px; }
+  p {
+    text-align: center;
+    font-size: 15px;
+  }
   .dialog-title {
     @include flex-center();
     font-weight: bold;
-    i { margin: 0 0 3px 11px; font-size: 22px; }
+    i {
+      margin: 0 0 3px 11px;
+      font-size: 22px;
+    }
   }
   .dialog-team-logo {
     @include flex-center();
-    .logo-wrapper { height: 35px; width: 35px; }
-    i { font-size: 30px; margin-top: 8px; }
+    .logo-wrapper {
+      height: 35px;
+      width: 35px;
+    }
+    i {
+      font-size: 30px;
+      margin-top: 8px;
+    }
   }
   .dialog-team-section {
     margin-top: 3px;
@@ -117,7 +132,11 @@ export default {
   .dialog-team-info {
     @include text-overflow-ellipsis();
     padding: 0 20px;
-    h5 { font-size: 17px; line-height: 20px; margin-bottom: 0px;}
+    h5 {
+      font-size: 17px;
+      line-height: 20px;
+      margin-bottom: 0px;
+    }
   }
 }
 
@@ -128,5 +147,4 @@ export default {
 .dialog-buttons {
   padding: 50px 0 10px 0;
 }
-
 </style>

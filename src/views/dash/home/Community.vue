@@ -24,9 +24,11 @@ import CardTeamsList from '@/components/cards/teams/CardTeamsList'
 export default {
   name: 'Community',
   components: {
-    TeamySpinner, CardCommunityTypes, CardTeamsList
+    TeamySpinner,
+    CardCommunityTypes,
+    CardTeamsList
   },
-  data () {
+  data() {
     return {
       users: null,
       teams: null,
@@ -44,39 +46,42 @@ export default {
     ...mapGetters(['currentTeam'])
   },
   methods: {
-    changeFilter (filter) {
+    changeFilter(filter) {
       this[filter.key] = filter.name
       this.getTeams(this.sport, this.zone, 0)
     },
-    goToNextPage () {
+    goToNextPage() {
       this.page.loadingNext = true
       if (this.page.next >= 0) {
-        this.page.next ++
+        this.page.next++
         if (this.teams) this.getTeams(this.page.next)
         if (this.users) this.getUsers(this.page.next)
       }
     },
-    async getTeams (sport, zone, pageNext) {
+    async getTeams(sport, zone, pageNext) {
       try {
         const params = { sport, zone, pageNext }
         const data = (await ApiTeams.index(params)).data
-        pageNext > 0 ?  this.teams = this.teams.concat(data.teams) : this.teams = data.teams
-        this.teams.length >= data.teamsCount ? this.page.allRecordsFetched = true : this.page.allRecordsFetched = false
+        pageNext > 0
+          ? (this.teams = this.teams.concat(data.teams))
+          : (this.teams = data.teams)
+        this.teams.length >= data.teamsCount
+          ? (this.page.allRecordsFetched = true)
+          : (this.page.allRecordsFetched = false)
         this.page.loadingTypes = false
         this.page.loadingNext = false
       } catch (err) {
         this.errorNotify(err)
-      }     
-    },
+      }
+    }
   },
-  created () {
+  created() {
     this.getTeams(this.sport, this.zone, 0)
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -85,27 +90,42 @@ export default {
 }
 .page-center-container-l {
   @include page-center-container-l();
-  .teamy-spinner-simple {
+  .teamy-spinner {
     @include flex-center();
+    height: 300px;
   }
-  .teamy-spinner-bottom {
-    margin-top: auto;
-  }
+  // .teamy-spinner-bottom {
+  //   margin-top: auto;
+  // }
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { flex-direction: column; padding: 0px 10px 60px 10px; }
-  .page-center-container-l, .page-left-container { width: 100% !important; }
+  .page-wrapper {
+    flex-direction: column;
+    padding: 0px 10px 60px 10px;
+  }
+  .page-center-container-l,
+  .page-left-container {
+    width: 100% !important;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-wrapper { flex-direction: column }
-  .page-center-container-l, .page-left-container { width: 90% !important; }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-center-container-l,
+  .page-left-container {
+    width: 90% !important;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-   .page-center-container-l  { width: 67%!important; }
-   .page-left-container { width: 33%!important; }
+  .page-center-container-l {
+    width: 67% !important;
+  }
+  .page-left-container {
+    width: 33% !important;
+  }
 }
-
 </style>
