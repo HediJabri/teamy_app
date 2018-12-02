@@ -12,15 +12,17 @@ import '../theme/index.css'
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/fr'
 import VueClipboard from 'vue-clipboard2'
+import FlagIcon from 'vue-flag-icon'
 
 // Import i18n
 import i18n from './plugins/i18n'
 
 // Config
 Vue.config.productionTip = false
+Vue.use(window.VueCharts)
 Vue.use(ElementUI, { locale })
 Vue.use(VueClipboard)
-Vue.use(window.VueCharts)
+Vue.use(FlagIcon)
 
 // Export Event Bus
 export const eventBus = new Vue()

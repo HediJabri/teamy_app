@@ -9,7 +9,7 @@
             <img class="main-navbar-logo" src="../../assets/img/teamy-logo.jpg">
           </router-link>
           <div class="main-navbar-title">
-            <span class="main-navbar-text">version</span>
+            <span class="main-navbar-text">{{$t('lang')}} / version </span>
             <span class="main-navbar-tag">beta</span>
           </div>
         </div>
@@ -20,6 +20,7 @@
           <span class="info-icon-emoji">👉</span>
           <i class="material-icons" @click="openModalInfo()">info</i>
         </span> -->
+        <dropdown-language v-if="currentUser"/>
         <el-dropdown class="dropdown-menu-mobile" v-if="currentUser && currentTeam" trigger="click">
           <span class="el-dropdown-link">
             <i class="material-icons">menu</i>
@@ -132,14 +133,15 @@ import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import Auth from '@/services/Auth.js'
 import DialogInfoPage from '@/components/onbording/DialogInfoPage'
+import DropdownLanguage from '@/components/global/DropdownLanguage'
 
 export default {
   name: 'MainNavbar',
-  components: { DialogInfoPage },
+  components: { DialogInfoPage, DropdownLanguage },
   mixins: [utilities],
   data () {
     return {
-      dialogInfoPage: false,
+      dialogInfoPage: false
     }
   },
   computed: {
