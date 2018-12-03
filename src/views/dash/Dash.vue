@@ -56,6 +56,7 @@ export default {
       try {
         const user = (await ApiUsers.get(id)).data.user
         this.initUser(user)
+        this.changeAppLocale(user.lang)
       } catch (err) {
         this.logout()
       }

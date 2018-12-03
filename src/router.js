@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Auth from '@/services/Auth.js'
-import i18n from './plugins/i18n'
 import SmoothScroll from 'smooth-scroll'
+import { utilities } from '@/mixins/utilities.js'
+import Auth from '@/services/Auth.js'
+import i18n from '@/plugins/i18n'
 // Auth
 import AuthLayout from '@/views/auth/AuthLayout'
 import Register from '@/views/auth/Register'
@@ -197,7 +198,7 @@ router.beforeEach(function(to, from, next) {
   scroll.animateScroll(0)
   const lang = to.params.lang
   if (lang) {
-    i18n.locale = lang
+    utilities.methods.changeAppLocale(lang)
   }
   if (
     to.matched.some(function(record) {

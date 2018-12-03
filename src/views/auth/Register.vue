@@ -85,7 +85,7 @@ export default {
   name: 'Register',
   mixins: [utilities],
   components: { ButtonFbAuth },
-  data() {
+  data () {
     var validateInput = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('Ce champ est obligatoire'))
@@ -101,7 +101,7 @@ export default {
       }
     }
     var validateEmail = (rule, value, callback) => {
-      function validateEmail(email) {
+      function validateEmail (email) {
         var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         return re.test(email)
       }
@@ -138,13 +138,13 @@ export default {
     }
   },
   computed: {
-    hasErrors() {
+    hasErrors () {
       return this.errors.length > 0
     }
   },
   methods: {
     ...mapActions(['initUser']),
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.register()
@@ -154,10 +154,11 @@ export default {
         }
       })
     },
-    async register() {
+    async register () {
       this.errors = []
       this.isLoading = true
       try {
+        this.registerForm.lang = this.$i18n.locale
         const res = await Auth.register(this.registerForm)
         this.authUser(res.data)
       } catch (err) {
@@ -165,7 +166,7 @@ export default {
         this.isLoading = false
       }
     },
-    async registerWithFb(token) {
+    async registerWithFb (token) {
       this.errors = []
       this.isLoading = true
       try {
@@ -176,7 +177,7 @@ export default {
         this.isLoading = false
       }
     },
-    async getTeam(teamToken) {
+    async getTeam (teamToken) {
       try {
         const team = (await ApiTeams.getByToken(teamToken)).data.team
         team.teamToken = teamToken
@@ -188,13 +189,13 @@ export default {
         this.errorNotify(err)
       }
     },
-    authUser(data) {
+    authUser (data) {
       Auth.setToken(data.token)
       Auth.setUser(data.user)
       this.$router.push('/')
     }
   },
-  created() {
+  created () {
     const teamToken = this.$route.params.teamToken
     if (teamToken) this.getTeam(teamToken)
   }

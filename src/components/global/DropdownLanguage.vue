@@ -52,6 +52,7 @@ export default {
   methods: {
     changeLocale(locale) {
       this.$i18n.locale = locale
+      this.changeAppLocale(locale)
       if (this.currentUser) this.editUserLocale()
     },
     async editUserLocale() {

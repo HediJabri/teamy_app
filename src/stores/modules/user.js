@@ -1,5 +1,3 @@
-import i18n from '../../plugins/i18n'
-
 const state = {
   data: null
 }
@@ -7,7 +5,6 @@ const state = {
 const mutations = {
   SET_USER(state, user) {
     if (user) state.data = user
-    if (user.lang) i18n.locale = user.lang
   },
   RESET_USER(state) {
     state.data = null

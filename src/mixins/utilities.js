@@ -1,9 +1,23 @@
+import Vue from 'vue'
 import moment from 'moment'
 import i18n from '../plugins/i18n'
+import ElementUI from 'element-ui'
+import enLang from 'element-ui/lib/locale/lang/en'
+import frLang from 'element-ui/lib/locale/lang/fr'
+import locale from 'element-ui/lib/locale'
 
 const utilities = {
   methods: {
     // General
+    changeAppLocale(appLocale) {
+      let lang
+      if (!appLocale) appLocale = 'en'
+      if (appLocale === 'en') lang = enLang
+      if (appLocale === 'fr') lang = frLang
+      locale.use(lang)
+      i18n.locale = appLocale
+      Vue.use(ElementUI)
+    },
     routeUrl(url) {
       this.$router.push(url)
     },

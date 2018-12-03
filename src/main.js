@@ -3,6 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './stores/store'
 
+// Import i18n
+import i18n from './plugins/i18n'
+
 // Import Vue Charts
 import 'chart.js'
 import 'hchs-vue-charts'
@@ -10,19 +13,18 @@ import 'hchs-vue-charts'
 // Import Libs
 import '../theme/index.css'
 import ElementUI from 'element-ui'
-import locale from 'element-ui/lib/locale/lang/fr'
+import locale from 'element-ui/lib/locale'
+import en from 'element-ui/lib/locale/lang/en'
 import VueClipboard from 'vue-clipboard2'
 import FlagIcon from 'vue-flag-icon'
-
-// Import i18n
-import i18n from './plugins/i18n'
 
 // Config
 Vue.config.productionTip = false
 Vue.use(window.VueCharts)
-Vue.use(ElementUI, { locale })
 Vue.use(VueClipboard)
 Vue.use(FlagIcon)
+locale.use(en)
+Vue.use(ElementUI)
 
 // Export Event Bus
 export const eventBus = new Vue()
