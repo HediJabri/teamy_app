@@ -1,52 +1,44 @@
 <template lang="html">
-  <div class="banner">
-    <div class="banner-wrapper">
-      <div class="banner-logo-wrapper">
-        <a href="https://teamy.us">
-          <img src="../../assets/img/teamy-logo-white.png" class="logo">
-        </a>
-      </div>
-      <div class="card">
-        <div class="header-social-auth">
-          <button-fb-auth v-on:AuthWithFb="loginWithFb($event)" :text="'Connexion'"/>
-          <div class="header-separator">
-            <span class="header-separator-line"></span>
-            <span class="header-separator-text">ou</span>
-            <span class="header-separator-line"></span>
-          </div>
-        </div>
-        <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
-          <el-form-item prop="email">
-            <el-input placeholder="Email" type="email" 
-              v-model="form.email" @keyup.enter.native="submitForm('form')">
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input placeholder="Mot de passe" type="password" 
-              v-model="form.password" @keyup.enter.native="submitForm('form')">
-            </el-input>
-          </el-form-item>
-          <el-form-item class="text-center">
-            <el-button type="success"
-              class="btn-login"
-              :loading="isLoading"
-              @click="submitForm('form')">
-              Connexion
-            </el-button>
-          </el-form-item>
-        </el-form>
-        <div v-if="hasErrors">
-          <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
+  <div>
+    <div class="card">
+      <div class="header-social-auth">
+        <button-fb-auth v-on:AuthWithFb="loginWithFb($event)" :text="'Connexion'"/>
+        <div class="header-separator">
+          <span class="header-separator-line"></span>
+          <span class="header-separator-text">ou</span>
+          <span class="header-separator-line"></span>
         </div>
       </div>
-      <div class="banner-footer">
-        <span>Pas encore de compte ?</span>
-        <router-link to="/register" class="link">
-          Inscription
-        </router-link>
+      <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
+        <el-form-item prop="email">
+          <el-input placeholder="Email" type="email" 
+            v-model="form.email" @keyup.enter.native="submitForm('form')">
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input placeholder="Mot de passe" type="password" 
+            v-model="form.password" @keyup.enter.native="submitForm('form')">
+          </el-input>
+        </el-form-item>
+        <el-form-item class="text-center">
+          <el-button type="success"
+            class="btn-login"
+            :loading="isLoading"
+            @click="submitForm('form')">
+            Connexion / {{$t('lang')}}
+          </el-button>
+        </el-form-item>
+      </el-form>
+      <div v-if="hasErrors">
+        <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
       </div>
     </div>
-    <br> 
+    <div class="banner-footer">
+      <span>Pas encore de compte ?</span>
+      <router-link to="/register" class="link">
+        Inscription
+      </router-link>
+    </div>
   </div>
 </template>
 

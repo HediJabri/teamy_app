@@ -2,7 +2,10 @@
   <div>
     <el-dropdown trigger="click">
       <span class="el-dropdown-link">
-        <i class="material-icons icon-lang">language</i>
+        <i
+          class="material-icons icon-lang"
+          :class="{'white': iconWhite }"
+        >language</i>
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
@@ -32,6 +35,7 @@ import ApiUsers from '@/services/ApiUsers.js'
 
 export default {
   name: 'DropdownLanguage',
+  props: ['iconWhite'],
   mixins: [utilities],
   data() {
     return {
@@ -47,7 +51,7 @@ export default {
   methods: {
     changeLocale(locale) {
       this.$i18n.locale = locale
-      this.editUserLocale()
+      if (this.currentUser) this.editUserLocale()
     },
     async editUserLocale() {
       const body = { lang: this.$i18n.locale }
@@ -65,6 +69,9 @@ export default {
 .icon-lang {
   font-size: 22px;
   margin: 3px 10px;
+}
+.icon-lang.white {
+  color: $white-light;
 }
 .el-dropdown-menu {
   li {

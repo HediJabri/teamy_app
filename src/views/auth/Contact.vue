@@ -1,45 +1,37 @@
 <template lang="html">
-  <div class="banner">
-    <div class="banner-wrapper">
-      <div class="banner-logo-wrapper">
-        <a href="https://teamy.us">
-          <img src="../../assets/img/teamy-logo-white.png" class="logo">
-        </a>
+  <div>
+    <div class="card">
+      <div class="header">
+        <h4>Contact 👋</h4>
+        <p>Tu as <span>une question ?</span> Laisse nous <span>ton email et ton message</span>, on te répond au plus vite ! </p>
       </div>
-      <div class="card">
-        <div class="header">
-          <h4>Contact 👋</h4>
-          <p>Tu as <span>une question ?</span> Laisse nous <span>ton email et ton message</span>, on te répond au plus vite ! </p>
-        </div>
-        <el-form class="form-body" :model="form" :rules="rules" ref="form" label-position="labelPosition">
-          <el-form-item prop="email">
-            <el-input placeholder="Email" type="email" v-model="form.email">
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="message">
-            <el-input type="textarea" :rows="5" v-model="form.message" placeholder="Ecris ton message ici...">
-            </el-input>
-          </el-form-item>
-          <!-- <hr> -->
-          <el-form-item class="text-center">
-            <el-button type="success"
-              class="btn-send"
-              :loading="isLoading"
-              @click="submitForm('form')">
-              Envoyer
-            </el-button>
-          </el-form-item>
-        </el-form>
-        <div v-if="hasErrors">
-          <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
-        </div>
-      </div>
-       <div class="banner-footer">
-        <router-link to="/register" class="link">Inscription</router-link>
-        <router-link to="/login" class="link">Connexion</router-link>
+      <el-form class="form-body" :model="form" :rules="rules" ref="form" label-position="labelPosition">
+        <el-form-item prop="email">
+          <el-input placeholder="Email" type="email" v-model="form.email">
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="message">
+          <el-input type="textarea" :rows="5" v-model="form.message" placeholder="Ecris ton message ici...">
+          </el-input>
+        </el-form-item>
+        <!-- <hr> -->
+        <el-form-item class="text-center">
+          <el-button type="success"
+            class="btn-send"
+            :loading="isLoading"
+            @click="submitForm('form')">
+            Envoyer / {{$t('lang')}}
+          </el-button>
+        </el-form-item>
+      </el-form>
+      <div v-if="hasErrors">
+        <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
       </div>
     </div>
-    <br> 
+    <div class="banner-footer">
+      <router-link to="/register" class="link">Inscription</router-link>
+      <router-link to="/login" class="link">Connexion</router-link>
+    </div>
   </div>
 </template>
 
