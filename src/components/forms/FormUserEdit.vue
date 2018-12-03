@@ -76,7 +76,6 @@
 </template>
 
 <script>
-// import moment from 'moment'
 import { mapGetters, mapActions } from 'vuex'
 import ApiUsers from '@/services/ApiUsers.js'
 import { utilities } from '@/mixins/utilities.js'
@@ -90,9 +89,9 @@ export default {
   props: ['onbordingMode'],
   components: { ImageUpload, DialogDeleteAccount },
 
-  data () {
+  data() {
     var validatePhone = (rule, value, callback) => {
-      function validatePhone (phone) {
+      function validatePhone(phone) {
         // eslint-disable-next-line no-useless-escape
         let re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
         return re.test(phone)
@@ -153,16 +152,16 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser']),
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
     }
   },
   methods: {
     ...mapActions(['initUser']),
-    openDialogDeleteAccount () {
+    openDialogDeleteAccount() {
       this.dialogDeleteAccount = true
     },
-    fillFormUser () {
+    fillFormUser() {
       if (this.currentUser) {
         this.form.avatar = this.currentUser.avatar
           ? this.currentUser.avatar
@@ -175,10 +174,10 @@ export default {
         this.form.phone = this.currentUser.phone ? this.currentUser.phone : null
       }
     },
-    addUserAvatar (url) {
+    addUserAvatar(url) {
       this.form.avatar = url
     },
-    submitForm (formName) {
+    submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.editUser()
@@ -188,7 +187,7 @@ export default {
         }
       })
     },
-    async editUser () {
+    async editUser() {
       this.isLoading = true
       try {
         await ApiUsers.put(this.currentUser._id, this.form)
@@ -198,7 +197,7 @@ export default {
         this.isLoading = false
       }
     },
-    async getUser () {
+    async getUser() {
       try {
         const user = (await ApiUsers.get(this.currentUser._id)).data.user
         this.afterRequestSucceed(user)
@@ -207,7 +206,7 @@ export default {
         this.isLoading = false
       }
     },
-    afterRequestSucceed (user) {
+    afterRequestSucceed(user) {
       this.initUser(user)
       this.isLoading = false
       this.$router.push('/')
@@ -215,7 +214,7 @@ export default {
       this.$notify({ title: 'Succès', message: notifMessage, type: 'success' })
     }
   },
-  created () {
+  created() {
     this.fillFormUser()
   }
 }

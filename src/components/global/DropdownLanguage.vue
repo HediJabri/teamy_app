@@ -26,8 +26,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { utilities } from '@/mixins/utilities.js'
+import ApiUsers from '@/services/ApiUsers.js'
+
 export default {
   name: 'DropdownLanguage',
+  mixins: [utilities],
   data() {
     return {
       languages: [
@@ -36,9 +41,21 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters(['currentUser'])
+  },
   methods: {
     changeLocale(locale) {
       this.$i18n.locale = locale
+      this.editUserLocale()
+    },
+    async editUserLocale() {
+      const body = { lang: this.$i18n.locale }
+      try {
+        await ApiUsers.patchLang(this.currentUser._id, body)
+      } catch (err) {
+        this.impossibleActionNotify(err)
+      }
     }
   }
 }
@@ -47,7 +64,7 @@ export default {
 <style lang="scss" scoped>
 .icon-lang {
   font-size: 22px;
-  margin: 6px 10px;
+  margin: 3px 10px;
 }
 .el-dropdown-menu {
   li {

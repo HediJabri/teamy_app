@@ -15,12 +15,7 @@
         </div>
       </div>
       <!-- Right Navigation -->
-      <div class="main-navbar-right">
-        <!-- <span class="info-icon" :class="{'highlighted': infoHighlighted}">
-          <span class="info-icon-emoji">👉</span>
-          <i class="material-icons" @click="openModalInfo()">info</i>
-        </span> -->
-        <dropdown-language v-if="currentUser"/>
+      <div class="main-navbar-right">        
         <el-dropdown class="dropdown-menu-mobile" v-if="currentUser && currentTeam" trigger="click">
           <span class="el-dropdown-link">
             <i class="material-icons">menu</i>
@@ -121,6 +116,7 @@
             </div>
           </el-dropdown-menu>
         </el-dropdown>
+        <dropdown-language v-if="currentUser"/>
       </div>
     </div>
      <dialog-info-page v-show="currentUser" :user="currentUser"
