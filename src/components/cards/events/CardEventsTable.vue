@@ -88,7 +88,6 @@
 </template>
 <script>
 import _ from 'lodash'
-import moment from 'moment'
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import EventResultInfo from '@/components/global/events/EventResultInfo'
@@ -111,11 +110,6 @@ export default {
       } else {
         return this.events.filter(e => this.eventIsPassed(e))
       }
-    },
-    dateNow() {
-      return moment()
-        .locale('fr')
-        .format('YYYY/MM/DD')
     }
   },
   methods: {

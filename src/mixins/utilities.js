@@ -1,4 +1,5 @@
 import moment from 'moment'
+import i18n from '../plugins/i18n'
 
 const utilities = {
   methods: {
@@ -56,56 +57,62 @@ const utilities = {
     // Dates
     formatCurrentTime() {
       return moment()
-        .locale('fr')
+        .locale(i18n.locale)
         .format('HH:mm')
     },
     formatCurrentDay() {
       return moment()
-        .locale('fr')
+        .locale(i18n.locale)
         .format('dddd')
+        .slice(0, 3)
+    },
+    formatCurrentDayNumber() {
+      return moment()
+        .locale(i18n.locale)
+        .format('Do')
         .slice(0, 3)
     },
     formatCurrentDayMonth() {
       return moment()
-        .locale('fr')
-        .format('Do MMM')
+        .locale(i18n.locale)
+        .format('MMM')
     },
     formatDay(date) {
       const day = moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('dddd')
         .slice(0, 3)
       return `${day}.`
     },
     formatEventDay(date) {
       return moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('Do')
     },
     formatEventMonth(date) {
       return moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('MMM')
         .slice(0, 3)
     },
     formatDate(date) {
       return moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('ll')
     },
     formatFullDate(date) {
       return moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('dddd ll')
     },
     formatDateCreatedAt(date) {
       return moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('MMM YYYY')
     },
     formatDateFromNow(date) {
       return moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .fromNow()
     },
     formatResult(result) {
@@ -206,7 +213,7 @@ const utilities = {
     // Event Status
     eventIsPassed(event) {
       const dateTimeNow = moment()
-        .locale('fr')
+        .locale(i18n.locale)
         .format('YYYY/MM/DD HH:mm')
       const dateEvent = moment(event.dateStart)
         .format('YYYY/MM/DD')
@@ -220,10 +227,10 @@ const utilities = {
     },
     eventIsToday(date) {
       const dateNow = moment()
-        .locale('fr')
+        .locale(i18n.locale)
         .format('YYYY-MM-DD')
       const dateEvent = moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('YYYY-MM-DD')
         .toString()
       if (dateNow === dateEvent) return true

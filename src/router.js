@@ -196,8 +196,6 @@ router.beforeEach(function(to, from, next) {
   let scroll = new SmoothScroll('a[href*="#"]')
   scroll.animateScroll(0)
   const lang = to.params.lang
-  console.log('params:', lang)
-  console.log('i18n:', i18n.locale)
   if (lang) {
     i18n.locale = lang
   }

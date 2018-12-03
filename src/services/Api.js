@@ -9,7 +9,7 @@ export default () => {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
       'Content-type': 'application/json',
-      'Authorization': localStorage.getItem('authToken')
+      Authorization: localStorage.getItem('authToken')
     }
   })
 }

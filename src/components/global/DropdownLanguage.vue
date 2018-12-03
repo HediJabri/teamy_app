@@ -9,6 +9,7 @@
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
+          :class="{'active': lang.locale === $i18n.locale}"
           v-for="lang in languages"
           :key="lang.flag"
         >
@@ -87,5 +88,8 @@ export default {
     margin-right: 6px;
     margin-bottom: 1px;
   }
+}
+.el-dropdown-menu__item.active {
+  background-color: #ebf6fe;
 }
 </style>

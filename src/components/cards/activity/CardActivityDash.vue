@@ -12,7 +12,10 @@
     </div>
     <br>
     <br>
-    <p class="card-date">{{ formatCurrentDay() }} <span>{{ formatCurrentDayMonth() }}</span></p>
+    <p class="card-date">
+      <span class="card-day">{{ formatCurrentDay() }} </span> 
+      <span class="card-day-number">{{ formatCurrentDayNumber() }} </span>
+      <span class="card-month">{{ formatCurrentDayMonth() }} </span></p>
     <div class="clear"></div>
     <p class="card-header" :class="{'text-blue': todayEvents.length}">
       <i class="material-icons">event</i>
@@ -55,7 +58,7 @@ export default {
   components: { EventParticipationInfo, EventCategoryIcon },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    todayEventsCount () {
+    todayEventsCount() {
       return this.todayEvents.length
     }
   }
@@ -63,7 +66,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .card {
   @include card();
   padding: 30px 30px 10px 30px;
@@ -101,24 +103,32 @@ export default {
   }
 }
 .card-header.text-blue {
-  i {color: $primary-color;}
+  i {
+    color: $primary-color;
+  }
 }
 
 .card-date {
-  text-transform: uppercase;
   color: $blue-dark;
-  font-weight: 400;
   font-size: 18px;
   text-align: left;
-  span {
+  .card-day {
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  .card-day-number {
     font-weight: 200;
+  }
+  .card-month {
+    font-weight: 200;
+    text-transform: uppercase;
   }
 }
 
 .card-item-wrapper {
   @include flex-space-between();
-   font-size: 13px;
-   cursor: pointer;
+  font-size: 13px;
+  cursor: pointer;
 }
 
 .item-text {
@@ -126,12 +136,31 @@ export default {
     @include flex-start();
     margin-left: 5px;
     color: $text-grey-blue;
-    .logo-wrapper { height: 20px; width: 20px; margin-right: 5px; }
+    .logo-wrapper {
+      height: 20px;
+      width: 20px;
+      margin-right: 5px;
+    }
   }
-  .subtext { color: $text-grey-blue; margin: 0 0 5px 8px;}
-  .text-wrapper { position: relative; span { position: absolute; top: 0; right: -24px; } }
-  .text { line-height: 25px; margin: 0 0 5px 8px;}
-  .text span { border-bottom: 3px solid $blue;}
+  .subtext {
+    color: $text-grey-blue;
+    margin: 0 0 5px 8px;
+  }
+  .text-wrapper {
+    position: relative;
+    span {
+      position: absolute;
+      top: 0;
+      right: -24px;
+    }
+  }
+  .text {
+    line-height: 25px;
+    margin: 0 0 5px 8px;
+  }
+  .text span {
+    border-bottom: 3px solid $blue;
+  }
 }
 
 .item-logo {
@@ -145,20 +174,34 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .card { padding: 30px 10px 10px 10px; }
-  .card-date { font-size: 16px; }
-  .item-logo, .item-logo .card-header-icon { width: 40px; height: 40px; font-size: 15px;}
-  .item-text .subtext { font-size: 12px; }
+  .card {
+    padding: 30px 10px 10px 10px;
+  }
+  .card-date {
+    font-size: 16px;
+  }
+  .item-logo,
+  .item-logo .card-header-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+  }
+  .item-text .subtext {
+    font-size: 12px;
+  }
   .card-title {
     padding: 10px;
     .card-title-btn {
       padding: 7px 10px;
       top: 12px;
       right: 10px;
-      span { display: none }
-      i { margin: 0 auto;}
+      span {
+        display: none;
+      }
+      i {
+        margin: 0 auto;
+      }
     }
   }
 }
-
 </style>
