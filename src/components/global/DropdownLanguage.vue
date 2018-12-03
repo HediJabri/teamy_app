@@ -21,7 +21,7 @@
               :iso="lang.flag"
               v-bind:squared=false
             />
-            <span>{{ lang.title }}</span>
+            <span>{{ $t(lang.title) }}</span>
           </span>
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -41,8 +41,8 @@ export default {
   data() {
     return {
       languages: [
-        { flag: 'gb', locale: 'en', title: 'English' },
-        { flag: 'fr', locale: 'fr', title: 'French' }
+        { flag: 'gb', locale: 'en', title: 'english' },
+        { flag: 'fr', locale: 'fr', title: 'french' }
       ]
     }
   },
@@ -77,6 +77,7 @@ export default {
 .el-dropdown-menu {
   li {
     color: $blue-grey;
+    text-transform: capitalize;
     &:hover,
     &:focus {
       color: $blue-grey;

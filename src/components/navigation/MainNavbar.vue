@@ -9,8 +9,8 @@
             <img class="main-navbar-logo" src="../../assets/img/teamy-logo.jpg">
           </router-link>
           <div class="main-navbar-title">
-            <span class="main-navbar-text">{{$t('lang')}} / version </span>
             <span class="main-navbar-tag">beta</span>
+            <span class="main-navbar-text">{{ $t('lang') }} </span>
           </div>
         </div>
       </div>
@@ -232,7 +232,7 @@ export default {
     );
     border-radius: 20px;
     padding: 1px 10px;
-    margin-left: 5px;
+    margin-right: 5px;
   }
 }
 .main-navbar-links {

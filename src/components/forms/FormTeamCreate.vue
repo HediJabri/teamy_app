@@ -40,8 +40,8 @@
           <el-form-item prop="sport">
             <p class="form-label">Sport</p>
             <el-select v-model="form.sport" placeholder="Sport">
-              <el-option v-for="sport in sports.list" :label="sport.name" :value="sport.key" :key="sport.key">
-                <span>{{ sport.name }}</span>
+              <el-option v-for="sport in sports.list" :label="$t(sport.key)"
+                :value="sport.key" :key="sport.key">
               </el-option>
             </el-select>
           </el-form-item>

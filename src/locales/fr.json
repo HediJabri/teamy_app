@@ -1,3 +1,20 @@
 {
-  "lang": "fr"
+  "allSports": "Tous les sports",
+  "assists": "Passes D.",
+  "lang": "fr",
+  "english": "anglais",
+  "football": "Football",
+  "futsal": "Futsal",
+  "foot5": "Foot 5",
+  "foot7": "Foot 7",
+  "foot9": "Foot 9",
+  "french": "français",
+  "goals": "Buts",
+  "goalsConceded": "Buts Encaissés",
+  "goalsScored": "Buts Marqués",
+  "minutesPlayed": "Minutes jouées",
+  "redCards": "Cartons R.",
+  "topGoals": "Top buteurs",
+  "topAssists": "Top passeurs",
+  "yellowCards": "Cartons J."
 }
