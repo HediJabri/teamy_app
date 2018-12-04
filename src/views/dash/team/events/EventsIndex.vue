@@ -31,7 +31,7 @@ export default {
   name: 'EventsIndex',
   mixins: [guards, utilities],
   components: { TeamySpinner, CardEventsFilter, CardEventsList, CardTeam },
-  data () {
+  data() {
     return {
       events: null,
       eventFrom: null,
@@ -47,7 +47,7 @@ export default {
     ...mapGetters(['currentTeam', 'currentUser'])
   },
   methods: {
-    changeFilter (filterDate) {
+    changeFilter(filterDate) {
       this.filterDate = filterDate
       this.sendEventsRequest()
     },
@@ -56,41 +56,53 @@ export default {
       this.events = null
       this.getTeamEvents(this.filterDate, this.page.next)
     },
-    goToNextPage () {
+    goToNextPage() {
       if (this.page.next >= 0) {
         this.page.loadingNext = true
-        this.page.next ++
+        this.page.next++
         if (this.events) this.getTeamEvents(this.filterDate, this.page.next)
       }
     },
-    async getTeamEvents (filterDate, pageNext) {
+    async getTeamEvents(filterDate, pageNext) {
       try {
-        const params = { filter: filterDate, page: pageNext, teamId: this.currentTeam._id }
+        const params = {
+          filter: filterDate,
+          page: pageNext,
+          teamId: this.currentTeam._id
+        }
         const data = (await ApiEvents.indexTeam(params)).data
-        pageNext > 0 ?  this.events = this.events.concat(data.events) : this.events = data.events
-        this.events.length >= data.eventsCount ? this.page.allRecordsFetched = true : this.page.allRecordsFetched = false
+        pageNext > 0
+          ? (this.events = this.events.concat(data.events))
+          : (this.events = data.events)
+        this.events.length >= data.eventsCount
+          ? (this.page.allRecordsFetched = true)
+          : (this.page.allRecordsFetched = false)
         this.page.loadingNext = false
       } catch (err) {
         this.errorNotify(err)
         this.page.loadingNext = false
-      }     
+      }
     },
-    async getUserEvents (filterDate, pageNext) {
+    async getUserEvents(filterDate, pageNext) {
       try {
-        const params = { 
-          filter: filterDate, 
-          page: pageNext, 
-          userId: this.currentUser._id, 
-          teamId:  this.currentTeam ? this.currentTeam._id : '-' 
+        const params = {
+          filter: filterDate,
+          page: pageNext,
+          userId: this.currentUser._id,
+          teamId: this.currentTeam ? this.currentTeam._id : '-'
         }
         const data = (await ApiEvents.indexUser(params)).data
-        pageNext > 0 ?  this.events = this.events.concat(data.events) : this.events = data.events
-        this.events.length >= data.eventsCount ? this.page.allRecordsFetched = true : this.page.allRecordsFetched = false
+        pageNext > 0
+          ? (this.events = this.events.concat(data.events))
+          : (this.events = data.events)
+        this.events.length >= data.eventsCount
+          ? (this.page.allRecordsFetched = true)
+          : (this.page.allRecordsFetched = false)
         this.page.loadingNext = false
       } catch (err) {
         this.errorNotify(err)
         this.page.loadingNext = false
-      }     
+      }
     },
     noTeamEvents() {
       this.events = []
@@ -99,14 +111,13 @@ export default {
       this.page.allRecordsFetched = true
     }
   },
-  created () {
+  created() {
     this.sendEventsRequest()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -125,20 +136,38 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { flex-direction: column; padding: 0px 10px 60px 10px; }
-  .page-center-container, .page-left-container { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    flex-direction: column;
+    padding: 0px 10px 60px 10px;
+  }
+  .page-center-container,
+  .page-left-container {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-wrapper { flex-direction: column }
-  .page-center-container, .page-left-container { width: 90% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-center-container,
+  .page-left-container {
+    width: 90% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .page-center-container { width: 73% !important; }
-  .page-right-container { display: none }
+  .page-center-container {
+    width: 73% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
-
 </style>

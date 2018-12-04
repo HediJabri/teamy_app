@@ -2,11 +2,11 @@
   <div class="card">
     <div class="card-title">
       <div class="card-title-text">
-        <h5>tableau de bord</h5>
+        <h5>{{$t('dashboard')}}</h5>
       </div>
       <el-button type="primary" v-if="isAdmin(currentUser, currentTeam)"
         class="card-title-btn" @click="routeUrl(`/team/${currentTeam._id}/event-new-select`)">
-        <span> Ajouter un événement</span>
+        <span> {{$t('addEvent')}}</span>
         <i class="fa fa-plus-circle margin-left"></i>
       </el-button>
     </div>
@@ -19,7 +19,7 @@
     <div class="clear"></div>
     <p class="card-header" :class="{'text-blue': todayEvents.length}">
       <i class="material-icons">event</i>
-      <span>{{ todayEvents.length }} Evenement aujourd'hui</span>
+      <span> {{$tc('event', todayEvents.length)}} {{$t('today')}}</span>
      </p>
     <hr>
     <div class="card-item" v-for="event in todayEvents" :key="event._id">
@@ -32,7 +32,7 @@
           <p class="subtext">
             <span v-if="event.opponent">{{ event.opponent }} - </span>
             <span v-else>{{ event.location.name }} - </span>
-             à {{ event.time }}
+             {{$t('at')}} {{ event.time }}
           </p>
         </div>
         <div class="item-logo">

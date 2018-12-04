@@ -14,7 +14,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
-import TeamySpinner from '@/components/global/TeamySpinner'
 import CardTeamsListItem from '@/components/cards/teams/CardTeamsListItem'
 import CardTeamEmpty from '@/components/cards/teams/CardTeamEmpty'
 
@@ -23,16 +22,16 @@ export default {
   mixins: [utilities],
   props: ['memberships', 'cardTeamEmpty'],
   components: {
-    TeamySpinner, CardTeamsListItem, CardTeamEmpty
+    CardTeamsListItem,
+    CardTeamEmpty
   },
-   computed: {
-    ...mapGetters(['currentUser']),
-  },
+  computed: {
+    ...mapGetters(['currentUser'])
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .row {
   margin-right: 0;
   margin-left: 0;

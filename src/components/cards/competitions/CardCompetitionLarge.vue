@@ -5,7 +5,7 @@
       <h5>{{ competition.name }}</h5>
       <span v-if="isAdmin(currentUser, competition.team) && !competition.clotured" 
         class="card-icon-edit" @click="toggleForm()">
-        <el-tooltip content="Modifier la compétition" placement="left" :open-delay="300">
+        <el-tooltip :content="$t('editCompetition')" placement="left" :open-delay="300">
           <i class="material-icons">settings</i>
         </el-tooltip>
       </span>
@@ -23,7 +23,7 @@
         <el-button type="default"
           v-if="!competition.clotured"
           @click="openDialogCloseCompetition()">
-          Clôturer la compétition
+          {{ $t('closeCompetition')}}
           <i class="fa fa-ban red margin-left"></i>
         </el-button>
         <p class="" v-else><i class="fa fa-ban red margin-left"></i> Compétition clôturée</p>
@@ -31,7 +31,7 @@
           v-if="!competition.clotured"
           class="card-activity-dash-title-btn"
           @click="(routeUrl(`/team/${currentTeam._id}/event-new/competition/${competition._id}`))">
-          Ajouter un évenement
+         {{ $t('addEvent')}}
         <i class="fa fa-plus-circle margin-left"></i>
         </el-button>
       </div>
@@ -50,7 +50,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
-import EventResultInfo from '@/components/global/events/EventResultInfo'
 import CardEventsTable from '@/components/cards/events/CardEventsTable'
 import DialogCloseCompetition from '@/components/dialogs/DialogCloseCompetition'
 
@@ -58,20 +57,20 @@ export default {
   name: 'CardCompetitionLarge',
   mixins: [utilities],
   props: ['competition'],
-  components: { EventResultInfo, CardEventsTable, DialogCloseCompetition },
+  components: { CardEventsTable, DialogCloseCompetition },
   data() {
     return {
-      dialogCloseCompetition: false,
+      dialogCloseCompetition: false
     }
   },
   computed: {
-    ...mapGetters(['currentUser', 'currentTeam']),
+    ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    openDialogCloseCompetition () {
+    openDialogCloseCompetition() {
       this.dialogCloseCompetition = true
     },
-    toggleForm (brand) {
+    toggleForm(brand) {
       this.$emit('toggleForm', brand)
     }
   }
@@ -79,7 +78,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .card {
   @include card();
   text-align: center;
@@ -100,7 +98,9 @@ export default {
     position: absolute;
     right: 10px;
     top: 16px;
-    i { font-size: 17px;}
+    i {
+      font-size: 17px;
+    }
   }
 }
 .card-header {
@@ -137,19 +137,35 @@ export default {
 .card-buttons {
   margin: 30px 0;
   @include flex-center();
-  p { color: $grey-medium; font-size: 14px;}
+  p {
+    color: $grey-medium;
+    font-size: 14px;
+  }
 }
 
-
 @media only screen and (max-width: 479px) {
-  .card-header { padding: 35px 15px 10px 15px; }
-  .card-title .card-icon-edit { top: 60px; z-index: 9; }
-  .card-body {  padding: 20px;  font-size: 12px; }
-  .card-buttons { flex-direction: column; button { margin: 5px auto } }
+  .card-header {
+    padding: 35px 15px 10px 15px;
+  }
+  .card-title .card-icon-edit {
+    top: 60px;
+    z-index: 9;
+  }
+  .card-body {
+    padding: 20px;
+    font-size: 12px;
+  }
+  .card-buttons {
+    flex-direction: column;
+    button {
+      margin: 5px auto;
+    }
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .card-body { padding: 20px 60px; }
+  .card-body {
+    padding: 20px 60px;
+  }
 }
-
 </style>

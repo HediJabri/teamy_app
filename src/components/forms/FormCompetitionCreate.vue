@@ -81,8 +81,7 @@ import ApiCompetitions from '@/services/ApiCompetitions.js'
 export default {
   name: 'FormCompetitionCreate',
   mixins: [utilities],
-  props: ['brand'],
-  data () {
+  data() {
     var validateField = (rule, value, callback) => {
       if (value === '' || null) {
         callback(new Error('Ce champ est obligatoire'))
@@ -100,33 +99,29 @@ export default {
         category: null,
         season: null,
         infos: null,
-        image: null,
+        image: null
       },
       rules: {
-        name: [
-          { validator: validateField, trigger: 'blur' }
-        ],
-        category: [
-          { validator: validateField, trigger: 'blur' }
-        ],
+        name: [{ validator: validateField, trigger: 'blur' }],
+        category: [{ validator: validateField, trigger: 'blur' }]
       }
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
-    },
+    }
   },
   methods: {
-    formatSeason (seasonId) {
+    formatSeason(seasonId) {
       return this.currentTeam.seasons.find(s => s._id === seasonId).name
     },
-    toggleForm () {
+    toggleForm() {
       this.$emit('toggleForm')
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.createCompetition()
         } else {
@@ -135,18 +130,25 @@ export default {
         }
       })
     },
-     async createCompetition() {
+    async createCompetition() {
       this.isLoading = true
       this.form.team = this.currentTeam._id
       try {
-        const competition = (await ApiCompetitions.post(this.form)).data.competition
+        const competition = (await ApiCompetitions.post(this.form)).data
+          .competition
         this.isLoading = false
-        this.$notify({ title: 'Succès', message: 'La compétition a bien été créée', type: 'success' })
-        this.$router.push(`/team/${this.currentTeam._id}/competition/${competition._id}`)
+        this.$notify({
+          title: 'Succès',
+          message: 'La compétition a bien été créée',
+          type: 'success'
+        })
+        this.$router.push(
+          `/team/${this.currentTeam._id}/competition/${competition._id}`
+        )
       } catch (err) {
         this.errorNotify(err)
         this.isLoading = false
-      }     
+      }
     }
   },
   created() {
@@ -156,7 +158,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .form-wrapper {
   width: 100%;
   margin: 0px auto;
@@ -200,7 +201,9 @@ export default {
   width: 50%;
   margin: 30px auto;
   text-align: center;
-  p { text-align: center; }
+  p {
+    text-align: center;
+  }
   .brand-category {
     color: $grey-dark;
     font-weight: 300;
@@ -214,27 +217,31 @@ export default {
   .brand-date {
     color: $blue-dark-medium;
     margin-top: 15px;
-    span { 
+    span {
       font-weight: 600;
-       margin: 0 4px;
+      margin: 0 4px;
     }
   }
 }
 
 .form-header-custom {
   margin-top: 50px;
-  .form-header { @include icon-logo-wrapper;}
-  .form-header-title { 
+  .form-header {
+    @include icon-logo-wrapper;
+  }
+  .form-header-title {
     text-align: center;
     font-weight: 500;
-    margin-bottom: 40px; 
-    margin-top: 10px; 
+    margin-bottom: 40px;
+    margin-top: 10px;
   }
 }
-.form-label-group { 
-  @include flex-space-between;  
-  height: 35px; 
-  .btn-m { margin-bottom: 5px; } 
+.form-label-group {
+  @include flex-space-between;
+  height: 35px;
+  .btn-m {
+    margin-bottom: 5px;
+  }
 }
 .form-btn-submit {
   padding: 20px 0;
@@ -251,29 +258,53 @@ export default {
   margin-bottom: 10px;
 }
 
-.el-form { padding: 0 25%; }
-.el-button { font-size: 14px; }
-.el-select { width: 100%; }
+.el-form {
+  padding: 0 25%;
+}
+.el-button {
+  font-size: 14px;
+}
+.el-select {
+  width: 100%;
+}
 
 @media only screen and (max-width: 479px) {
-  .form-header-brand { 
+  .form-header-brand {
     width: 100%;
-    .brand-logo { width: 60px; height: 60px;}
-    .brand-date { font-size: 11px; }
+    .brand-logo {
+      width: 60px;
+      height: 60px;
+    }
+    .brand-date {
+      font-size: 11px;
+    }
   }
-  .el-form { padding: 0; }
-  .form-wrapper-title .form-wrapper-tag { display: none; }
-  .el-select-dropdown.el-popper { left: 0!important }
-  .select-option-left { font-size: 11px!important ; }
+  .el-form {
+    padding: 0;
+  }
+  .form-wrapper-title .form-wrapper-tag {
+    display: none;
+  }
+  .el-select-dropdown.el-popper {
+    left: 0 !important;
+  }
+  .select-option-left {
+    font-size: 11px !important ;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .form-header-brand { width: 80%; }
-  .el-form { padding: 0 10px; }
+  .form-header-brand {
+    width: 80%;
+  }
+  .el-form {
+    padding: 0 10px;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .el-form { padding: 0 80px; }
+  .el-form {
+    padding: 0 80px;
+  }
 }
-
 </style>

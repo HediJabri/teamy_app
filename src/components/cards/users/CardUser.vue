@@ -16,7 +16,7 @@
         <span>{{ currentUserMembership(user, currentTeam).position }}</span>
       </div>
       <div v-if="user.birthdate" class="card-user-tag">
-        <span >{{ userAge }} ans</span>
+        <span >{{ userAge }} {{$t('yearsOld')}}</span>
       </div>
       <div v-if="isUserShowView && !isCurrentUser(user._id)" class="card-user-btn">
         <el-button type="default" @click="openDialogContactUser">
@@ -44,33 +44,34 @@ export default {
   props: ['user', 'team'],
   mixins: [utilities],
   components: { TagPosition, DialogContactUser },
-  data () {
+  data() {
     return {
-      dialogContactUser: false,
+      dialogContactUser: false
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    userAge () {
-      if (this.user.birthdate) return moment().diff(this.user.birthdate, 'years')
+    userAge() {
+      if (this.user.birthdate)
+        return moment().diff(this.user.birthdate, 'years')
     },
-    isUserEditView () {
+    isUserEditView() {
       return this.$route.name === 'user-edit'
     },
-    isUserShowView () {
+    isUserShowView() {
       return ['team-member-show', 'user-show'].includes(this.$route.name)
     },
-    isTeamDashboardView () {
+    isTeamDashboardView() {
       return this.$route.name === 'team-dashboard'
     }
   },
   methods: {
-    isCurrentUser (userId) {
+    isCurrentUser(userId) {
       return userId === this.currentUser._id
     },
-    openDialogContactUser () {
+    openDialogContactUser() {
       this.dialogContactUser = true
-    },
+    }
   }
 }
 </script>

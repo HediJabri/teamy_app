@@ -113,7 +113,7 @@
                       <el-checkbox-group v-model="form.recurentDays">
                         <el-checkbox v-for="day in recurrenceDaysList" :key="day.value"
                           :value="day.value" :label="day.value" name="type" border size="mini">
-                          {{ day.title }}
+                          {{ day[$i18n.locale] }}
                         </el-checkbox>
                       </el-checkbox-group>
                     </el-form-item>
@@ -212,7 +212,7 @@ export default {
   mixins: [utilities],
   props: ['eventCategory', 'competition'],
   components: { DialogAddLocation, EventCategoryIcon },
-  data() {
+  data () {
     return {
       errors: [],
       formData: data,
@@ -301,28 +301,28 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'currentTeamLocation']),
-    hasErrors() {
+    hasErrors () {
       return this.errors.length > 0
     },
-    filterLocationCategory() {
+    filterLocationCategory () {
       let filter
       this.form.locationCategory === 'Domicile'
         ? (filter = 'home')
         : (filter = 'away')
       return filter
     },
-    teamLocations() {
+    teamLocations () {
       return this.currentTeam.locations
     }
   },
   methods: {
-    openDialogAddLocation() {
+    openDialogAddLocation () {
       this.dialogAddLocation = true
     },
-    locationCreated(location) {
+    locationCreated (location) {
       this.form.location = location._id
     },
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.newLocationName ? this.createLocation() : this.createEvent()
@@ -332,12 +332,12 @@ export default {
         }
       })
     },
-    createEvent() {
+    createEvent () {
       this.form.recurring
         ? this.createRecurrentEvent()
         : this.createUniqueEvent()
     },
-    async createUniqueEvent() {
+    async createUniqueEvent () {
       this.isLoading = true
       this.formatForm()
       try {
@@ -354,7 +354,7 @@ export default {
         this.isLoading = false
       }
     },
-    async createRecurrentEvent() {
+    async createRecurrentEvent () {
       this.isLoading = true
       this.formatForm()
       try {
@@ -371,7 +371,7 @@ export default {
         this.isLoading = false
       }
     },
-    formatForm() {
+    formatForm () {
       this.form.team = this.currentTeam._id
       this.form.season = this.currentSeason(this.currentTeam)._id
       this.form.locationCategory = this.filterLocationCategory
@@ -380,20 +380,20 @@ export default {
       if (this.competition) this.form.competition = this.competition._id
       if (this.form.location._id) this.form.location = this.form.location._id
     },
-    fillCompetitionCategory() {
+    fillCompetitionCategory () {
       for (let competitionType of this.formData.competitionCategories) {
         if (competitionType.category === this.competition.category) {
           this.eventCategories = competitionType.eventCategories
         }
       }
     },
-    fillEventCategories() {
+    fillEventCategories () {
       if (this.eventCategory === 'friendly') this.form.name = 'Match Amical'
       if (this.eventCategory === 'training') this.form.name = 'Entrainement'
       if (this.eventCategory === 'other') this.form.name = 'Autre'
     }
   },
-  created() {
+  created () {
     this.competition
       ? this.fillCompetitionCategory()
       : this.fillEventCategories()

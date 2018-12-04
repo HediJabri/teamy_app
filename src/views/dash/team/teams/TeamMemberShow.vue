@@ -26,13 +26,12 @@ import CardMembershipInfo from '@/components/cards/users/CardMembershipInfo'
 // import CardUserStats from '@/components/cards/users/CardUserStats'
 import CardTeam from '@/components/cards/teams/CardTeam'
 
-
 export default {
   name: 'TeamMemberShow',
   components: { TeamySpinner, CardUser, CardMembershipInfo, CardTeam },
-  data () {
+  data() {
     return {
-      membership: null,
+      membership: null
     }
   },
   computed: {
@@ -45,10 +44,10 @@ export default {
         this.membership = membership
       } catch (err) {
         this.errorNotify(err)
-      }     
-    },
+      }
+    }
   },
-  created () {
+  created() {
     const membershipId = this.$route.params.id
     if (membershipId) this.getMembership(membershipId)
   }
@@ -56,7 +55,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -71,20 +69,41 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { flex-direction: column; padding: 0px 10px 60px 10px; }
-  .page-center-container, .page-left-container { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    flex-direction: column;
+    padding: 0px 10px 60px 10px;
+  }
+  .page-center-container,
+  .page-left-container {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-wrapper { flex-direction: column }
-  .page-center-container, .page-left-container { width: 90% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-center-container,
+  .page-left-container {
+    width: 90% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .page-left-container { width: 33% !important; }
-  .page-center-container { width: 67% !important; }
-  .page-right-container { display: none }
+  .page-left-container {
+    width: 33% !important;
+  }
+  .page-center-container {
+    width: 67% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 </style>

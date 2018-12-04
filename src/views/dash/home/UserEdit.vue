@@ -28,9 +28,9 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    ...mapActions(['resetTeam', 'resetNotifications']),
+    ...mapActions(['resetTeam', 'resetNotifications'])
   },
-  created () {
+  created() {
     this.resetTeam()
     this.resetNotifications()
   }
@@ -38,7 +38,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -53,20 +52,41 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { flex-direction: column; padding: 0px 10px 60px 10px; }
-  .page-center-container, .page-left-container { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    flex-direction: column;
+    padding: 0px 10px 60px 10px;
+  }
+  .page-center-container,
+  .page-left-container {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-wrapper { flex-direction: column }
-  .page-center-container, .page-left-container { width: 90% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-center-container,
+  .page-left-container {
+    width: 90% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .page-left-container { width: 33% !important; }
-  .page-center-container { width: 67% !important; }
-  .page-right-container { display: none }
+  .page-left-container {
+    width: 33% !important;
+  }
+  .page-center-container {
+    width: 67% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 </style>

@@ -31,8 +31,13 @@ import CardTeam from '@/components/cards/teams/CardTeam'
 export default {
   name: 'CompetitionsIndex',
   mixins: [guards, utilities],
-  components: { TeamySpinner, CardCompetitionsFilter, CardCompetitionsList, CardTeam },
-  data () {
+  components: {
+    TeamySpinner,
+    CardCompetitionsFilter,
+    CardCompetitionsList,
+    CardTeam
+  },
+  data() {
     return {
       competitions: null,
       filterName: 'current',
@@ -47,40 +52,48 @@ export default {
     ...mapGetters(['currentTeam'])
   },
   methods: {
-    changeFilter (filterName) {
+    changeFilter(filterName) {
       this.page.next = 0
       this.competitions = null
       this.filterName = filterName
       this.getCompetitions(filterName, this.page.next)
     },
-    goToNextPage () {
+    goToNextPage() {
       if (this.page.next >= 0) {
         this.page.loadingNext = true
-        this.page.next ++
-        if (this.competitions) this.getCompetitions(this.filterName, this.page.next)
+        this.page.next++
+        if (this.competitions)
+          this.getCompetitions(this.filterName, this.page.next)
       }
     },
-    async getCompetitions (filterName, pageNext) {
+    async getCompetitions(filterName, pageNext) {
       try {
-        const params = { filter: filterName, page: pageNext, teamId: this.currentTeam._id }
+        const params = {
+          filter: filterName,
+          page: pageNext,
+          teamId: this.currentTeam._id
+        }
         const data = (await ApiCompetitions.indexTeam(params)).data
-        pageNext > 0 ?  this.competitions = this.competitions.concat(data.competitions) : this.competitions = data.competitions
-        this.competitions.length >= data.competitionsCount ? this.page.allRecordsFetched = true : this.page.allRecordsFetched = false
+        pageNext > 0
+          ? (this.competitions = this.competitions.concat(data.competitions))
+          : (this.competitions = data.competitions)
+        this.competitions.length >= data.competitionsCount
+          ? (this.page.allRecordsFetched = true)
+          : (this.page.allRecordsFetched = false)
         this.page.loadingNext = false
       } catch (err) {
         this.errorNotify(err)
         this.page.loadingNext = false
-      }     
+      }
     }
   },
-  created () {
+  created() {
     this.getCompetitions(this.filterName, this.page.next)
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -99,20 +112,38 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { flex-direction: column; padding: 0px 10px 60px 10px; }
-  .page-center-container, .page-left-container { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    flex-direction: column;
+    padding: 0px 10px 60px 10px;
+  }
+  .page-center-container,
+  .page-left-container {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-wrapper { flex-direction: column }
-  .page-center-container, .page-left-container { width: 90% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-center-container,
+  .page-left-container {
+    width: 90% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .page-center-container { width: 73% !important; }
-  .page-right-container { display: none }
+  .page-center-container {
+    width: 73% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
-
 </style>

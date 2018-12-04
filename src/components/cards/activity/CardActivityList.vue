@@ -9,7 +9,7 @@
         <el-button type="primary"
           :loading="page.loadingNext"
           @click="goToNextPage()">
-          Voir plus
+          {{$t('seeMore')}}
         </el-button>
       </div>
     </div>
@@ -34,9 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .btn-next-page {
   @include flex-center();
 }
-
 </style>

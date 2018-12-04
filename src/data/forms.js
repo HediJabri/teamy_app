@@ -1,11 +1,11 @@
 const recurrenceDaysList = [
-  { title: 'Lun', value: 'Monday' },
-  { title: 'Mar', value: 'Tuesday' },
-  { title: 'Mer', value: 'Wednesday' },
-  { title: 'Jeu', value: 'Thursday' },
-  { title: 'Ven', value: 'Friday' },
-  { title: 'Sam', value: 'Saturday' },
-  { title: 'Dim', value: 'Sunday' }
+  { fr: 'Lun', en: 'Mon', value: 'Monday' },
+  { fr: 'Mar', en: 'Tue', value: 'Tuesday' },
+  { fr: 'Mer', en: 'Wed', value: 'Wednesday' },
+  { fr: 'Jeu', en: 'Thu', value: 'Thursday' },
+  { fr: 'Ven', en: 'Fri', value: 'Friday' },
+  { fr: 'Sam', en: 'Sat', value: 'Saturday' },
+  { fr: 'Dim', en: 'Sun', value: 'Sunday' }
 ]
 
 const eventCategoryList = [

@@ -8,14 +8,14 @@
       </div>
       <div class="card-item-body">
         <h5>{{ currentUser.firstName }} {{ currentUser.lastName[0] }}.</h5>
-        <p>{{ validatedMemberships.length }} {{ pluralizeWord(validatedMemberships.length, 'équipe') }}</p>
+        <p> {{ $tc('team', validatedMemberships.length) }}</p>
       </div>
     </div>
     <hr>
     <card-home-pending-teams v-if="pendingMemberships.length" :memberships="pendingMemberships" />
     <div class="card-button-wrapper">
       <el-button type="default" class="btn-icon" @click="routeUrl('/home/user-edit')">
-        <span>Mon compte<i class="material-icons blue">settings</i></span>
+        <span>{{$t('myAccount')}}<i class="material-icons blue">settings</i></span>
       </el-button>
     </div>
   </div>
@@ -30,10 +30,8 @@ export default {
   name: 'CardHomeUser',
   mixins: [utilities],
   components: { CardHomePendingTeams },
-  data () {
-    return {
-      
-    }
+  data() {
+    return {}
   },
   computed: {
     ...mapGetters(['currentUser']),
@@ -44,8 +42,7 @@ export default {
       return this.currentUser.memberships.filter(m => m.status === 'pending')
     }
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
 
@@ -56,33 +53,48 @@ export default {
 .card-item {
   @include flex-start();
   cursor: pointer;
-  .card-item-img { 
-    width: 44px; 
+  .card-item-img {
+    width: 44px;
     height: 42px;
     margin-right: 5px;
   }
   .card-item-body {
     display: flex;
     flex-direction: column;
-    h5 {font-weight: 600; margin: 3px 0; @include text-overflow-ellipsis()}
-    p {font-size: 12px; margin-bottom: 0}
+    h5 {
+      font-weight: 600;
+      margin: 3px 0;
+      @include text-overflow-ellipsis();
+    }
+    p {
+      font-size: 12px;
+      margin-bottom: 0;
+    }
   }
 }
 
 @media only screen and (max-width: 479px) {
-  .card-button-wrapper { display: none!important; }
+  .card-button-wrapper {
+    display: none !important;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .card-button-wrapper { display: none!important; }
+  .card-button-wrapper {
+    display: none !important;
+  }
   .card-item-body {
-    h5 { width: 200px }
+    h5 {
+      width: 200px;
+    }
   }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
   .card-item-body {
-    h5 { width: 130px }
+    h5 {
+      width: 130px;
+    }
   }
 }
 </style>

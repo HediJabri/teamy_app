@@ -7,9 +7,9 @@
       </div>
       <div class="page-center-container-l">
         <div class="page-center-title">
-          <h5>Mes équipes</h5>
+          <h5>{{$t('myTeams')}}</h5>
           <el-button type="primary" class="card-btn" @click="routeUrl('/home/community')">
-            <span> Rejoindre une équipe</span><i class="fa fa-share margin-left"></i>
+            <span>{{$t('joinATeam')}}</span><i class="fa fa-share margin-left"></i>
           </el-button>
         </div>
         <card-teams-user-list :memberships="validatedMemberships" :cardTeamEmpty="true"/>
