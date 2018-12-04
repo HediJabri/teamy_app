@@ -3,15 +3,15 @@
     <div class="card">
       <div class="header">
         <h4>Contact 👋</h4>
-        <p>Tu as <span>une question ?</span> Laisse nous <span>ton email et ton message</span>, on te répond au plus vite ! </p>
+        <p v-html="$t('contactUsSentence')"></p>
       </div>
       <el-form class="form-body" :model="form" :rules="rules" ref="form" label-position="labelPosition">
         <el-form-item prop="email">
-          <el-input placeholder="Email" type="email" v-model="form.email">
+          <el-input :placeholder="$t('email')" type="email" v-model="form.email">
           </el-input>
         </el-form-item>
         <el-form-item prop="message">
-          <el-input type="textarea" :rows="5" v-model="form.message" placeholder="Ecris ton message ici...">
+          <el-input type="textarea" :rows="4" v-model="form.message" :placeholder="`${$t('leaveYourMessageHere')}...`">
           </el-input>
         </el-form-item>
         <!-- <hr> -->
@@ -20,7 +20,7 @@
             class="btn-send"
             :loading="isLoading"
             @click="submitForm('form')">
-            Envoyer / {{$t('lang')}}
+            {{$t('send')}}
           </el-button>
         </el-form-item>
       </el-form>
@@ -29,8 +29,8 @@
       </div>
     </div>
     <div class="banner-footer">
-      <router-link to="/register" class="link">Inscription</router-link>
-      <router-link to="/login" class="link">Connexion</router-link>
+      <router-link to="/register" class="link">{{$t('signUp')}}</router-link>
+      <router-link to="/login" class="link">{{$t('login')}}</router-link>
     </div>
   </div>
 </template>
@@ -174,9 +174,9 @@ export default {
   text-align: center;
   p {
     margin: 20px 0;
-  }
-  span {
-    font-weight: 600;
+    /deep/ span {
+      font-weight: 600;
+    }
   }
 }
 

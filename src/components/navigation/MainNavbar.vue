@@ -10,7 +10,6 @@
           </router-link>
           <div class="main-navbar-title">
             <span class="main-navbar-tag">beta</span>
-            <span class="main-navbar-text">{{ $t('lang') }} </span>
           </div>
         </div>
       </div>
@@ -25,7 +24,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons icon-margin-bottom">group</i>
-                  <span>Membres</span>
+                  <span>{{$t('members')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -33,7 +32,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">event</i>
-                  <span>Événements</span>
+                  <span>{{$t('events')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -41,7 +40,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="fa fa-trophy"></i>
-                  <span>Compétitions</span>
+                  <span>{{$t('competitions')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -49,7 +48,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons icon-stats">insert_chart_outlined</i>
-                  <span>Stats</span>
+                  <span>{{$t('stats')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -57,7 +56,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">view_list</i>
-                  <span>Saisons</span>
+                  <span>{{$t('seasons')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -77,7 +76,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">home</i>
-                  <span>Accueil</span>
+                  <span>{{$t('home')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -85,7 +84,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons icon-margin-bottom">public</i>
-                  <span>Communauté</span>
+                  <span>{{$t('community')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -94,7 +93,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">account_circle</i>
-                  <span>Mon profil</span>
+                  <span>{{$t('myProfile')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -102,7 +101,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">settings</i>
-                  <span>Mon compte</span>
+                  <span>{{$t('myAccount')}} </span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -110,7 +109,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="fa fa-sign-out"></i>
-                  <span>Déconnexion</span>
+                  <span>{{$t('logOut')}}</span>
                 </span>
               </el-dropdown-item>
             </div>

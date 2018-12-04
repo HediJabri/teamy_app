@@ -10,21 +10,21 @@
         </div>
         <h5>{{ team.name }}</h5>
           <div class="card-team-info" v-if="teamMembershipsIsFull(team)">
-          <span>Nb de membres maximum atteint</span>
+          <span>{{ $t(teamMembershipsIsFull) }}</span>
         </div>
         <div v-else class="card-team-info">
           <div class="avatar">
             <img v-if="team.mainAdmin.avatar" :src="team.mainAdmin.avatar">
             <img v-else src="../../assets/img/user.png">
           </div>
-          <span>{{ team.mainAdmin.firstName }} t'invites à rejoindre son équipe</span>
+          <span>{{ team.mainAdmin.firstName }} {{ $t(inviteYouToJoinHisTeam) }} </span>
         </div>
       </div>
       <div class="header-social-auth">
-        <button-fb-auth v-on:AuthWithFb="registerWithFb($event)" :text="'Inscription'"/>
+        <button-fb-auth v-on:AuthWithFb="registerWithFb($event)" :text="$t('signUp')"/>
         <div class="header-separator">
           <span class="header-separator-line"></span>
-          <span class="header-separator-text">ou</span>
+          <span class="header-separator-text">{{ $t('or') }}</span>
           <span class="header-separator-line"></span>
         </div>
       </div>
@@ -32,23 +32,23 @@
         <div class="row">
           <div class="col-xs-6 col-left">
             <el-form-item prop="firstName">
-              <el-input placeholder="Prénom" type="firstName" v-model="registerForm.firstName">
+              <el-input :placeholder="$t('firstName')" type="firstName" v-model="registerForm.firstName">
               </el-input>
             </el-form-item>
           </div>
           <div class="col-xs-6 col-right">
             <el-form-item prop="lastName">
-              <el-input placeholder="Nom" type="lastName" v-model="registerForm.lastName">
+              <el-input :placeholder="$t('lastName')" type="lastName" v-model="registerForm.lastName">
               </el-input>
             </el-form-item>
           </div>
         </div>
         <el-form-item prop="email">
-          <el-input placeholder="Email" type="email" v-model="registerForm.email">
+          <el-input :placeholder="$t('email')" type="email" v-model="registerForm.email">
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input placeholder="Mot de passe" type="password" 
+          <el-input :placeholder="$t('password')" type="password" 
             v-model="registerForm.password" @keyup.enter.native="submitForm('registerForm')">
           </el-input>
         </el-form-item>
@@ -57,7 +57,7 @@
           class="btn-register"
           :loading="isLoading"
           @click="submitForm('registerForm')">
-            Inscription / {{$t('lang')}}
+            {{$t('signUp')}}
           </el-button>
         </div>
       </el-form>
@@ -66,9 +66,9 @@
       </div>
     </div>
     <div class="banner-footer">
-      <span>Déjà un compte ?</span>
+      <span>{{ $t('alreadyAnAccount') }}</span>
       <router-link to="/login" class="link">
-        Connexion
+        {{$t('login')}}
       </router-link>
     </div>
   </div>
@@ -85,7 +85,7 @@ export default {
   name: 'Register',
   mixins: [utilities],
   components: { ButtonFbAuth },
-  data () {
+  data() {
     var validateInput = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('Ce champ est obligatoire'))
@@ -101,7 +101,7 @@ export default {
       }
     }
     var validateEmail = (rule, value, callback) => {
-      function validateEmail (email) {
+      function validateEmail(email) {
         var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         return re.test(email)
       }
@@ -138,13 +138,13 @@ export default {
     }
   },
   computed: {
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
     }
   },
   methods: {
     ...mapActions(['initUser']),
-    submitForm (formName) {
+    submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.register()
@@ -154,7 +154,7 @@ export default {
         }
       })
     },
-    async register () {
+    async register() {
       this.errors = []
       this.isLoading = true
       try {
@@ -166,7 +166,7 @@ export default {
         this.isLoading = false
       }
     },
-    async registerWithFb (token) {
+    async registerWithFb(token) {
       this.errors = []
       this.isLoading = true
       try {
@@ -177,7 +177,7 @@ export default {
         this.isLoading = false
       }
     },
-    async getTeam (teamToken) {
+    async getTeam(teamToken) {
       try {
         const team = (await ApiTeams.getByToken(teamToken)).data.team
         team.teamToken = teamToken
@@ -189,13 +189,13 @@ export default {
         this.errorNotify(err)
       }
     },
-    authUser (data) {
+    authUser(data) {
       Auth.setToken(data.token)
       Auth.setUser(data.user)
       this.$router.push('/')
     }
   },
-  created () {
+  created() {
     const teamToken = this.$route.params.teamToken
     if (teamToken) this.getTeam(teamToken)
   }

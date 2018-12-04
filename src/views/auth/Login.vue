@@ -2,21 +2,21 @@
   <div>
     <div class="card">
       <div class="header-social-auth">
-        <button-fb-auth v-on:AuthWithFb="loginWithFb($event)" :text="'Connexion'"/>
+        <button-fb-auth v-on:AuthWithFb="loginWithFb($event)" :text="$t('login')"/>
         <div class="header-separator">
           <span class="header-separator-line"></span>
-          <span class="header-separator-text">ou</span>
+          <span class="header-separator-text">{{ $t('or')}}</span>
           <span class="header-separator-line"></span>
         </div>
       </div>
       <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
         <el-form-item prop="email">
-          <el-input placeholder="Email" type="email" 
+          <el-input :placeholder="$t('email')" type="email" 
             v-model="form.email" @keyup.enter.native="submitForm('form')">
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input placeholder="Mot de passe" type="password" 
+          <el-input :placeholder="$t('password')" type="password" 
             v-model="form.password" @keyup.enter.native="submitForm('form')">
           </el-input>
         </el-form-item>
@@ -25,7 +25,7 @@
             class="btn-login"
             :loading="isLoading"
             @click="submitForm('form')">
-            Connexion / {{$t('lang')}}
+            {{$t('login')}}
           </el-button>
         </el-form-item>
       </el-form>
@@ -34,9 +34,9 @@
       </div>
     </div>
     <div class="banner-footer">
-      <span>Pas encore de compte ?</span>
+      <span>{{ $t('noAccountYet') }}</span>
       <router-link to="/register" class="link">
-        Inscription
+        {{ $t('signUp') }}
       </router-link>
     </div>
   </div>

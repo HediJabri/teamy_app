@@ -40,8 +40,8 @@ export default {
   color: white;
 }
 .banner-wrapper {
-  height: 500px;
-  margin-top: 100px;
+  height: 525px;
+  margin-top: 75px;
 }
 .banner-logo-wrapper {
   @include flex-center();
