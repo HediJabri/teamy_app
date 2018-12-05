@@ -130,9 +130,9 @@ const utilities = {
         .fromNow()
     },
     formatResult(result) {
-      if (result === 'win') return 'Victoire'
-      if (result === 'draw') return 'Match Nul'
-      if (result === 'lost') return 'Défaite'
+      if (result === 'win') return this.$tc('Win', 1)
+      if (result === 'draw') return this.$tc('Draw', 1)
+      if (result === 'lost') return this.$tc('Lost', 1)
     },
     // Format Age
     formatAge(user) {

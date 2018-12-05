@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-title">
       <div class="card-title-text">
-        <h5>évenements à venir</h5>
+        <h5>{{ $t('nextEvent')}}</h5>
       </div>
     </div>
     <div class="card-body">
@@ -25,13 +25,13 @@
             <p class="subtext"> 
               <span v-if="event.opponent">{{ event.opponent }} - </span>
               <span v-else>{{ event.location.name }} - </span>
-              à {{ event.time }}
+              {{ $t('at')}} {{ event.time }}
             </p>
           </div>
         </div>
       </div>
       <div class="card-item-empty" v-else>
-        Aucun évenement à venir...
+       {{ $tc('event', 0)}}
       </div>
     </div>
   </div>
@@ -48,13 +48,12 @@ export default {
   props: ['event'],
   components: { EventParticipationInfo },
   computed: {
-    ...mapGetters(['currentTeam']),
+    ...mapGetters(['currentTeam'])
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .card {
   @include card();
   padding: 30px 0 10px 0;
@@ -65,7 +64,9 @@ export default {
   .card-title-text {
     @include flex-start();
     text-transform: uppercase;
-    h5 { text-align: center;}
+    h5 {
+      text-align: center;
+    }
     i {
       color: $blue-dark-medium;
       margin: 0 10px 1px 0;
@@ -85,9 +86,20 @@ export default {
       @include calendar-date-xs();
     }
     .calendar-text {
-      .text-wrapper { position: relative; span { position: absolute; top: 0; right: -24px; } }
-      .subtext { color: $text-grey-blue;}
-      p { margin: 0 0 3px 8px;}
+      .text-wrapper {
+        position: relative;
+        span {
+          position: absolute;
+          top: 0;
+          right: -24px;
+        }
+      }
+      .subtext {
+        color: $text-grey-blue;
+      }
+      p {
+        margin: 0 0 3px 8px;
+      }
     }
   }
 }
@@ -95,5 +107,4 @@ export default {
   padding: 20px;
   @include flex-center();
 }
-
 </style>

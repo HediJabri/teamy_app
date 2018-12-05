@@ -20,7 +20,7 @@
       </div>
       <div v-if="isUserShowView && !isCurrentUser(user._id)" class="card-user-btn">
         <el-button type="default" @click="openDialogContactUser">
-          Contacter <i class="fa fa-envelope blue margin-left"></i>
+          {{$t('toContact')}} <i class="fa fa-envelope blue margin-left"></i>
         </el-button>
       </div>
     </div>
@@ -36,14 +36,13 @@
 import moment from 'moment'
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
-import TagPosition from '@/components/global/TagPosition'
 import DialogContactUser from '@/components/dialogs/DialogContactUser'
 
 export default {
   name: 'CardUser',
   props: ['user', 'team'],
   mixins: [utilities],
-  components: { TagPosition, DialogContactUser },
+  components: { DialogContactUser },
   data() {
     return {
       dialogContactUser: false
@@ -52,8 +51,7 @@ export default {
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
     userAge() {
-      if (this.user.birthdate)
-        return moment().diff(this.user.birthdate, 'years')
+      return moment().diff(this.user.birthdate, 'years')
     },
     isUserEditView() {
       return this.$route.name === 'user-edit'

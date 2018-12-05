@@ -7,13 +7,13 @@
             :class="{'active': filter === 'passed'}"
             @click="toogleFilterEvent('passed')"
           >
-            passé
+            {{$t('passed')}}
           </span>
           <span
             :class="{'active': filter === 'future'}"
             @click="toogleFilterEvent('future')"
           >
-            à venir
+            {{$t('next')}}
           </span>
         </h5>
       </div>
@@ -24,11 +24,11 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th class="column-fix">Date</th>
-                <th>Evénement</th>
-                <th>Adversaire</th>
-                <th>Score</th>
-                <th>Lieu</th>
+                <th class="column-fix">{{ $t('date')}}</th>
+                <th>{{ $t('events')}}</th>
+                <th>{{ $t('opponent')}}</th>
+                <th>{{ $t('score')}}</th>
+                <th>{{ $t('location')}}</th>
               </tr>
             </thead>
             <tbody>

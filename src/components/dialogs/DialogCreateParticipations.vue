@@ -4,7 +4,7 @@
       <div class="dialog">
         <div class="dialog-body">
           <h4 class="dialog-title">
-            <span>Inviter mes membres</span>
+            <span>{{$t('inviteMembers')}}</span>
           </h4>
           <br>
           <div class="dialog-lists">
@@ -14,7 +14,7 @@
                   <div class="card-title">
                     <div class="card-title-text">
                       <i class="material-icons icon-margin-bottom">group</i>
-                      <h5>membres</h5>
+                      <h5>{{$t('members')}}</h5>
                       <div class="check-all-btn">
                         <i class="fa fa-check"
                           :class="{'active': isAllMembersSelected}"
@@ -23,7 +23,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="dialog-list-item" v-if="validatedMemberships"
+                  <div class="dialog-list-item"
                     :class="{'disable': isUserParticipate(membership.user)}"
                     v-for="(membership, index) in validatedMemberships" :key="index"
                     @click="selectMember(membership.user)">
@@ -40,8 +40,6 @@
                         </p>
                       </div>
                     </div>
-                    <tag-position class="list-item-body-right margin-right" v-if="membership.user.position"
-                      :position="membership.user.position"/>
                     <span class="list-item-body-right paper-plane"
                       v-if="isUserParticipate(membership.user)">
                       <i class="fa fa-paper-plane"></i>
@@ -51,9 +49,9 @@
                     </span>
                   </div>
                   <div class="dialog-list-empty" v-if="validatedMemberships.length === 1">
-                    <p>Personne n'as encore rejoint ton équipe</p>
+                    <p>{{$t('nobodyJoinTheTeamYet')}}</p>
                     <el-button type="primary" @click="routeUrl(`/team/${event.team._id}/show`)">
-                      Partager le lien d'inscription
+                      {{$t('shareRegisterLink')}}
                     </el-button>
                   </div>
                 </div>
@@ -64,11 +62,11 @@
         <div class="dialog-footer" slot="footer">
           <div class="dialog-buttons">
             <span class="dialog-send-number">
-              {{ selectedUsersCount }} membres sélectionnés
+              {{$tc('membersSelected', selectedUsersCount)}}
             </span>
             <el-button class="dialog-btn" type="success"
               @click="createParticipations()" :loading="isLoading">
-              Envoyer les invitations <i class="fa fa-paper-plane margin-left"></i>
+              {{$t('sendInvitations')}} <i class="fa fa-paper-plane margin-left"></i>
             </el-button>
           </div>
         </div>
@@ -81,27 +79,31 @@
 import { mapGetters, mapActions } from 'vuex'
 import ApiParticipations from '@/services/ApiParticipations'
 import { utilities } from '@/mixins/utilities.js'
-import TagPosition from '@/components/global/TagPosition'
 
 export default {
   name: 'DialogsCreateParticipations',
   props: ['openDialog'],
   mixins: [utilities],
-  components: { TagPosition },
-  data () {
+  data() {
     return {
       dialogVisible: false,
       isLoading: false,
-      selectedMembers: [],
+      selectedMembers: []
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'event']),
     validatedMemberships() {
-      if (this.event) return this.event.team.memberships.filter(m => m.status === 'validated')
+      if (this.event)
+        return this.event.team.memberships.filter(m => m.status === 'validated')
+      return []
     },
-    isAllMembersSelected () {
-      return this.selectedMembers.length === this.event.team.memberships.filter(m => !this.isUserParticipate(m.user)).length
+    isAllMembersSelected() {
+      return (
+        this.selectedMembers.length ===
+        this.event.team.memberships.filter(m => !this.isUserParticipate(m.user))
+          .length
+      )
     },
     selectedUsersCount() {
       return this.selectedMembers.length
@@ -113,55 +115,67 @@ export default {
   },
   methods: {
     ...mapActions(['initEventParticipations']),
-    selectMember (user) {
+    selectMember(user) {
       if (this.isUserParticipate(user)) return
       if (this.selectedMembers.includes(user)) {
-        this.selectedMembers = this.selectedMembers.filter(u => u._id !== user._id)
+        this.selectedMembers = this.selectedMembers.filter(
+          u => u._id !== user._id
+        )
       } else {
         this.selectedMembers.push(user)
       }
     },
-    selectAllMembers () {
+    selectAllMembers() {
       if (this.isAllMembersSelected) {
         this.selectedMembers = []
       } else {
         this.selectedMembers = []
         for (let membership of this.event.team.memberships) {
-          if (!this.isUserParticipate(membership.user)) this.selectedMembers.push(membership.user)
+          if (!this.isUserParticipate(membership.user))
+            this.selectedMembers.push(membership.user)
         }
       }
     },
-    isMemberSelected (user) {
+    isMemberSelected(user) {
       return this.selectedMembers.includes(user)
     },
-    isUserParticipate (user) {
+    isUserParticipate(user) {
       return this.event.participations.find(p => p.user._id === user._id)
     },
-    async createParticipations () {
+    async createParticipations() {
       this.isLoading = true
       const selectedUsers = this.selectedMembers
-      const body = { event: this.event._id, team: this.currentTeam._id, users: selectedUsers }
+      const body = {
+        event: this.event._id,
+        team: this.currentTeam._id,
+        users: selectedUsers
+      }
       try {
-        const participations = (await ApiParticipations.post(body)).data.participations
+        const participations = (await ApiParticipations.post(body)).data
+          .participations
         this.initEventParticipations(participations)
-        this.$notify({ title: 'Succès', message: 'Les invitations ont bien été envoyées par email 📩', type: 'success' })
+        this.$notify({
+          title: 'Succès',
+          message: 'Les invitations ont bien été envoyées par email 📩',
+          type: 'success'
+        })
         this.afterRequest()
       } catch (err) {
         this.impossibleActionNotify(err)
         this.isLoading = false
       }
     },
-    afterRequest () {
+    afterRequest() {
       this.selectedMembers = []
       this.isLoading = false
       this.dialogVisible = false
     }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }
@@ -171,7 +185,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .dialog-body {
   padding: 0px 15px 10px 15px;
   .dialog-title {
@@ -210,14 +223,20 @@ export default {
           margin: 0 10px 1px 0;
           font-size: 20px;
         }
-        i.fa-shield { font-size: 18px;}
+        i.fa-shield {
+          font-size: 18px;
+        }
       }
     }
   }
   .dialog-list-item {
     @include list-item-s();
-    .list-item-content { width: 80%!important }
-    .list-item-tag { @include tag-flat-s }
+    .list-item-content {
+      width: 80% !important;
+    }
+    .list-item-tag {
+      @include tag-flat-s;
+    }
     .check-mark {
       @include flex-center();
       width: 20px;
@@ -240,11 +259,15 @@ export default {
     font-weight: 600;
     margin-top: 30px;
     text-align: center;
-    p { text-align: center; }
-    .el-button { font-size: 12px; }
+    p {
+      text-align: center;
+    }
+    .el-button {
+      font-size: 12px;
+    }
   }
   .dialog-list-empty.network {
-     margin-top: 75px;
+    margin-top: 75px;
   }
 }
 
@@ -269,20 +292,43 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .card-title-text h5 { font-size:  13px }
-  .list-item-body-top { width: 100px!important; font-size:  12px }
-  .dialog-buttons { flex-direction: column; @include flex-center(); width: 100%;}
-  .dialog-send-number { margin-bottom: 10px; }
+  .card-title-text h5 {
+    font-size: 13px;
+  }
+  .list-item-body-top {
+    width: 100px !important;
+    font-size: 12px;
+  }
+  .dialog-buttons {
+    flex-direction: column;
+    @include flex-center();
+    width: 100%;
+  }
+  .dialog-send-number {
+    margin-bottom: 10px;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .form-header-brand { width: 80%; }
-  .el-form { padding: 0 10px; }
-  .dialog-buttons { flex-direction: column; @include flex-center(); width: 100%;}
-  .dialog-send-number { margin-bottom: 10px; }
+  .form-header-brand {
+    width: 80%;
+  }
+  .el-form {
+    padding: 0 10px;
+  }
+  .dialog-buttons {
+    flex-direction: column;
+    @include flex-center();
+    width: 100%;
+  }
+  .dialog-send-number {
+    margin-bottom: 10px;
+  }
 }
 
 @media only screen and (min-width: 960px) and (max-width: 1160px) {
-  .list-item-body-top { width: 95px!important }
+  .list-item-body-top {
+    width: 95px !important;
+  }
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="card-filter">
       <div class="card-filter-title">
         <div class="card-filter-title-text">
-          <h5>stats</h5>
+          <h5>{{$t('stats')}}</h5>
         </div>
         <div class="card-filter-title-btn">
         </div>
@@ -17,26 +17,26 @@
           'border-red': filter.border === 'red',
           'border-blue': filter.border === 'blue'}">
           <div class="list-item-body">
-            <p class="list-item-body-top">{{ filter.title }}</p>
+            <p class="list-item-body-top">{{ $t(filter.title) }}</p>
           </div>
         </div>
       </div>
     </div>
     <div class="filters-wrapper">
-      <h5>Filtres</h5>
-      <el-select v-model="seasonSelected" placeholder="Saisons" >
+      <h5>{{$t('filters')}}</h5>
+      <el-select v-model="seasonSelected">
         <el-option v-for="(season, index) in currentTeam.seasons" 
           :key="index" :value="season._id" :label="season.name">
         </el-option>
       </el-select>
-      <el-select v-model="categorySelected" placeholder="Type d'événement" >
+      <el-select v-model="categorySelected">
         <el-option v-for="(item, index) in eventCategoryList" 
-          :key="index" :value="item.category" :label="item.subtitle">
+          :key="index" :value="item.category" :label="$tc(item.title, 2)">
         </el-option>
       </el-select>
-      <el-select v-model="competitionSelected" placeholder="Competitions" 
+      <el-select v-model="competitionSelected"
         v-if="categorySelected === 'competition'">
-        <el-option :value="'all'" :label="'Toutes les compétitions'">
+        <el-option :value="'all'" :label="$t('allCompetitions')">
         </el-option>
         <el-option v-for="(competition, index) in competitionsFiltered" 
           :key="index" :value="competition._id" :label="competition.name">
@@ -55,27 +55,44 @@ export default {
   name: 'CardStatsFilter',
   mixins: [utilities],
   props: ['competitions'],
-  data () {
+  data() {
     return {
       filters: [
-        { id: 1, title: 'équipe', name: 'team', active: true, border: 'blue' },
-        { id: 2, title: 'joueurs', name: 'players', active: false, border: 'red' }
+        { id: 1, title: 'Team', name: 'team', active: true, border: 'blue' },
+        {
+          id: 2,
+          title: 'players',
+          name: 'players',
+          active: false,
+          border: 'red'
+        }
       ],
       seasonSelected: null,
-      categorySelected: 'Tout les matchs',
-      competitionSelected: 'Toutes les compétitions',
+      categorySelected: this.$t('allGames'),
+      competitionSelected: this.$t('allCompetitions'),
       eventCategoryList: formData.eventCategoryList.slice(0, 3)
     }
   },
   computed: {
-    ...mapGetters(['currentUser', 'currentTeam', 'currentTeamSeason', 'statsSeasonFilter']),
+    ...mapGetters([
+      'currentUser',
+      'currentTeam',
+      'currentTeamSeason',
+      'statsSeasonFilter'
+    ]),
     competitionsFiltered() {
-      return this.competitions.filter(c => c.season._id === this.statsSeasonFilter._id)
-    },
+      return this.competitions.filter(
+        c => c.season._id === this.statsSeasonFilter._id
+      )
+    }
   },
   methods: {
-    ...mapActions(['setSeasonFilter', 'setCategoryFilter', 'setCompetitionFilter']),
-    toggleFilter (filterName) {
+    ...mapActions([
+      'setSeasonFilter',
+      'setCategoryFilter',
+      'setCompetitionFilter'
+    ]),
+    toggleFilter(filterName) {
       this.manageCategoryList(filterName)
       this.$emit('filterChange', filterName)
       for (let f of this.filters) {
@@ -90,7 +107,7 @@ export default {
         if (this.categorySelected === 'training') this.categorySelected = 'all'
       } else {
         this.eventCategoryList = formData.eventCategoryList.slice(0, 4)
-      } 
+      }
     }
   },
   watch: {
@@ -100,10 +117,12 @@ export default {
     },
     categorySelected(category) {
       if (category !== 'competition') {
-        this.competitionSelected = 'Toutes les compétitions',
-        this.setCompetitionFilter(null)
+        ;(this.competitionSelected = this.$t('allCompetitions')),
+          this.setCompetitionFilter(null)
       }
-      const eventCategory = formData.eventCategoryList.find(e => e.category === category)
+      const eventCategory = formData.eventCategoryList.find(
+        e => e.category === category
+      )
       this.setCategoryFilter(eventCategory)
     },
     competitionSelected(competitionId) {
@@ -118,7 +137,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .card-filter {
   @include card();
   padding: 30px 0 10px 0;
@@ -143,11 +161,15 @@ export default {
 }
 .card-filter-list-item.border-red.active {
   border-left: 5px solid $red;
-  p { font-weight: 600!important; }
+  p {
+    font-weight: 600 !important;
+  }
 }
 .card-filter-list-item.border-blue.active {
   border-left: 5px solid $blue;
-  p { font-weight: 600!important; }
+  p {
+    font-weight: 600 !important;
+  }
 }
 .card-filter-btn-add {
   @include flex-center();
@@ -157,8 +179,8 @@ export default {
 .filters-wrapper {
   padding: 0 5px;
   margin-bottom: 30px;
-  h5 { 
-    text-transform: uppercase; 
+  h5 {
+    text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 0.6px;
     margin: 15px 25px;
@@ -169,5 +191,4 @@ export default {
     margin: 5px 0;
   }
 }
-
 </style>

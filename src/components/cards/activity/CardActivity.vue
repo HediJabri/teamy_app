@@ -18,7 +18,7 @@
             {{ activity.member.firstName }} {{ activity.member.lastName }}
             <span> {{$t('isTeamMember')}} </span>
           </div>
-          <div v-else>🚫 {{$t('accountDeleted')}}...</div>
+          <div v-else>🚫 {{$t('accountDeleted')}}</div>
         </div>
       </div>
       <div v-if="activity.category === 'remove_membership'">
@@ -35,7 +35,7 @@
             {{ activity.member.firstName }} {{ activity.member.lastName }}
             <span> {{$t('isNotTeamMember')}} </span>
           </div>
-          <div v-else>🚫 {{$t('accountDeleted')}}...</div>
+          <div v-else>🚫 {{$t('accountDeleted')}}</div>
         </div>
       </div>
       <div v-if="activity.category === 'new_event'">
@@ -72,9 +72,9 @@
             </div>
           </div>
         </div>
-        <div class="card-body" v-else>{{$t('eventDeleted')}}...</div>
+        <div class="card-body" v-else>🚫 {{$t('eventDeleted')}}</div>
       </div>
-       <div v-if="activity.category === 'new_events_range'">
+      <div v-if="activity.category === 'new_events_range'">
         <p class="card-title">
           <i class="material-icons">insert_invitation</i>
           <span>"{{ formatActivityCategory }}"</span>
@@ -107,13 +107,9 @@
                 </p>
               </div>
             </div>
-            <!-- <div class="event-competition-item">
-              <event-category-icon :category="activity.event.category" 
-                :competition="activity.event.competition" :size="'s'" />
-            </div> -->
           </div>
         </div>
-        <div class="card-body" v-else>L'évenement à été supprimé...</div>
+        <div class="card-body" v-else>🚫 {{$t('eventDeleted')}}</div>
       </div>
       <div v-if="activity.category === 'new_competition'">
         <p class="card-title">
@@ -134,7 +130,7 @@
             </div>
           </div>
         </div>
-         <div class="card-body" v-else>{{$t('competitionDeleted')}}...</div>
+         <div class="card-body" v-else>🚫 {{$t('competitionDeleted')}}</div>
       </div>
       <div v-if="activity.category === 'new_result'">
         <p class="card-title">
@@ -155,7 +151,7 @@
           </div>
           <event-result-info :event="activity.event" />
         </div>
-        <div class="card-body" v-else>{{$t('eventDeleted')}}...</div>
+        <div class="card-body" v-else>🚫 {{$t('eventDeleted')}}</div>
       </div>
     </div>
   </div>

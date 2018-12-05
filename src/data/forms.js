@@ -9,11 +9,11 @@ const recurrenceDaysList = [
 ]
 
 const eventCategoryList = [
-  { category: 'all', title: 'Tout les matchs', subtitle: 'Tout les matchs' },
-  { category: 'friendly', title: 'Match Amical', subtitle: 'Matchs amicaux' },
-  { category: 'competition', title: 'Compétition', subtitle: 'Compétitions' },
-  { category: 'training', title: 'Entrainement', subtitle: 'Entrainements' },
-  { category: 'other', title: 'Autre', subtitle: 'Autres' }
+  { category: 'all', title: 'allGames' },
+  { category: 'friendly', title: 'Friendly' },
+  { category: 'competition', title: 'Competition' },
+  { category: 'training', title: 'Training' },
+  { category: 'other', title: 'Other' }
 ]
 
 const competitionCategories = [
@@ -37,24 +37,24 @@ const competitionCategories = [
 
 const eventResults = {
   championship: [
-    '1er',
-    '2eme',
-    '3eme',
-    '4eme',
-    '5eme',
-    '6eme',
-    '7eme',
-    '8eme',
-    '9eme',
-    '10eme'
+    { en: '1st', fr: '1er' },
+    { en: '2nd', fr: '2eme' },
+    { en: '3rd', fr: '3eme' },
+    { en: '4th', fr: '4eme' },
+    { en: '5th', fr: '5eme' },
+    { en: '6th', fr: '6eme' },
+    { en: '7th', fr: '7eme' },
+    { en: '8th', fr: '8eme' },
+    { en: '9th', fr: '9eme' },
+    { en: '10th', fr: '10eme' }
   ],
   tournament: [
-    'Vainqueur',
-    'Finaliste',
-    'Demi-Finaliste',
-    'Quart de Finale',
-    'Huitième de Finale',
-    'Phase de Poule'
+    { en: 'Winner', fr: 'Vainqueur' },
+    { en: 'Finalist', fr: 'Finaliste' },
+    { en: 'Semi-Finalist', fr: 'Demi-Finaliste' },
+    { en: 'Quarter-Final', fr: 'Quart de Finale' },
+    { en: 'Eighth-Final', fr: 'Huitième de Finale' },
+    { en: 'Group Phase', fr: 'Phase de Poule' }
   ]
 }
 

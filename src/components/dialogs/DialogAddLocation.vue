@@ -3,7 +3,7 @@
     <el-dialog title="" :visible.sync="dialogVisible" :fullscreen="smallDevice()"
       :show-close="false" :close-on-click-modal="false">
       <div class="dialog-body">
-        <h4 class="dialog-title">Ajoute un lieu 📍</h4>
+        <h4 class="dialog-title">{{$t('addLocation')}} 📍</h4>
         <div class="dialog-content">
           <form-location-create :backButton="true" :team="team" :category="category"
             v-on:locationCreated="locationCreated($event)" v-on:backAction="closeDialog()" />
@@ -23,9 +23,9 @@ export default {
   mixins: [utilities],
   props: ['openDialog', 'team', 'category'],
   components: { FormLocationCreate },
-  data () {
+  data() {
     return {
-      dialogVisible: false,
+      dialogVisible: false
     }
   },
   computed: {
@@ -33,21 +33,25 @@ export default {
   },
   methods: {
     ...mapActions(['addTeamLocation']),
-    locationCreated (location) {
+    locationCreated(location) {
       this.addTeamLocation(location)
-      this.$notify({ title: 'Succès', message: 'Le lieu a bien été ajouté', type: 'success' })
+      this.$notify({
+        title: 'Succès',
+        message: 'Le lieu a bien été ajouté',
+        type: 'success'
+      })
       this.$emit('locationCreated', location)
       this.closeDialog()
     },
-    closeDialog () {
+    closeDialog() {
       this.dialogVisible = false
     }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }

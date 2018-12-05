@@ -95,7 +95,7 @@
                 <el-dropdown-item>
                   <span class="dropdown-text">
                     <i class="material-icons">sync</i>
-                    <span>{{$t('removeMyselfFronTeam')}}</span>
+                    <span>{{$t('removeMyselfFromTeam')}}</span>
                   </span>
                 </el-dropdown-item>
               </div>
@@ -144,7 +144,7 @@ export default {
   name: 'SecondNavbar',
   components: { DialogDeleteTeam, DialogDeleteMembership },
   mixins: [utilities],
-  data() {
+  data () {
     return {
       dialogDeleteTeam: false,
       dialogDeleteMembership: false,
@@ -169,22 +169,22 @@ export default {
       'notifications',
       'sports'
     ]),
-    isHomeView() {
+    isHomeView () {
       return this.$route.name === 'home-dashboard'
     }
   },
   methods: {
-    routeUrl(url) {
+    routeUrl (url) {
       this.$router.push(url)
     },
-    openDialogDeleteTeam() {
+    openDialogDeleteTeam () {
       this.dialogDeleteTeam = true
     },
-    openDialogDeleteMembership() {
+    openDialogDeleteMembership () {
       this.dialogDeleteMembership = true
     }
   },
-  created() {
+  created () {
     this.dialogDeleteTeam = false
   }
 }

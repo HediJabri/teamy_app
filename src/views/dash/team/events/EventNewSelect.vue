@@ -17,7 +17,7 @@
                       <div class="page-card-logo">
                         <event-category-icon :category="item.category" :size="'s'" />
                       </div>
-                      <h6>{{ item.title }}</h6>
+                      <h6>{{ $tc(item.title, 1) }}</h6>
                     </div>
                   </div>
                 </div>

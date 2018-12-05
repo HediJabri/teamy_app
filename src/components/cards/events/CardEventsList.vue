@@ -57,16 +57,16 @@
       <el-button type="primary"
         :loading="page.loadingNext"
         @click="goToNextPage()">
-        Voir plus
+        {{ $t('seeMore')}}
       </el-button>
     </div>
     <div v-else-if="events.length === 0" class="card-list-empty">
       <div class="card-list-empty-wrapper">
-        <p >Aucun évenement {{ filterEmptyMessage }}</p>
+        <p >{{ $tc('event', 0)}} </p>
         <div class="card-btn-add" v-if="displayAddButton">
           <el-button type="primary"
             @click="routeUrl(`/team/${currentTeam._id}/event-new-select`)">
-            Ajouter <i class="fa fa-plus-circle margin-left"></i>
+            {{ $t('addEvent')}} <i class="fa fa-plus-circle margin-left"></i>
           </el-button>
         </div>
       </div>
@@ -88,20 +88,19 @@ export default {
   components: { EventResultInfo, EventParticipationInfo, EventCategoryIcon },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    filterEmptyMessage () {
-      if (this.filter === 'passed') return 'passé'
-      if (this.filter === 'future') return 'à venir'
-    },
-    displayAddButton () {
-      return this.isAdmin(this.currentUser, this.currentTeam) 
-          && this.eventFrom === 'currentTeam' && this.filter === 'future'
+    displayAddButton() {
+      return (
+        this.isAdmin(this.currentUser, this.currentTeam) &&
+        this.eventFrom === 'currentTeam' &&
+        this.filter === 'future'
+      )
     }
   },
   methods: {
     goToNextPage() {
       this.$emit('goToNextPage')
     },
-    eventParticipations (event, status) {
+    eventParticipations(event, status) {
       return event.participations.filter(p => p.status === status).length
     }
   }
@@ -109,7 +108,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .card-item {
   @include card();
 }
@@ -130,12 +128,15 @@ export default {
     }
   }
   .card-item-center {
-    h5 { font-size: 15px; text-transform: uppercase; }
-    span { 
-      color: $text-grey-blue; 
-      font-weight: 300; 
-      font-size: 15px; 
-      text-transform: capitalize; 
+    h5 {
+      font-size: 15px;
+      text-transform: uppercase;
+    }
+    span {
+      color: $text-grey-blue;
+      font-weight: 300;
+      font-size: 15px;
+      text-transform: capitalize;
     }
   }
   .card-item-right {
@@ -153,9 +154,17 @@ export default {
   padding: 20px 70px 5px;
   font-size: 13px;
   text-transform: capitalize;
-  .card-item-opponent i { font-size: 17px; color: $blue-dark-medium; margin-right: 10px; }
-  i.material-icons { font-size: 19px; margin: 0 8px 2px -2px; }
-  div, .event-participation-info {
+  .card-item-opponent i {
+    font-size: 17px;
+    color: $blue-dark-medium;
+    margin-right: 10px;
+  }
+  i.material-icons {
+    font-size: 19px;
+    margin: 0 8px 2px -2px;
+  }
+  div,
+  .event-participation-info {
     @include emoji-text-wrapper();
     height: 40px;
     border-bottom: 1px solid $grey;
@@ -168,18 +177,30 @@ export default {
   }
 }
 .card-item-participations {
-  .text-item { margin-right: 12px }
-  i { margin: 0 12px 0 3px; font-size: 15px; }
+  .text-item {
+    margin-right: 12px;
+  }
+  i {
+    margin: 0 12px 0 3px;
+    font-size: 15px;
+  }
 }
-.card-item-result { margin-top: 10px }
+.card-item-result {
+  margin-top: 10px;
+}
 .card-list-empty {
   height: 200px;
   @include flex-center();
 }
 .card-list-empty-wrapper {
-  p { text-align: center; }
-  .card-list-no-team { margin-top: 20px }
-  .card-btn-add, .card-btn-no-team {
+  p {
+    text-align: center;
+  }
+  .card-list-no-team {
+    margin-top: 20px;
+  }
+  .card-btn-add,
+  .card-btn-no-team {
     @include flex-center();
   }
 }
@@ -188,25 +209,50 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .card-item { padding: 10px;}
-  .card-item-body { padding: 20px 5px 5px; font-size: 12px; }
+  .card-item {
+    padding: 10px;
+  }
+  .card-item-body {
+    padding: 20px 5px 5px;
+    font-size: 12px;
+  }
   .card-item-header {
     padding: 0 50px;
     .card-item-center {
-      h5 { height: 30px; overflow: hidden; }
-      h5, span { font-size: 13px; }
-      span { position: absolute; bottom: -16px }
+      h5 {
+        height: 30px;
+        overflow: hidden;
+      }
+      h5,
+      span {
+        font-size: 13px;
+      }
+      span {
+        position: absolute;
+        bottom: -16px;
+      }
     }
-    .card-item-left .calendar { @include calendar-date-xs(); }
-    .card-item-right { width: 50px; height: 50px; }
-    .card-logo { width: 40px; height: 40px; font-size: 14px; }
+    .card-item-left .calendar {
+      @include calendar-date-xs();
+    }
+    .card-item-right {
+      width: 50px;
+      height: 50px;
+    }
+    .card-logo {
+      width: 40px;
+      height: 40px;
+      font-size: 14px;
+    }
   }
-  .el-button { font-size: 12px; }
+  .el-button {
+    font-size: 12px;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .card-item-body { padding: 20px 40px 5px; }
+  .card-item-body {
+    padding: 20px 40px 5px;
+  }
 }
-
-
 </style>

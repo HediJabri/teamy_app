@@ -2,21 +2,21 @@
   <div class="card-members" v-if="team">
     <div class="card-members-title">
       <div class="card-members-title-text">
-        <h5>membres</h5>
+        <h5>{{$t('members')}}</h5>
       </div>
       <div class="card-members-title-button" v-if="isTeamOverwiew">
         <el-button type="primary" class="btn-m"
           v-if="isPendingMember(team._id)"
           :loading="isLoading"
           @click="desactivateMembership">
-          Annuler la demande
+          {{$t('cancelRequest')}}
           <i class="fa fa-times margin-left"></i>
         </el-button>
         <el-button type="primary" class="btn-m"
           v-else-if="!isMember(currentUser, team)"
           @click="openDialogMembershipRequest">
-          Rejoindre
-          <i class="fa fa-plus-circle margin-left"></i>
+          {{$t('join')}}
+          <i class="fa fa-share margin-left"></i>
         </el-button>
       </div>
     </div>
@@ -45,7 +45,7 @@
         <el-button class="btn-m" type="primary"
           v-if="isCurrentUser(membership.user, team) && !membership.position && !isTeamOverwiew" 
           @click="openDialogEditMembership()" >
-          <span>Ajouter mon rôle<i class="fa fa-plus-circle margin-left"></i></span>
+          <span>{{$t('addMyRole')}}<i class="fa fa-plus-circle margin-left"></i></span>
         </el-button>
       </div>
     </div>

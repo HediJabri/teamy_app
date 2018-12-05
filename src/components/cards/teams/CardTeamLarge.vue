@@ -17,7 +17,7 @@
     </div>
     <router-link v-if="isMainAdmin(currentUser, team) && !isTeamOverview"
       class="card-icon-cog" :to="`/team/${team._id}/edit`">
-      <el-tooltip content="Modifier l'équipe" placement="top" :open-delay="300">
+      <el-tooltip :content="$t('editTeam')" placement="top" :open-delay="300">
         <i class="material-icons">settings</i>
       </el-tooltip>
     </router-link>
@@ -34,7 +34,7 @@ export default {
   mixins: [utilities],
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    isTeamOverview () {
+    isTeamOverview() {
       return this.$route.name === 'team-overview'
     }
   }

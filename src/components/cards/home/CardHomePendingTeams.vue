@@ -2,7 +2,7 @@
   <div class="card-team">
       <div class="card-team-title">
         <div class="card-team-title-text">
-          <h5>demandes en attente</h5>
+          <h5>{{$t('pendingRequests')}}</h5>
         </div>
       </div>
       <div class="card-team-body">
@@ -35,24 +35,30 @@ export default {
   mixins: [utilities],
   props: ['memberships'],
   computed: {
-    ...mapGetters(['currentUser']),
+    ...mapGetters(['currentUser'])
   },
   methods: {
-     async deleteMembership(membership) {
+    async deleteMembership(membership) {
       try {
         await ApiMemberships.delete(membership._id, 'refused')
-        this.currentUser.memberships.splice(this.currentUser.memberships.indexOf(membership), 1)
-        this.$notify({ title: 'Succès', message: 'La demande à bien été annulée', type: 'success' })
+        this.currentUser.memberships.splice(
+          this.currentUser.memberships.indexOf(membership),
+          1
+        )
+        this.$notify({
+          title: 'Succès',
+          message: 'La demande à bien été annulée',
+          type: 'success'
+        })
       } catch (err) {
         this.errorNotify(err)
-      }     
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .card-team {
   @include card();
   background-color: $ghost-white;
@@ -75,11 +81,14 @@ export default {
   width: 50px;
   height: 50px;
   margin-right: 10px;
-  .logo-wrapper span { 
+  .logo-wrapper span {
     width: 50px;
     height: 50px;
     @include flex-center();
-    i { font-size: 30px; color: $blue-france; }
+    i {
+      font-size: 30px;
+      color: $blue-france;
+    }
   }
 }
 .card-team-body {
@@ -89,7 +98,9 @@ export default {
   @include list-item-m();
   background: $ghost-white;
   padding: 13px 0px;
-  &:hover, &.active { background: $ghost-white; }
+  &:hover,
+  &.active {
+    background: $ghost-white;
+  }
 }
-
 </style>

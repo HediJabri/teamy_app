@@ -40,7 +40,7 @@
     </div>
     <div v-else class="card-list-empty">
       <div class="card-list-empty-wrapper">
-        <p>{{$tc('competition', 0)}}...</p>
+        <p>{{$tc('competition', 0)}}</p>
         <el-button type="primary" @click="routeUrl(`/team/${currentTeam._id}/competition-new`)"
           v-if="isAdmin(currentUser, currentTeam) && $route.name === 'events-new-select' || filter">
           {{ $t('add')}}<i class="fa fa-plus-circle margin-left"></i>
