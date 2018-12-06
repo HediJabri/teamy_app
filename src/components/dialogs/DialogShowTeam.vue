@@ -37,18 +37,18 @@
                 v-if="isPendingMember(team._id)"
                 :loading="isLoading"
                 @click="desactivateMembership">
-                Annuler la demande
+                {{$t('cancelRequest')}}
                 <i class="fa fa-times margin-left"></i>
               </el-button>
               <el-button type="primary" class="card-activity-dash-title-btn"
                 v-else-if="!isMember(currentUser, team) && !teamMembershipsIsFull(team)"
                 @click="displayForm = true">
-                Rejoindre l'équipe
+                {{$t('joinTeam')}}
                 <i class="fa fa-plus-circle margin-left"></i>
               </el-button>
               <el-button type="default" :loading="isLoading"
                 @click="routeUrl(`/home/team/${team._id}/overview`)">
-                Voir l'équipe
+                {{$t('seeTeam')}}
               </el-button>
             </div>
           </div>
@@ -60,12 +60,10 @@
 </template>
 
 <script>
-
 import { mapGetters, mapActions } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import ApiTeams from '@/services/ApiTeams.js'
 import ApiMemberships from '@/services/ApiMemberships.js'
-import TagPosition from '@/components/global/TagPosition'
 import TeamySpinner from '@/components/global/TeamySpinner'
 import FormRoleSelect from '@/components/forms/FormRoleSelect'
 
@@ -73,14 +71,14 @@ export default {
   name: 'DialogShowTeam',
   props: ['teamId', 'openDialog'],
   mixins: [utilities],
-  components: { FormRoleSelect, TagPosition, TeamySpinner },
-  data () {
+  components: { FormRoleSelect, TeamySpinner },
+  data() {
     return {
       team: null,
       teamMemberships: null,
       dialogVisible: false,
       isLoading: false,
-      displayForm: false,
+      displayForm: false
     }
   },
   computed: {
@@ -88,7 +86,7 @@ export default {
     teamMembershipsValidated() {
       return this.team.memberships.filter(m => m.status === 'validated')
     },
-    teamMembershipsReversed () {
+    teamMembershipsReversed() {
       let members = this.team.memberships.filter(m => m.status === 'validated')
       if (members.length > 7) {
         let slicedMembers = members.slice(0, 7)
@@ -98,9 +96,9 @@ export default {
     }
   },
   methods: {
-     ...mapActions(['initUser', 'addUserMembership', 'updateUserMembership']),
+    ...mapActions(['initUser', 'addUserMembership', 'updateUserMembership']),
     avatarWrapperWidth() {
-      return `${(this.teamMembershipsReversed.length * 22) + 20}px`
+      return `${this.teamMembershipsReversed.length * 22 + 20}px`
     },
     memberAvatarPosition(index) {
       return `${index * 22}px`
@@ -111,31 +109,41 @@ export default {
         if (team) this.team = team
       } catch (err) {
         this.errorNotify(err)
-      }     
+      }
     },
     membershipCreated() {
       this.dialogVisible = false
-      this.$notify({ title: 'Succès', message: 'La demande a bien été envoyée par mail', type: 'success' })
+      this.$notify({
+        title: 'Succès',
+        message: 'La demande a bien été envoyée par mail',
+        type: 'success'
+      })
     },
     async desactivateMembership() {
       const params = 'removeRequest'
-      const membership = this.currentUser.memberships.find(m => m.team._id === this.team._id)
+      const membership = this.currentUser.memberships.find(
+        m => m.team._id === this.team._id
+      )
       try {
         await ApiMemberships.desactivate(membership._id, params)
         membership.status = 'desactivated'
         this.updateUserMembership(membership)
         this.dialogVisible = false
-        this.$notify({ title: 'Succès', message: 'La demande à bien été annulée', type: 'success' })
+        this.$notify({
+          title: 'Succès',
+          message: 'La demande à bien été annulée',
+          type: 'success'
+        })
       } catch (err) {
         this.errorNotify(err)
-      }     
+      }
     }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog', null)
         this.displayForm = false
@@ -149,7 +157,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .dialog-body {
   padding: 0px 25px 10px 25px;
   text-align: center;
@@ -160,7 +167,7 @@ export default {
       height: 55px;
       width: 55px;
     }
-    i { 
+    i {
       font-size: 40px;
       margin-top: 8px;
       color: $blue-france;
@@ -169,7 +176,11 @@ export default {
   .dialog-team-info {
     @include text-overflow-ellipsis();
     padding: 0 20px;
-    h5 { font-size: 17px; line-height: 20px; margin-bottom: 0px;}
+    h5 {
+      font-size: 17px;
+      line-height: 20px;
+      margin-bottom: 0px;
+    }
   }
   .dialog-team-section {
     @include flex-center();
@@ -177,7 +188,9 @@ export default {
     margin: 0 0 5px;
     font-size: 13px;
     height: 30px;
-    p { @include text-overflow-ellipsis(); }
+    p {
+      @include text-overflow-ellipsis();
+    }
   }
 }
 .dialog-team-members {
@@ -209,12 +222,13 @@ export default {
 }
 .dialog-footer-buttons {
   @include flex-center();
-   margin: 10px 0;
-  .btn-network { margin-right: 12px; }
+  margin: 10px 0;
+  .btn-network {
+    margin-right: 12px;
+  }
 }
 .teamy-spinner {
   @include flex-center();
   height: 234px;
 }
-
 </style>

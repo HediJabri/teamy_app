@@ -44,7 +44,7 @@ export default {
         location: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'change'
           }
         ]

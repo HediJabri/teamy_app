@@ -19,20 +19,21 @@ const eventCategoryList = [
 const competitionCategories = [
   {
     category: 'championship',
-    name: 'Championnat',
-    eventCategories: ['Match de Championnat', 'Finale de Championnat']
+    eventCategories: ['championshipGame', 'championshipFinal']
   },
   {
     category: 'league',
-    name: 'Ligue',
-    eventCategories: ['Match de Ligue', 'Finale de Ligue']
+    eventCategories: ['leagueGame', 'leagueFinal']
   },
   {
     category: 'tournament',
-    name: 'Tournoi',
-    eventCategories: ['Match de qualif', 'Tournoi de qualif', 'Tournoi Final']
+    eventCategories: [
+      'qualificationGame',
+      'qualificationTournament',
+      'finalTournament'
+    ]
   },
-  { category: 'cup', name: 'Coupe', eventCategories: ['Match de Coupe'] }
+  { category: 'cup', eventCategories: ['cupGame', 'cupFinal'] }
 ]
 
 const eventResults = {

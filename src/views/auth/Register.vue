@@ -88,7 +88,7 @@ export default {
   data() {
     var validateInput = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('Ce champ est obligatoire'))
+        callback(new Error(this.$t('fieldRequired')))
       } else {
         callback()
       }

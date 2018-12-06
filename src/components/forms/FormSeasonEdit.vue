@@ -66,13 +66,13 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
+          { required: true, message: this.$t('fieldRequired'), trigger: 'blur' }
         ],
         dateStart: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
+          { required: true, message: this.$t('fieldRequired'), trigger: 'blur' }
         ],
         dateEnd: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
+          { required: true, message: this.$t('fieldRequired'), trigger: 'blur' }
         ],
       },
     }

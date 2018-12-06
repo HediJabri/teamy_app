@@ -6,7 +6,7 @@
          {{$t('closeCompetition')}}
         </h4>
         <br>
-        <p>{{$t('comfirmCloseCompetition')}}: <strong> {{ competition.name }} </strong> ?</p>
+        <p>{{$t('confirmCloseCompetition')}}: <strong> {{ competition.name }} </strong> ?</p>
       </div>
       <span class="dialog-footer" slot="footer">
         <el-button class="dialog-btn" type="default" @click="dialogVisible = false">
@@ -29,7 +29,7 @@ export default {
   name: 'DialogCloseCompetition',
   mixins: [utilities],
   props: ['openDialog', 'competition'],
-  data() {
+  data () {
     return {
       dialogVisible: false,
       isLoading: false
@@ -39,7 +39,7 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    async deleteCompetition() {
+    async deleteCompetition () {
       this.isLoading = true
       try {
         await ApiCompetitions.patch(this.competition._id, { clotured: true })
@@ -59,10 +59,10 @@ export default {
     }
   },
   watch: {
-    openDialog() {
+    openDialog () {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible() {
+    dialogVisible () {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }

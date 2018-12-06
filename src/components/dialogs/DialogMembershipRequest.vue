@@ -4,7 +4,7 @@
       :visible.sync="dialogVisible" :fullscreen="smallDevice()" :top="'5vh'">
       <div class="dialog-body">
         <h4 class="dialog-title">
-          <span>Rejoindre l'équipe</span>
+          <span>{{$t('joinTeam')}}</span>
         </h4>
         <div class="dialog-team-logo">
           <div class="logo-wrapper">
@@ -26,7 +26,7 @@
     <el-dialog v-else title="" :visible.sync="dialogVisible" size="small">
       <div class="dialog-body">
         <h4 class="dialog-title">
-          <span>Impossible de rejoindre <strong>{{ team.name }} !</strong></span>
+          <span> {{$t('impossibleToJoin')}}<strong>{{ team.name }} !</strong></span>
         </h4>
         <br>
         <div class="dialog-team-logo">
@@ -36,17 +36,17 @@
           </div>
         </div>
         <br>
-        <p><strong>{{ team.name }}</strong> à atteint <strong>le nombre maximum</strong> de membres. </p>
+        <p><strong>{{ team.name }}</strong>: {{$t('teamMembershipsIsFull')}}</p>
       </div>
       <div class="dialog-footer" slot="footer">
         <div class="dialog-buttons">
           <el-button class="dialog-btn" type="default"
             @click="dialogVisible = false">
-            Annuler
+            {{$t('cancel')}}
           </el-button>
           <el-button class="dialog-btn" type="success"
             @click="dialogVisible = false" :loading="isLoading">
-            Ok
+            {{$t('ok')}}
           </el-button>
         </div>
       </div>

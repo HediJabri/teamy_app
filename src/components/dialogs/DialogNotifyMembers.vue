@@ -4,7 +4,7 @@
       <div class="dialog">
         <div class="dialog-body">
           <h4 class="dialog-title">
-            <span>Membres à notifier</span>
+            <span>{{$t('membersToNotify')}}</span>
           </h4>
           <br>
           <div class="dialog-lists">
@@ -14,7 +14,7 @@
                   <div class="card-title">
                     <div class="card-title-text">
                       <i class="material-icons icon-margin-bottom">group</i>
-                      <h5>membres</h5>
+                      <h5>{{$t('members')}}</h5>
                       <div class="check-all-btn">
                         <i class="fa fa-check"
                           :class="{'active': isAllMembersSelected}"
@@ -23,7 +23,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="dialog-list-item" v-if="validatedMemberships"
+                  <div class="dialog-list-item"
                     :class="{'disable': isMemberSelected(membership.user)}"
                     v-for="(membership, index) in validatedMemberships" :key="index"
                     @click="selectMember(membership.user)">
@@ -54,11 +54,11 @@
         <div class="dialog-footer" slot="footer">
           <div class="dialog-buttons">
             <span class="dialog-send-number">
-              {{ selectedUsersCount }} membres
+              {{$tc('member', selectedUsersCount)}}
             </span>
             <el-button class="dialog-btn" type="primary"
               @click="initMembersToNotify()" :loading="isLoading">
-              Sélectioner les membres<i class="fa fa-check margin-left"></i>
+               {{$t('selectMembers')}} <i class="fa fa-check margin-left"></i>
             </el-button>
           </div>
         </div>
@@ -75,19 +75,21 @@ export default {
   name: 'DialogsCreateParticipations',
   props: ['openDialog'],
   mixins: [utilities],
-  data () {
+  data() {
     return {
       dialogVisible: false,
       isLoading: false,
-      selectedMembers: [],
+      selectedMembers: []
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'event']),
     validatedMemberships() {
-      if (this.event) return this.event.team.memberships.filter(m => m.status === 'validated')
+      if (this.event)
+        return this.event.team.memberships.filter(m => m.status === 'validated')
+      return []
     },
-    isAllMembersSelected () {
+    isAllMembersSelected() {
       return this.selectedMembers.length === this.validatedMemberships.length
     },
     selectedUsersCount() {
@@ -100,14 +102,16 @@ export default {
   },
   methods: {
     ...mapActions(['initMembersToNotify']),
-    selectMember (user) {
+    selectMember(user) {
       if (this.selectedMembers.includes(user)) {
-        this.selectedMembers = this.selectedMembers.filter(u => u._id !== user._id)
+        this.selectedMembers = this.selectedMembers.filter(
+          u => u._id !== user._id
+        )
       } else {
         this.selectedMembers.push(user)
       }
     },
-    selectAllMembers () {
+    selectAllMembers() {
       if (this.isAllMembersSelected) {
         this.selectedMembers = []
       } else {
@@ -117,19 +121,19 @@ export default {
         }
       }
     },
-    isMemberSelected (user) {
+    isMemberSelected(user) {
       return this.selectedMembers.includes(user)
     },
-    initMembersToNotify () {
+    initMembersToNotify() {
       this.$emit('initMembersToNotify', this.selectedMembers)
       this.dialogVisible = false
-    },
+    }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }
@@ -139,7 +143,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .dialog-body {
   padding: 0px 15px 10px 15px;
   .dialog-title {
@@ -178,14 +181,20 @@ export default {
           margin: 0 10px 1px 0;
           font-size: 20px;
         }
-        i.fa-shield { font-size: 18px;}
+        i.fa-shield {
+          font-size: 18px;
+        }
       }
     }
   }
   .dialog-list-item {
     @include list-item-s();
-    .list-item-content { width: 80%!important }
-    .list-item-tag { @include tag-flat-s }
+    .list-item-content {
+      width: 80% !important;
+    }
+    .list-item-tag {
+      @include tag-flat-s;
+    }
     .check-mark {
       @include flex-center();
       width: 20px;
@@ -208,11 +217,15 @@ export default {
     font-weight: 600;
     margin-top: 30px;
     text-align: center;
-    p { text-align: center; }
-    .el-button { font-size: 12px; }
+    p {
+      text-align: center;
+    }
+    .el-button {
+      font-size: 12px;
+    }
   }
   .dialog-list-empty.network {
-     margin-top: 75px;
+    margin-top: 75px;
   }
 }
 
@@ -237,20 +250,43 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .card-title-text h5 { font-size:  13px }
-  .list-item-body-top { width: 100px!important; font-size:  12px }
-  .dialog-buttons { flex-direction: column; @include flex-center(); width: 100%;}
-  .dialog-send-number { margin-bottom: 10px; }
+  .card-title-text h5 {
+    font-size: 13px;
+  }
+  .list-item-body-top {
+    width: 100px !important;
+    font-size: 12px;
+  }
+  .dialog-buttons {
+    flex-direction: column;
+    @include flex-center();
+    width: 100%;
+  }
+  .dialog-send-number {
+    margin-bottom: 10px;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .form-header-brand { width: 80%; }
-  .el-form { padding: 0 10px; }
-  .dialog-buttons { flex-direction: column; @include flex-center(); width: 100%;}
-  .dialog-send-number { margin-bottom: 10px; }
+  .form-header-brand {
+    width: 80%;
+  }
+  .el-form {
+    padding: 0 10px;
+  }
+  .dialog-buttons {
+    flex-direction: column;
+    @include flex-center();
+    width: 100%;
+  }
+  .dialog-send-number {
+    margin-bottom: 10px;
+  }
 }
 
 @media only screen and (min-width: 960px) and (max-width: 1160px) {
-  .list-item-body-top { width: 95px!important }
+  .list-item-body-top {
+    width: 95px !important;
+  }
 }
 </style>

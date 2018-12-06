@@ -6,7 +6,7 @@
          {{ $t('deleteMyAccount')}}
         </h4>
         <br>
-        <p>{{ $t('comfirmDeleteAccount')}}</p>
+        <p>{{ $t('confirmDeleteAccount')}}</p>
         <p>{{ $t('deleteAccountInfo')}} </p>
       </div>
       <span class="dialog-footer" slot="footer">
@@ -31,7 +31,7 @@ export default {
   name: 'DialogDeleteAccount',
   mixins: [utilities],
   props: ['openDialog'],
-  data() {
+  data () {
     return {
       dialogVisible: false,
       isLoading: false
@@ -41,7 +41,7 @@ export default {
     ...mapGetters(['currentUser'])
   },
   methods: {
-    async deleteAccount() {
+    async deleteAccount () {
       this.isLoading = true
       try {
         await ApiUsers.delete(this.currentUser._id)
@@ -59,10 +59,10 @@ export default {
     }
   },
   watch: {
-    openDialog() {
+    openDialog () {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible() {
+    dialogVisible () {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }

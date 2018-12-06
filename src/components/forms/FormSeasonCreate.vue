@@ -55,7 +55,7 @@ export default {
   name: 'FormSeasonCreate',
   mixins: [utilities],
   props: ['team', 'displayStatus', 'backButton'],
-  data() {
+  data () {
     return {
       isLoading: false,
       form: {
@@ -68,21 +68,21 @@ export default {
         name: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'blur'
           }
         ],
         dateStart: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'blur'
           }
         ],
         dateEnd: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'blur'
           }
         ]
@@ -93,11 +93,11 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    backAction() {
+    backAction () {
       this.resetForm()
       this.$emit('backAction')
     },
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.createSeason()
@@ -107,7 +107,7 @@ export default {
         }
       })
     },
-    async createSeason() {
+    async createSeason () {
       this.isLoading = true
       this.form.team = this.team._id
       this.form.dateStart = moment(this.form.dateStart).format()
@@ -119,11 +119,11 @@ export default {
         this.impossibleActionNotify()
       }
     },
-    seasonCreated(season) {
+    seasonCreated (season) {
       this.resetForm()
       this.$emit('seasonCreated', season)
     },
-    resetForm() {
+    resetForm () {
       this.isLoading = false
       this.form.name = ''
       this.form.dateStart = ''

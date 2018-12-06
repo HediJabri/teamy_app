@@ -18,7 +18,7 @@
       <div class="card-user-buttons-wrapper">
          <el-button type="primary"
           @click="routeToProfil(membership.user)">
-          {{$t('seeProfil')}}
+          {{$t('seeProfile')}}
         </el-button>   
       </div>
     </div>
@@ -90,7 +90,7 @@ export default {
     DialogEditMembership,
     DialogContactUser
   },
-  data() {
+  data () {
     return {
       user: null,
       dialogDeleteMembership: false,
@@ -100,22 +100,22 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    isTeamOverview() {
+    isTeamOverview () {
       return this.$route.name === 'team-overview'
     }
   },
   methods: {
     ...mapActions(['removeTeamMembership']),
-    openDialogDeleteMembership() {
+    openDialogDeleteMembership () {
       this.dialogDeleteMembership = true
     },
-    openDialogEditMembership() {
+    openDialogEditMembership () {
       this.dialogEditMembership = true
     },
-    openDialogContactUser() {
+    openDialogContactUser () {
       this.dialogContactUser = true
     },
-    async deleteMembership(id) {
+    async deleteMembership (id) {
       try {
         await ApiMemberships.delete(id, 'removeFromAdmin')
         this.$emit('showTeam')

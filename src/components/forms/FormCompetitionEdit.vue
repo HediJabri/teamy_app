@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="form-wrapper">
     <div class="form-wrapper-title">
-      <h5>modifier la compétition</h5>
+      <h5>{{$t('editCompetition')}}</h5>
     </div>
     <div class="form-card">
       <div class="form-card-title">
@@ -18,21 +18,20 @@
                 <p class="form-header-title">{{ competition.season.name }}</p>
               </div>
               <div class="col-xs-12">
-                <p class="form-label">Type de compétition</p>
+                <p class="form-label">{{$t('competitionType')}}</p>
                 <el-form-item prop="category">
-                  <el-select v-model="form.category" placeholder="Type de compétition">
+                  <el-select v-model="form.category" :placeholder="$t('selectType')">
                     <el-option v-for="competition in formData.competitionCategories"
-                      :label="competition.name" :value="competition.category" :key="competition.category">
-                      <span>{{ competition.name }}</span>
+                      :label="$t(competition.category)" :value="competition.category" :key="competition.category">
                     </el-option>
                   </el-select>
                 </el-form-item>
               </div>
             </div>
             <div class="col-xs-12">
-            <p class="form-label">Nom de la compétition</p>
+            <p class="form-label">{{$t('competitionName')}}</p>
              <el-form-item prop="name">
-                <el-input placeholder="Nom de la compétition" v-model="form.name">
+                <el-input placeholder="District 1" v-model="form.name">
                 </el-input>
               </el-form-item>
             </div>
@@ -41,13 +40,13 @@
             <el-button class="btn-back"
               type="default"
               @click="toggleForm()">
-              Retour
+              {{$t('back')}}
             </el-button>
             <el-button type="success"
               class="btn-large"
               :loading="isLoading"
               @click="submitForm('form')">
-              <span>Modifier la compétition</span>
+              <span>{{$t('editCompetition')}}</span>
             </el-button>
           </div>
         </el-form>
@@ -77,13 +76,6 @@ export default {
   props: ['competition'],
   components: { DialogDeleteCompetition },
   data () {
-    var validateField = (rule, value, callback) => {
-      if (value === '' || null) {
-        callback(new Error('Ce champ est obligatoire'))
-      } else {
-        callback()
-      }
-    }
     return {
       isLoading: false,
       formData: dataForms,
@@ -95,14 +87,22 @@ export default {
         name: null,
         category: null,
         infos: null,
-        image: null,
+        image: null
       },
       rules: {
         name: [
-          { validator: validateField, trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('fieldRequired'),
+            trigger: 'blur'
+          }
         ],
         category: [
-          { validator: validateField, trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('fieldRequired'),
+            trigger: 'blur'
+          }
         ]
       }
     }
@@ -111,7 +111,7 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam']),
     hasErrors () {
       return this.errors.length > 0
-    },
+    }
   },
   methods: {
     toggleForm () {
@@ -127,7 +127,7 @@ export default {
       this.form.infos = this.competition.infos
     },
     submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.editCompetition()
         } else {
@@ -136,18 +136,22 @@ export default {
         }
       })
     },
-     async editCompetition() {
+    async editCompetition () {
       this.isLoading = true
       try {
         await ApiCompetitions.patch(this.competition._id, this.form)
         this.isLoading = false
-        this.$notify({ title: 'Succès', message: 'La compétition a bien été modifiée', type: 'success' })
+        this.$notify({
+          title: 'Succès',
+          message: 'La compétition a bien été modifiée',
+          type: 'success'
+        })
         this.$emit('reloadCompetition')
       } catch (err) {
         this.isLoading = false
         this.errorNotify(err)
         this.toggleForm()
-      }     
+      }
     }
   },
   created () {
@@ -157,7 +161,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .form-wrapper {
   width: 100%;
   margin: 0px auto;
@@ -202,7 +205,9 @@ export default {
   width: 90%;
   margin: 30px auto;
   text-align: center;
-  p { text-align: center; }
+  p {
+    text-align: center;
+  }
   .brand-category {
     color: $grey-dark;
     font-weight: 300;
@@ -216,9 +221,9 @@ export default {
   .brand-date {
     color: $blue-dark-medium;
     margin-top: 15px;
-    span { 
+    span {
       font-weight: 600;
-       margin: 0 4px;
+      margin: 0 4px;
     }
   }
 }
@@ -227,12 +232,14 @@ export default {
 }
 .form-header-custom {
   margin-top: 50px;
-  .form-header { @include icon-logo-wrapper();}
-  .form-header-title { 
+  .form-header {
+    @include icon-logo-wrapper();
+  }
+  .form-header-title {
     text-align: center;
     font-weight: 500;
-    margin-bottom: 40px; 
-    margin-top: 10px; 
+    margin-bottom: 40px;
+    margin-top: 10px;
   }
 }
 .form-btn-submit {
@@ -258,26 +265,48 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .form-header-brand { 
+  .form-header-brand {
     width: 100%;
-    .brand-logo { width: 60px; height: 60px;}
-    .brand-date { font-size: 11px; }
+    .brand-logo {
+      width: 60px;
+      height: 60px;
+    }
+    .brand-date {
+      font-size: 11px;
+    }
   }
-  .el-form { padding: 0; }
-  .form-wrapper-title .form-wrapper-tag { display: none; }
-  .el-select-dropdown.el-popper { left: 0!important }
-  .select-option-left { font-size: 11px!important ; }
-  .btn-back { margin-bottom: 10px }
+  .el-form {
+    padding: 0;
+  }
+  .form-wrapper-title .form-wrapper-tag {
+    display: none;
+  }
+  .el-select-dropdown.el-popper {
+    left: 0 !important;
+  }
+  .select-option-left {
+    font-size: 11px !important ;
+  }
+  .btn-back {
+    margin-bottom: 10px;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .form-header-brand { width: 80%; }
-  .el-form { padding: 0 10px; }
+  .form-header-brand {
+    width: 80%;
+  }
+  .el-form {
+    padding: 0 10px;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .form-header-brand { width: 80%; }
-  .el-form { padding: 0 120px; }
+  .form-header-brand {
+    width: 80%;
+  }
+  .el-form {
+    padding: 0 120px;
+  }
 }
-
 </style>

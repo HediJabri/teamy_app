@@ -177,7 +177,7 @@ export default {
   data() {
     var validateField = (rule, value, callback) => {
       if (value === '' || null) {
-        callback(new Error('Ce champ est obligatoire'))
+        callback(new Error(this.$t('fieldRequired')))
       } else {
         callback()
       }
@@ -208,14 +208,14 @@ export default {
         name: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'change'
           }
         ],
         location: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'change'
           }
         ],
@@ -316,7 +316,7 @@ export default {
     },
     fillCompetitionCategory() {
       for (let competitionType of this.formData.competitionCategories) {
-        if (competitionType.name === this.event.competition.category) {
+        if (competitionType.category === this.event.competition.category) {
           this.eventCategories = competitionType.eventCategories
         }
       }

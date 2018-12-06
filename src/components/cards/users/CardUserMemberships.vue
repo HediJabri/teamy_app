@@ -2,7 +2,7 @@
   <div class="card">
       <div class="card-title">
         <div class="card-title-text">
-          <h5>{{$l('teams')}}</h5>
+          <h5>{{$t('teams')}}</h5>
         </div>
       </div>
       <div class="card-body">

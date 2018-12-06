@@ -120,28 +120,28 @@ export default {
         firstName: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'blur'
           }
         ],
         lastName: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'blur'
           }
         ],
         birthdate: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'blur'
           }
         ],
         phone: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'blur'
           },
           { validator: validatePhone, trigger: 'blur' }

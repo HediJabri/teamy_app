@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="form-wrapper">
     <div class="form-wrapper-title">
-      <h5>nouvelle compétition</h5>
+      <h5>{{$t('newCompetition')}}</h5>
     </div>
     <div class="form-card">
       <div class="form-card-title">
@@ -21,13 +21,13 @@
               </div>
               <div class="col-xs-12">
                 <div class="form-label-group">
-                  <p class="form-label">Saison</p>
+                  <p class="form-label">{{$t('season')}}</p>
                   <el-button class="btn-m" type="primary" @click="routeUrl(`seasons`)" >
-                    <span>Ajouter<i class="fa fa-plus-circle margin-left"></i></span>
+                    <span>{{$t('add')}}<i class="fa fa-plus-circle margin-left"></i></span>
                   </el-button>
                 </div>
                 <el-form-item prop="season">
-                  <el-select v-model="form.season" placeholder="Sélectionnes une saison">
+                  <el-select v-model="form.season">
                     <el-option v-for="season in currentTeam.seasons"
                       :label="season.name" :value="season._id" :key="season._id">
                     </el-option>
@@ -35,18 +35,17 @@
                 </el-form-item>
               </div>
               <div class="col-xs-12">
-                <p class="form-label">Type de compétition</p>
+                <p class="form-label">{{$t('competitionType')}}</p>
                 <el-form-item prop="category">
-                  <el-select v-model="form.category" placeholder="Sélectionnes un type">
+                  <el-select v-model="form.category" :placeholder="$t('selectType')">
                     <el-option v-for="competition in formData.competitionCategories"
-                      :label="competition.name" :value="competition.category" :key="competition.category">
-                      <span>{{ competition.name }}</span>
+                      :label="$t(competition.category)" :value="competition.category" :key="competition.category">
                     </el-option>
                   </el-select>
                 </el-form-item>
               </div>
               <div class="col-xs-12">
-                <p class="form-label">Nom de la compétition</p>
+                <p class="form-label">{{$t('competitionName')}}</p>
                 <el-form-item prop="name">
                   <el-input placeholder="District 1" v-model="form.name">
                   </el-input>
@@ -59,7 +58,7 @@
               class="btn-large"
               :loading="isLoading"
               @click="submitForm('form')">
-              <span>Ajouter cette compétition</span>
+              <span>{{$t('addCompetition')}}</span>
             </el-button>
           </div>
         </el-form>
@@ -72,7 +71,6 @@
 </template>
 
 <script>
-// import moment from 'moment'
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import data from '@/data/forms.js'
@@ -82,13 +80,6 @@ export default {
   name: 'FormCompetitionCreate',
   mixins: [utilities],
   data() {
-    var validateField = (rule, value, callback) => {
-      if (value === '' || null) {
-        callback(new Error('Ce champ est obligatoire'))
-      } else {
-        callback()
-      }
-    }
     return {
       isLoading: false,
       formData: data,
@@ -102,8 +93,20 @@ export default {
         image: null
       },
       rules: {
-        name: [{ validator: validateField, trigger: 'blur' }],
-        category: [{ validator: validateField, trigger: 'blur' }]
+        name: [
+          {
+            required: true,
+            message: this.$t('fieldRequired'),
+            trigger: 'blur'
+          }
+        ],
+        category: [
+          {
+            required: true,
+            message: this.$t('fieldRequired'),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -125,7 +128,6 @@ export default {
         if (valid) {
           this.createCompetition()
         } else {
-          console.log('error submit!!')
           return false
         }
       })

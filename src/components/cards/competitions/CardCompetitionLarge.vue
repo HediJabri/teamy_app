@@ -11,7 +11,7 @@
       </span>
     </div>
     <div class="card-header">
-      <p>{{ formatCompetition(competition.category) }}</p>
+      <p>{{ $t(competition.category) }}</p>
       <img v-if="competition.image" :src="competition.image" alt="">
       <div class="card-competition-item-large-icon" v-else>
         <i class="fa fa-trophy" ></i>
@@ -58,7 +58,7 @@ export default {
   mixins: [utilities],
   props: ['competition'],
   components: { CardEventsTable, DialogCloseCompetition },
-  data() {
+  data () {
     return {
       dialogCloseCompetition: false
     }
@@ -67,10 +67,10 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    openDialogCloseCompetition() {
+    openDialogCloseCompetition () {
       this.dialogCloseCompetition = true
     },
-    toggleForm(brand) {
+    toggleForm (brand) {
       this.$emit('toggleForm', brand)
     }
   }

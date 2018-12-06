@@ -6,7 +6,7 @@
           <span> {{ $t('deleteEvent')}}</span>
         </h4>
         <br>
-        <p>{{ $t('comfirmDeleteEvent')}}</p>
+        <p>{{ $t('confirmDeleteEvent')}}</p>
         <p>{{ $t('deleteEventInfo')}}</p>
       </div>
       <span class="dialog-footer" slot="footer">
@@ -30,7 +30,7 @@ export default {
   name: 'DialogDeleteEvent',
   mixins: [utilities],
   props: ['openDialog', 'event'],
-  data() {
+  data () {
     return {
       dialogVisible: false,
       isLoading: false
@@ -40,7 +40,7 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    async deleteEvent() {
+    async deleteEvent () {
       this.isLoading = true
       try {
         await ApiEvents.delete(this.event._id)
@@ -60,10 +60,10 @@ export default {
     }
   },
   watch: {
-    openDialog() {
+    openDialog () {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible() {
+    dialogVisible () {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }

@@ -50,7 +50,7 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
+          { required: true, message: this.$t('fieldRequired'), trigger: 'blur' }
         ],
       },
     }

@@ -5,7 +5,7 @@
         <div class="card-item-link" @click="routeTo(competition)">
           <div class="card-item-header">
             <h5>{{ competition.name }}</h5>
-            <p>{{ formatCompetition(competition.category) }}</p>
+            <p>{{ $t(competition.category) }}</p>
             <img v-if="competition.image" :src="competition.image" alt="">
             <div class="card-item-header-icon" v-else>
               <i class="fa fa-trophy" ></i>
@@ -17,7 +17,7 @@
             </div>
             <div>
               <span class="emoji">🗓 </span>
-              <span class="text-item">Evenements : {{ competition.events.length }}</span>
+              <span class="text-item">{{ $t('events') }} : {{ competition.events.length }}</span>
             </div>
           </div>
         </div>
@@ -62,14 +62,14 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    goToNextPage() {
+    goToNextPage () {
       this.$emit('goToNextPage')
     },
-    routeTo(competition) {
+    routeTo (competition) {
       if (this.from === 'event-new') {
         this.$router.push(
           `/team/${this.currentTeam._id}/event-new/competition/${
-            competition._id
+          competition._id
           }`
         )
       } else {
@@ -78,7 +78,7 @@ export default {
         )
       }
     },
-    competitionEvents(competition) {
+    competitionEvents (competition) {
       if (this.competitions.events)
         return this.competitions.events.filter(
           e => parseInt(e['competition-id']) === parseInt(competition.id)

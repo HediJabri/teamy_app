@@ -3,11 +3,11 @@
     <el-dialog title="" :visible.sync="dialogVisible" size="small" :fullscreen="smallDevice()">
       <div class="dialog-body">
         <h4 class="dialog-title">
-          Modifier le profil
+         {{$t('editProfile')}}
         </h4>
       </div>
       <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
-        <p class="form-label">Rôle</p>
+        <p class="form-label"> {{$t('role')}}</p>
         <el-form-item prop="category">
           <el-select v-model="form.category" placeholder="Selectionnes une categorie">
             <el-option v-for="category in categories" :label="formatMemberCategory(category)" :value="category" :key="category">
@@ -15,7 +15,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <p class="form-label">Poste</p>
+        <p class="form-label">{{$t('poste')}}</p>
         <el-form-item prop="position">
           <el-input v-model="form.position"
             :placeholder="placeholderPosition">
@@ -24,11 +24,11 @@
         <div class="dialog-buttons">
           <el-button class="dialog-btn" type="default"
           @click="closeDialog()">
-            Annuler
+            {{$t('cancel')}}
           </el-button>
           <el-button class="dialog-btn" type="success"
             @click="submitForm('form')" :loading="isLoading">
-            <span>Valider</span>
+            <span> {{$t('validate')}}</span>
           </el-button>
         </div>
       </el-form>
@@ -46,7 +46,7 @@ export default {
   name: 'DialogEditMembership',
   mixins: [utilities],
   props: ['openDialog', 'team', 'membership'],
-  data () {
+  data() {
     return {
       dialogVisible: false,
       isLoading: false,
@@ -54,26 +54,32 @@ export default {
       form: { category: 'player', position: null },
       rules: {
         category: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
-        ],
-      },
+          {
+            required: true,
+            message: this.$t('fieldRequired'),
+            trigger: 'change'
+          }
+        ]
+      }
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    placeholderPosition () {
+    placeholderPosition() {
       let placeholder
-      this.form.category === 'player' ? placeholder = 'Attaquant, Défenseur...' : placeholder = 'Coach, Dirigeant...'
+      this.form.category === 'player'
+        ? (placeholder = 'Attaquant, Défenseur...')
+        : (placeholder = 'Coach, Dirigeant...')
       return placeholder
     }
   },
   methods: {
     ...mapActions(['initUser', 'updateUserMembership']),
-    closeDialog () {
+    closeDialog() {
       this.$emit('closeDialog')
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.editMembership()
         } else {
@@ -82,14 +88,21 @@ export default {
         }
       })
     },
-    async editMembership () {
+    async editMembership() {
       this.isLoading = true
       try {
-        const membership = (await ApiMemberships.patch(this.membership._id, this.form)).data
+        const membership = (await ApiMemberships.patch(
+          this.membership._id,
+          this.form
+        )).data
         this.isLoading = false
         this.updateUserMembership(membership)
         this.closeDialog()
-        this.$notify({ title: 'Succès', message: 'Le profil a bien été modifié', type: 'success' })
+        this.$notify({
+          title: 'Succès',
+          message: 'Le profil a bien été modifié',
+          type: 'success'
+        })
         eventBus.$emit('showTeamCard')
         eventBus.$emit('reloadTeamShow')
       } catch (err) {
@@ -97,28 +110,29 @@ export default {
         this.errorNotify(err)
       }
     },
-    resetForm () {
+    resetForm() {
       this.form.category = 'player'
       this.form.position = null
     },
-    fillMembershipForm () {
+    fillMembershipForm() {
       this.resetForm()
       this.form.category = this.membership.category
-      if (this.membership.position) this.form.position = this.membership.position
+      if (this.membership.position)
+        this.form.position = this.membership.position
     }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
       this.fillMembershipForm()
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }
     }
   },
-  created () {
+  created() {
     if (this.membership) this.fillMembershipForm()
   }
 }

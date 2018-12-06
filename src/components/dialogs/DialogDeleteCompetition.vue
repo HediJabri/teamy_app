@@ -6,7 +6,7 @@
           {{ $t('deleteCompetition')}}
         </h4>
         <br>
-        <p> {{ $t('comfirmDeleteCompetition')}}:<strong> {{ competition.name }} </strong> ? 😱</p>
+        <p> {{ $t('confirmDeleteCompetition')}}:<strong> {{ competition.name }} </strong> ? 😱</p>
         <p>{{ $t('deleteCompetitionInfo')}}</p>
       </div>
       <span class="dialog-footer" slot="footer">
@@ -30,7 +30,7 @@ export default {
   name: 'DialogDeleteCompetition',
   mixins: [utilities],
   props: ['openDialog', 'competition'],
-  data() {
+  data () {
     return {
       dialogVisible: false,
       isLoading: false
@@ -40,7 +40,7 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    async deleteCompetition() {
+    async deleteCompetition () {
       this.isLoading = true
       try {
         await ApiCompetitions.delete(this.competition._id)
@@ -60,10 +60,10 @@ export default {
     }
   },
   watch: {
-    openDialog() {
+    openDialog () {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible() {
+    dialogVisible () {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }
