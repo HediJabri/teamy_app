@@ -5,7 +5,7 @@
       <div class="form-team-card">
         <div class="form-team-title">
           <h5 class="uppercase">
-            <span>modifier mon équipe</span>
+            <span>{{$t('editTeam')}}</span>
           </h5>
         </div>
         <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
@@ -13,7 +13,7 @@
             <div class="col-xs-6">
               <p class="form-team-photo-label">
                 <i class="material-icons">add_a_photo</i>
-                <span>Photo de l'équipe</span>
+                <span>{{$t('teamPhoto')}}</span>
               </p>
               <image-upload
                 @photoUploaded="addTeamPhoto($event)"
@@ -22,7 +22,7 @@
             <div class="col-xs-6">
               <p class="form-team-photo-label">
                 <i class="material-icons">stars</i>
-                <span>Logo</span>
+                <span>{{$t('logo')}}</span>
               </p>
               <image-upload
                 @photoUploaded="addTeamLogo($event)"
@@ -30,11 +30,11 @@
             </div>
           </div>
           <el-form-item prop="name">
-            <p class="form-label">Nom de l'équipe</p>
-            <el-input placeholder="Nom de l'équipe" v-model="form.name"></el-input>
+            <p class="form-label">{{$t('teamName')}}</p>
+            <el-input placeholder="F.C Paris, North London..." v-model="form.name"></el-input>
           </el-form-item>
           <el-form-item prop="city">
-            <p class="form-label form-label-small">Ville</p>
+            <p class="form-label form-label-small">{{$t('city')}}</p>
             <input-search-cities v-on:addCity="addCity($event)"/>
           </el-form-item>
           <div class="form-team-btn-submit">
@@ -43,7 +43,7 @@
               :class="{'disabled': photoIsLoading}"
               :loading="isLoading"
               @click="submitForm('form')">
-              <span>Modifier mon équipe</span>
+              <span>{{$t('editTeam')}}</span>
             </el-button>
           </div>
         </el-form>
@@ -145,7 +145,6 @@ export default {
         if (valid) {
           this.form.locationName ? this.createLocation() : this.editTeam()
         } else {
-          console.log('error submit!!')
           return false
         }
       })

@@ -36,8 +36,8 @@
           @click="updateParticipations()"
           :loading="isLoading"
         >
-          <span v-if="event.reportValidated">Modifier le rapport <i class="material-icons">settings</i></span>
-          <span v-else>Valider le rapport <i class="fa fa-check-circle"></i></span>
+          <span v-if="event.reportValidated">{{$t('editReport')}} <i class="material-icons">settings</i></span>
+          <span v-else>{{$t('validateReport')}} <i class="fa fa-check-circle"></i></span>
         </el-button>
       </div>
     </div>
@@ -51,7 +51,7 @@
             <thead>
               <tr>
                 <th class="column-fix">
-                  <i class="material-icons">group</i>Joueurs
+                  <i class="material-icons">group</i> {{$t('players')}}
                   ({{ validatedParticipations.length }})
                 </th>
                 <th

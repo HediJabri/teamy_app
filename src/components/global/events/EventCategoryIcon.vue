@@ -21,8 +21,8 @@ export default {
   mixins: [utilities],
   props: ['size', 'category', 'competition'],
   computed: {
-    ...mapGetters(['currentUser', 'currentTeam', 'sports']),
-  },
+    ...mapGetters(['currentUser', 'currentTeam', 'sports'])
+  }
 }
 </script>
 
@@ -30,16 +30,24 @@ export default {
 .event-category-icon {
   width: 60px;
   height: 60px;
-  img { width: 60px; }
+  img {
+    width: 60px;
+  }
 }
 .event-category-icon.s {
   width: 45px;
   height: 45px;
-  img { width: 45px; }
+  img {
+    width: 45px;
+  }
 }
 .logo-icon {
   @include icon-logo-wrapper();
-  .material-icons { font-size: 20px; }
-  img { width: 15px!important; }
+  .material-icons {
+    font-size: 20px;
+  }
+  img {
+    width: 15px !important;
+  }
 }
 </style>

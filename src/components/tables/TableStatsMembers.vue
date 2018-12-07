@@ -2,9 +2,9 @@
   <div class="card">
     <div class="card-title">
       <div class="card-title-text">
-        <h5>saison {{ statsSeasonFilter.name }}</h5>
+        <h5>{{$t('season')}} {{ statsSeasonFilter.name }}</h5>
         <span v-if="statsCompetitionFilter">{{ statsCompetitionFilter.name }} </span>
-        <span v-else>{{ statsCategoryFilter.subtitle }} </span>
+        <span v-else>{{ $tc(statsCategoryFilter.title, 2) }} </span>
         <span v-if="statsEvents"> ({{ statsEvents.length }})</span>
       </div>
     </div>
@@ -15,7 +15,7 @@
             <thead>
               <tr>
                 <th class="column-fix">
-                  <i class="material-icons">group</i>Joueurs
+                  <i class="material-icons">group</i>{{$t('players')}}
                 </th>
                 <th
                   v-for="(item, index) in sportReportList"

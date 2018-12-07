@@ -9,9 +9,8 @@
       <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
         <p class="form-label"> {{$t('role')}}</p>
         <el-form-item prop="category">
-          <el-select v-model="form.category" placeholder="Selectionnes une categorie">
-            <el-option v-for="category in categories" :label="formatMemberCategory(category)" :value="category" :key="category">
-              <span>{{ formatMemberCategory(category) }}</span>
+          <el-select v-model="form.category">
+            <el-option v-for="category in categories" :label="$t(category)" :value="category" :key="category">
             </el-option>
           </el-select>
         </el-form-item>
@@ -68,8 +67,8 @@ export default {
     placeholderPosition() {
       let placeholder
       this.form.category === 'player'
-        ? (placeholder = 'Attaquant, Défenseur...')
-        : (placeholder = 'Coach, Dirigeant...')
+        ? (placeholder = this.$t('playerPlaceholderPosition'))
+        : (placeholder = this.$t('staffPlaceholderPosition'))
       return placeholder
     }
   },

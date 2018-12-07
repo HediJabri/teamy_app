@@ -26,8 +26,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/main";
-
 .teamy-spinner-wrapper {
   @include flex-space-between();
   height: calc(100vh - 150px);

@@ -30,7 +30,7 @@
           </div>
           <el-form-item prop="name">
             <p class="form-label">{{$t('teamName')}}</p>
-            <el-input placeholder="F.C Paris" v-model="form.name">
+            <el-input placeholder="F.C Paris, North London..." v-model="form.name">
             </el-input>
           </el-form-item>
           <el-form-item prop="city">

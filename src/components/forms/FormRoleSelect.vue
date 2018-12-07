@@ -1,15 +1,14 @@
 <template lang="html">
   <div v-if="team">
     <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
-      <p class="form-label">Rôle</p>
+      <p class="form-label">{{$t('role')}}</p>
       <el-form-item prop="category">
-        <el-select v-model="form.category" placeholder="Selectionnes une categorie">
-          <el-option v-for="category in categories" :label="formatMemberCategory(category)" :value="category" :key="category">
-            <span>{{ formatMemberCategory(category) }}</span>
+        <el-select v-model="form.category">
+          <el-option v-for="category in categories" :label="$t(category)" :value="category" :key="category">
           </el-option>
         </el-select>
       </el-form-item>
-      <p class="form-label">Poste</p>
+      <p class="form-label">{{$t('position')}}</p>
       <el-form-item prop="position">
         <el-input v-model="form.position"
           :placeholder="placeholderPosition">
@@ -18,12 +17,12 @@
       <div class="form-buttons">
         <el-button class="form-btn" type="default"
           v-if="backButton" @click="closeDialog()">
-          Annuler
+          {{$t('cancel')}}
         </el-button>
         <el-button class="form-btn" type="success"
           @click="submitForm('form')" :loading="isLoading">
-          <span v-if="backButton">Envoyer la demande</span>
-          <span v-else>Valider</span>
+          <span v-if="backButton">{{$t('sendRequest')}}</span>
+          <span v-else>{{$t('validate')}}</span>
         </el-button>
       </div>
     </el-form>
@@ -60,8 +59,8 @@ export default {
     placeholderPosition() {
       let placeholder
       this.form.category === 'player'
-        ? (placeholder = 'Attaquant, Défenseur...')
-        : (placeholder = 'Coach, Dirigeant...')
+        ? (placeholder = this.$t('playerPlaceholderPosition'))
+        : (placeholder = this.$t('staffPlaceholderPosition'))
       return placeholder
     }
   },

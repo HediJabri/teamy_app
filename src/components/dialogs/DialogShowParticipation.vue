@@ -30,12 +30,12 @@
           <el-button type="primary" :loading="isLoading"
             v-if="participation.substitute || participation.staff"
             @click="updateParticipation(false, false)">
-            {{$t('firstTeamPlayer')}} <i class="fa fa-share margin-left"></i>
+            {{$tc('firstTeamPlayer', 1)}} <i class="fa fa-share margin-left"></i>
           </el-button>
           <el-button type="primary" :loading="isLoading"
             v-if="!participation.substitute"
             @click="updateParticipation(true, false)">
-            {{$t('substitute')}} <i class="fa fa-share margin-left"></i>
+            {{$tc('substitute', 1)}} <i class="fa fa-share margin-left"></i>
           </el-button>
         </div>
       </div>

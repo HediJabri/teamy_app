@@ -3,13 +3,13 @@
     :class="{'onbording-mode': onbordingMode}">
     <div class="form-user-card">
       <div class="form-user-title" v-if="!onbordingMode">
-        <h5 class="uppercase">mon compte</h5>
+        <h5 class="uppercase">{{$t('myAccount')}}</h5>
       </div>
       <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
         <div>
           <p class="form-user-avatar-label" >
             <i class="material-icons">account_circle</i>
-            <span>Photo de profil</span>
+            <span>{{$t('profilePhoto')}}</span>
           </p>
           <image-upload
             :preview="true"
@@ -18,12 +18,12 @@
           <div v-if="!onbordingMode" class="row">
             <div class="col-xs-6">
               <el-form-item prop="firstName">
-                <el-input placeholder="Prénom" v-model="form.firstName"></el-input>
+                <el-input :placeholder="$t('firstName')" v-model="form.firstName"></el-input>
               </el-form-item>
             </div>
             <div class="col-xs-6">
               <el-form-item prop="lastName">
-                <el-input placeholder="Nom" v-model="form.lastName"></el-input>
+                <el-input :placeholder="$t('lastName')" v-model="form.lastName"></el-input>
               </el-form-item>
             </div>
           </div>
@@ -31,7 +31,7 @@
         <div class="row">
           <div class="col-xs-12 col-sm-6">
             <el-form-item prop="phone">
-              <el-input placeholder="Numéro de téléphone" v-model="form.phone"></el-input>
+              <el-input :placeholder="$t('phoneNumber')" v-model="form.phone"></el-input>
             </el-form-item>
           </div>
           <div class="col-xs-12 col-sm-6">
@@ -39,7 +39,7 @@
               <el-date-picker
                 type="date"
                 format="dd-MM-yyyy"
-                placeholder="Date de naissance"
+                :placeholder="$t('birthdate')"
                 v-model="form.birthdate"
                 style="width: 100%;"
                 :default-value="defaultBirthdate">
@@ -51,12 +51,12 @@
           <el-button v-if="!onbordingMode" type="success" 
             class="btn-xl" :class="{'disabled': photoIsLoading}"
             :loading="isLoading" @click="submitForm('form')" >
-            Modifier mes infos
+            {{$t('editInfo')}}
           </el-button>
            <el-button v-else type="primary" 
             class="btn-xl btn-onbording-mode" :class="{'disabled': photoIsLoading}"
             :loading="isLoading" @click="submitForm('form')" >
-            Valider mes infos
+            {{$t('validate')}}
           </el-button>
         </div>
       </el-form>
@@ -66,7 +66,7 @@
     </div>
     <div class="form-user-bottom" @click="openDialogDeleteAccount()"
       v-if="!onbordingMode">
-      Suprimer mon compte
+       {{$t('deleteMyAccount')}}
     </div>
     <dialog-delete-account
       v-show="currentUser"
