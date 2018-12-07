@@ -40,7 +40,7 @@
       <div v-if="event.timeAppointment">
         <span class="emoji">🕚 </span>
         <span v-if="event.timeAppointment" class="text-item margin-right">
-          Rdv {{ event.timeAppointment }} - 
+          {{ $t('meeting')}} {{ event.timeAppointment }} - 
         </span>
         <span v-if="event.placeAppointment" class="text-item">{{ event.placeAppointment }}</span>
       </div>
