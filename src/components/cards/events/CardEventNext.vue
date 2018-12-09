@@ -9,11 +9,13 @@
       <div class="card-item" v-if="event" 
         @click="routeUrl(`/team/${currentTeam._id}/event/${event._id}`)">
         <div class="calendar-item">
-          <div class="calendar-date">
-            <div class="month">
-              {{ formatEventMonth(event.dateStart) }}.
+          <div class="calendar">
+            <div class="calendar-date">
+              <div class="month">
+                {{ formatEventMonth(event.dateStart) }}.
+              </div>
+              <h4 class="day">{{ formatEventDay(event.dateStart) }}</h4>
             </div>
-            <h4 class="day">{{ formatEventDay(event.dateStart) }}</h4>
           </div>
           <div class="calendar-text">
             <p class="text">
@@ -82,7 +84,7 @@ export default {
   cursor: pointer;
   .calendar-item {
     @include flex-start();
-    .calendar-date {
+    .calendar {
       @include calendar-date-xs();
     }
     .calendar-text {

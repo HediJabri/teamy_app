@@ -2,11 +2,13 @@
   <div class="card" v-if="event">
     <div class="card-header">
       <div class="card-left">
-        <div class="calendar-date">
-          <div class="month">
-            {{ formatEventMonth(event.dateStart) }}.
+        <div class="calendar">
+          <div class="calendar-date">
+            <div class="month">
+              {{ formatEventMonth(event.dateStart) }}.
+            </div>
+            <h4 class="day">{{ formatEventDay(event.dateStart) }}</h4>
           </div>
-          <h4 class="day">{{ formatEventDay(event.dateStart) }}</h4>
         </div>
       </div>
       <div class="card-right">
@@ -206,7 +208,7 @@ export default {
     position: absolute;
     left: 50px;
     top: 0;
-    .calendar-date {
+    .calendar {
       @include calendar-date();
     }
   }
@@ -330,7 +332,7 @@ export default {
     }
     .card-left {
       left: 15px;
-      .calendar-date {
+      .calendar {
         @include calendar-date-xs;
       }
     }
