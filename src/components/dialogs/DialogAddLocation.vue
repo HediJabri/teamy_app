@@ -36,8 +36,8 @@ export default {
     locationCreated(location) {
       this.addTeamLocation(location)
       this.$notify({
-        title: 'Succès',
-        message: 'Le lieu a bien été ajouté',
+        title: this.$t('success'),
+        message: this.$t('locationAdded'),
         type: 'success'
       })
       this.$emit('locationCreated', location)

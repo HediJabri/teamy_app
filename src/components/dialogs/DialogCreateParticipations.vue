@@ -84,7 +84,7 @@ export default {
   name: 'DialogsCreateParticipations',
   props: ['openDialog'],
   mixins: [utilities],
-  data() {
+  data () {
     return {
       dialogVisible: false,
       isLoading: false,
@@ -93,29 +93,29 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'event']),
-    validatedMemberships() {
+    validatedMemberships () {
       if (this.event)
         return this.event.team.memberships.filter(m => m.status === 'validated')
       return []
     },
-    isAllMembersSelected() {
+    isAllMembersSelected () {
       return (
         this.selectedMembers.length ===
         this.event.team.memberships.filter(m => !this.isUserParticipate(m.user))
           .length
       )
     },
-    selectedUsersCount() {
+    selectedUsersCount () {
       return this.selectedMembers.length
     },
-    dialogWidth() {
+    dialogWidth () {
       if (this.mediumDevice()) return '100%'
       return '70%'
     }
   },
   methods: {
     ...mapActions(['initEventParticipations']),
-    selectMember(user) {
+    selectMember (user) {
       if (this.isUserParticipate(user)) return
       if (this.selectedMembers.includes(user)) {
         this.selectedMembers = this.selectedMembers.filter(
@@ -125,7 +125,7 @@ export default {
         this.selectedMembers.push(user)
       }
     },
-    selectAllMembers() {
+    selectAllMembers () {
       if (this.isAllMembersSelected) {
         this.selectedMembers = []
       } else {
@@ -136,13 +136,13 @@ export default {
         }
       }
     },
-    isMemberSelected(user) {
+    isMemberSelected (user) {
       return this.selectedMembers.includes(user)
     },
-    isUserParticipate(user) {
+    isUserParticipate (user) {
       return this.event.participations.find(p => p.user._id === user._id)
     },
-    async createParticipations() {
+    async createParticipations () {
       this.isLoading = true
       const selectedUsers = this.selectedMembers
       const body = {
@@ -155,8 +155,8 @@ export default {
           .participations
         this.initEventParticipations(participations)
         this.$notify({
-          title: 'Succès',
-          message: 'Les invitations ont bien été envoyées par email 📩',
+          title: this.$t('success'),
+          message: this.$t('invitationSent'),
           type: 'success'
         })
         this.afterRequest()
@@ -165,17 +165,17 @@ export default {
         this.isLoading = false
       }
     },
-    afterRequest() {
+    afterRequest () {
       this.selectedMembers = []
       this.isLoading = false
       this.dialogVisible = false
     }
   },
   watch: {
-    openDialog() {
+    openDialog () {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible() {
+    dialogVisible () {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }

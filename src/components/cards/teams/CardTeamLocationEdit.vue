@@ -79,8 +79,8 @@ export default {
           .data
         this.editTeamLocation(location)
         this.$notify({
-          title: 'Succès',
-          message: "Le domicile principal de l'équipe a bien été changé",
+          title: this.$t('success'),
+          message: this.$t('mainLocationEdited'),
           type: 'success'
         })
         this.$router.push(`/team/${this.currentTeam._id}/dashboard`)

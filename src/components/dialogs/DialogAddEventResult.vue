@@ -149,8 +149,8 @@ export default {
         this.isLoading = false
         this.$emit('closeDialog')
         this.$notify({
-          title: 'Succès',
-          message: 'Le résultat à bien été ajouté',
+          title: this.$t('success'),
+          message: this.$t('resultAdded'),
           type: 'success'
         })
       } catch (err) {

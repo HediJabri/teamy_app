@@ -29,7 +29,7 @@ export default {
   name: 'DialogCloseCompetition',
   mixins: [utilities],
   props: ['openDialog', 'competition'],
-  data () {
+  data() {
     return {
       dialogVisible: false,
       isLoading: false
@@ -39,7 +39,7 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    async deleteCompetition () {
+    async deleteCompetition() {
       this.isLoading = true
       try {
         await ApiCompetitions.patch(this.competition._id, { clotured: true })
@@ -47,8 +47,8 @@ export default {
         this.$emit('closeDialog')
         this.$router.push(`/team/${this.currentTeam._id}/competitions`)
         this.$notify({
-          title: 'Succès',
-          message: 'La compétition à bien été clôturée',
+          title: this.$t('success'),
+          message: this.$t('competitionClosed'),
           type: 'success'
         })
       } catch (err) {
@@ -59,10 +59,10 @@ export default {
     }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }

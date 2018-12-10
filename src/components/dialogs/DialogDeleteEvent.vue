@@ -30,7 +30,7 @@ export default {
   name: 'DialogDeleteEvent',
   mixins: [utilities],
   props: ['openDialog', 'event'],
-  data () {
+  data() {
     return {
       dialogVisible: false,
       isLoading: false
@@ -40,7 +40,7 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    async deleteEvent () {
+    async deleteEvent() {
       this.isLoading = true
       try {
         await ApiEvents.delete(this.event._id)
@@ -49,7 +49,7 @@ export default {
         this.$router.push(`/team/${this.currentTeam._id}/events`)
         this.$notify({
           title: 'Succès',
-          message: "L'évenement à bien été suprimé",
+          message: this.$t('eventDeleted'),
           type: 'success'
         })
       } catch (err) {
@@ -60,10 +60,10 @@ export default {
     }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }

@@ -73,8 +73,8 @@ export default {
       this.$emit('closeDialog')
       this.$router.push('/')
       this.$notify({
-        title: 'Succès',
-        message: "Tu as bien été retiré de l'équipe",
+        title: this.$t('success'),
+        message: this.$t('youHaveBeenRemovedFromTeam'),
         type: 'success'
       })
     },
@@ -84,10 +84,10 @@ export default {
       this.updateTeamMembership(membership)
       this.isLoading = false
       this.$notify({
-        title: 'Succès',
-        message: `${
-          this.membership.user.firstName
-        } a bien été retiré de l'équipe`,
+        title: this.$t('success'),
+        message: `${this.membership.user.firstName} ${this.$t(
+          'hasBeenRemovedFromTeam'
+        )}`,
         type: 'success'
       })
     }

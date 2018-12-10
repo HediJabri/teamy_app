@@ -43,7 +43,7 @@
             {{ comment.content }}
             <el-tooltip
               v-if="comment.membersToNotify"
-              :content="`${comment.membersToNotify} membres notifiés`"
+              :content="`${$tc('membersNotified', comment.membersToNotify)}`"
               placement="top"
               :open-delay="300"
             >

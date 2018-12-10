@@ -52,8 +52,8 @@ export default {
         this.isLoading = false
         this.$emit('closeDialog')
         this.$notify({
-          title: 'Succès',
-          message: 'Le message a bien été envoyé',
+          title: this.$t('success'),
+          message: this.$t('messageSent'),
           type: 'success'
         })
       } catch (err) {

@@ -59,8 +59,8 @@ export default {
         const notification = { key: 'pendingMembers', id: membership._id }
         this.removeNotification(notification)
         this.$notify({
-          title: 'Succès',
-          message: 'La demande à bien été validée',
+          title: this.$t('success'),
+          message: this.$t('requestValidated'),
           type: 'success'
         })
       } catch (err) {
@@ -76,8 +76,8 @@ export default {
         const notification = { key: 'pendingMembers', id: membership._id }
         this.removeNotification(notification)
         this.$notify({
-          title: 'Succès',
-          message: 'La demande à bien été refusée',
+          title: this.$t('success'),
+          message: this.$t('requestRefused'),
           type: 'success'
         })
       } catch (err) {

@@ -31,7 +31,7 @@ export default {
   name: 'DialogDeleteAccount',
   mixins: [utilities],
   props: ['openDialog'],
-  data () {
+  data() {
     return {
       dialogVisible: false,
       isLoading: false
@@ -41,14 +41,14 @@ export default {
     ...mapGetters(['currentUser'])
   },
   methods: {
-    async deleteAccount () {
+    async deleteAccount() {
       this.isLoading = true
       try {
         await ApiUsers.delete(this.currentUser._id)
         Auth.logout()
         this.$notify({
-          title: 'Succès',
-          message: 'Ton compte a bien été suprimé',
+          title: this.$t('success'),
+          message: this.$t('accountDeleted'),
           type: 'success'
         })
       } catch (err) {
@@ -59,10 +59,10 @@ export default {
     }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }
