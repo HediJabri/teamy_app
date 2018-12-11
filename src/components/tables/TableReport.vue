@@ -108,22 +108,22 @@ export default {
   mixins: [utilities],
   props: ['event', 'editMode'],
   components: { TableRowReport, EventResultInfo },
-  data() {
+  data () {
     return {
       isLoading: false
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'sports']),
-    sportReportList() {
+    sportReportList () {
       return this.currentTeamSport().reportList
     },
-    validatedParticipations() {
+    validatedParticipations () {
       return this.event.participations.filter(p => p.status === 'validated')
     }
   },
   methods: {
-    async updateParticipations() {
+    async updateParticipations () {
       this.isLoading = true
       let body = { user: this.currentUser._id, team: this.currentTeam._id }
       body.participations = this.event.participations
@@ -135,8 +135,8 @@ export default {
           `/team/${this.currentTeam._id}/event/${this.event._id}`
         )
         this.$notify({
-          title: 'Succès',
-          message: 'Le rapport à bien été crée',
+          title: this.$t('success'),
+          message: this.$t('reportCreated'),
           type: 'success'
         })
       } catch (err) {

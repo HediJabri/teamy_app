@@ -77,8 +77,8 @@ export default {
     membershipCreated() {
       this.dialogVisible = false
       this.$notify({
-        title: 'Succès',
-        message: 'La demande a bien été envoyée par mail',
+        title: this.$t('success'),
+        message: this.$t('requestSent'),
         type: 'success'
       })
     }

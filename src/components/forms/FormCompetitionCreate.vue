@@ -140,8 +140,8 @@ export default {
           .competition
         this.isLoading = false
         this.$notify({
-          title: 'Succès',
-          message: 'La compétition a bien été créée',
+          title: this.$t('success'),
+          message: this.$t('competitionCreated'),
           type: 'success'
         })
         this.$router.push(

@@ -28,7 +28,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div  v-if="!onbordingMode" class="row">
           <div class="col-xs-12 col-sm-6">
             <el-form-item prop="phone">
               <el-input :placeholder="$t('phoneNumber')" v-model="form.phone"></el-input>
@@ -182,7 +182,6 @@ export default {
         if (valid) {
           this.editUser()
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -210,8 +209,12 @@ export default {
       this.initUser(user)
       this.isLoading = false
       this.$router.push('/')
-      const notifMessage = 'Les infos de ton compte ont bien été modifiées'
-      this.$notify({ title: 'Succès', message: notifMessage, type: 'success' })
+      const notifMessage = this.$t('accountHasBeenEdited')
+      this.$notify({
+        title: this.$t('success'),
+        message: notifMessage,
+        type: 'success'
+      })
     }
   },
   created() {

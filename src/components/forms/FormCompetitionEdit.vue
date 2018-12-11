@@ -75,7 +75,7 @@ export default {
   mixins: [utilities],
   props: ['competition'],
   components: { DialogDeleteCompetition },
-  data () {
+  data() {
     return {
       isLoading: false,
       formData: dataForms,
@@ -109,24 +109,24 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
     }
   },
   methods: {
-    toggleForm () {
+    toggleForm() {
       this.$emit('toggleForm')
     },
-    openDialogDeleteCompetition () {
+    openDialogDeleteCompetition() {
       this.dialogDeleteCompetition = true
     },
-    fillFormCompetition () {
+    fillFormCompetition() {
       this.form.name = this.competition.name
       this.form.category = this.competition.category
       this.form.image = this.competition.image
       this.form.infos = this.competition.infos
     },
-    submitForm (formName) {
+    submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.editCompetition()
@@ -136,14 +136,14 @@ export default {
         }
       })
     },
-    async editCompetition () {
+    async editCompetition() {
       this.isLoading = true
       try {
         await ApiCompetitions.patch(this.competition._id, this.form)
         this.isLoading = false
         this.$notify({
-          title: 'Succès',
-          message: 'La compétition a bien été modifiée',
+          title: this.$t('success'),
+          message: this.$t('competitionEdited'),
           type: 'success'
         })
         this.$emit('reloadCompetition')
@@ -154,7 +154,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.fillFormCompetition()
   }
 }

@@ -165,8 +165,8 @@ export default {
       this.isLoading = false
       this.$router.push(`/team/${this.currentTeam._id}/dashboard`)
       this.$notify({
-        title: 'Succès',
-        message: 'Ton équipe a bien été modifiée',
+        title: this.$t('success'),
+        message: this.$t('teamedited'),
         type: 'success'
       })
     },

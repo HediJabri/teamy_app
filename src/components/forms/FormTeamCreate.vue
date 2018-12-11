@@ -162,8 +162,8 @@ export default {
         await ApiTeams.post(body)
         this.$router.push(`/home/dashboard`)
         this.$notify({
-          title: 'Succès',
-          message: 'Ton équipe a bien été crée',
+          title: this.$t('success'),
+          message: this.$t('teamCreated'),
           type: 'success'
         })
       } catch (err) {

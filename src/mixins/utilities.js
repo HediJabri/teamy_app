@@ -261,24 +261,24 @@ const utilities = {
     errorNotify(error) {
       console.log(error)
       this.$notify({
-        title: 'Erreur',
-        message: 'Une erreur est survenue',
+        title: this.$t('error'),
+        message: this.$t('errorOccurred'),
         type: 'error'
       })
     },
     impossibleActionNotify(error) {
       console.log(error)
       this.$notify({
-        title: 'Erreur',
-        message: 'Action impossible',
+        title: this.$t('error'),
+        message: this.$t('impossibleAction'),
         type: 'error'
       })
     },
     noAccessPageNotify(error) {
       console.log(error)
       this.$notify({
-        title: 'Erreur',
-        message: "Tu n'as pas accès à cette page !",
+        title: this.$t('error'),
+        message: this.$t('noPageAccess'),
         type: 'error'
       })
       this.$router.push('/')

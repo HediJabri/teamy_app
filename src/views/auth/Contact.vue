@@ -111,8 +111,8 @@ export default {
         this.form.message = ''
         this.form.email = ''
         this.$notify({
-          title: 'Succès',
-          message: 'Le message a bien été envoyé',
+          title: this.$t('success'),
+          message: this.$t('messageSent'),
           type: 'success'
         })
       } catch (err) {

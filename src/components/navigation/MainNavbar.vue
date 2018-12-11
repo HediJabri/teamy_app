@@ -118,8 +118,6 @@
         <dropdown-language v-if="currentUser"/>
       </div>
     </div>
-     <dialog-info-page v-show="currentUser" :user="currentUser"
-      :openDialog="dialogInfoPage" @closeDialog="dialogInfoPage = false" />
   </div>
 </template>
 
@@ -127,12 +125,11 @@
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import Auth from '@/services/Auth.js'
-import DialogInfoPage from '@/components/onbording/DialogInfoPage'
 import DropdownLanguage from '@/components/global/DropdownLanguage'
 
 export default {
   name: 'MainNavbar',
-  components: { DialogInfoPage, DropdownLanguage },
+  components: { DropdownLanguage },
   mixins: [utilities],
   data() {
     return {

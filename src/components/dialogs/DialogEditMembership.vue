@@ -98,8 +98,8 @@ export default {
         this.updateUserMembership(membership)
         this.closeDialog()
         this.$notify({
-          title: 'Succès',
-          message: 'Le profil a bien été modifié',
+          title: this.$t('success'),
+          message: this.$t('profileEdited'),
           type: 'success'
         })
         eventBus.$emit('showTeamCard')

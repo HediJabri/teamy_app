@@ -44,8 +44,8 @@ export default {
       this.addTeamSeason(season)
       this.closeDialog()
       this.$notify({
-        title: 'Succès',
-        message: 'La saison a bien été ajouté',
+        title: this.$t('success'),
+        message: this.$t('seasonAdded'),
         type: 'success'
       })
     },
@@ -53,8 +53,8 @@ export default {
       this.editTeamSeason(season)
       this.closeDialog()
       this.$notify({
-        title: 'Succès',
-        message: 'La saison a bien été modifié',
+        title: this.$t('success'),
+        message: this.$t('seasonEdited'),
         type: 'success'
       })
     },

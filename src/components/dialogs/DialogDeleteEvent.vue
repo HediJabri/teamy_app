@@ -48,7 +48,7 @@ export default {
         this.$emit('closeDialog')
         this.$router.push(`/team/${this.currentTeam._id}/events`)
         this.$notify({
-          title: 'Succès',
+          title: this.$t('success'),
           message: this.$t('eventDeleted'),
           type: 'success'
         })

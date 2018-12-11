@@ -158,10 +158,9 @@ export default {
         await ApiUsers.patchAccount(this.currentUser._id, body)
         this.getUser()
       } catch (err) {
-        console.log(err)
         this.$notify({
-          title: 'Erreur',
-          message: 'Mot de passe invalide',
+          title: this.$t('success'),
+          message: this.$t('invalidPassword'),
           type: 'error'
         })
         this.isLoading = false
@@ -180,8 +179,12 @@ export default {
       this.initUser(user)
       this.isLoading = false
       this.$router.push('/')
-      const notifMessage = 'Ton compte a bien été modifié'
-      this.$notify({ title: 'Succès', message: notifMessage, type: 'success' })
+      const notifMessage = this.$t('accountHasBeenEdited')
+      this.$notify({
+        title: this.$t('success'),
+        message: notifMessage,
+        type: 'success'
+      })
     }
   },
   created() {

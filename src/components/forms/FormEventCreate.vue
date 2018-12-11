@@ -214,7 +214,7 @@ export default {
   mixins: [utilities],
   props: ['eventCategory', 'competition'],
   components: { DialogAddLocation, EventCategoryIcon },
-  data() {
+  data () {
     return {
       errors: [],
       formData: data,
@@ -303,21 +303,21 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'currentTeamLocation']),
-    hasErrors() {
+    hasErrors () {
       return this.errors.length > 0
     },
-    teamLocations() {
+    teamLocations () {
       return this.currentTeam.locations
     }
   },
   methods: {
-    openDialogAddLocation() {
+    openDialogAddLocation () {
       this.dialogAddLocation = true
     },
-    locationCreated(location) {
+    locationCreated (location) {
       this.form.location = location._id
     },
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.newLocationName ? this.createLocation() : this.createEvent()
@@ -327,20 +327,20 @@ export default {
         }
       })
     },
-    createEvent() {
+    createEvent () {
       this.form.recurring
         ? this.createRecurrentEvent()
         : this.createUniqueEvent()
     },
-    async createUniqueEvent() {
+    async createUniqueEvent () {
       this.isLoading = true
       this.formatForm()
       try {
         const event = (await ApiEvents.post(this.form)).data.event
         this.isLoading = false
         this.$notify({
-          title: 'Succès',
-          message: "L'évenement a bien été crée",
+          title: this.$t('success'),
+          message: this.$t('eventCreated'),
           type: 'success'
         })
         this.$router.push(`/team/${this.currentTeam._id}/event/${event._id}`)
@@ -349,15 +349,15 @@ export default {
         this.isLoading = false
       }
     },
-    async createRecurrentEvent() {
+    async createRecurrentEvent () {
       this.isLoading = true
       this.formatForm()
       try {
         await ApiEvents.postRecurrent(this.form)
         this.isLoading = false
         this.$notify({
-          title: 'Succès',
-          message: 'Les évenements ont bien été crées',
+          title: this.$t('success'),
+          message: this.$t('eventsCreated'),
           type: 'success'
         })
         this.$router.push(`/team/${this.currentTeam._id}/events`)
@@ -366,7 +366,7 @@ export default {
         this.isLoading = false
       }
     },
-    formatForm() {
+    formatForm () {
       this.form.team = this.currentTeam._id
       this.form.season = this.currentSeason(this.currentTeam)._id
       if (this.competition) this.form.competition = this.competition._id
@@ -374,18 +374,18 @@ export default {
       if (this.form.name === this.$t('other'))
         this.form.name = this.otherCategory
     },
-    fillCompetitionCategory() {
+    fillCompetitionCategory () {
       for (let competitionType of this.formData.competitionCategories) {
         if (competitionType.category === this.competition.category) {
           this.eventCategories = competitionType.eventCategories
         }
       }
     },
-    fillEventCategories() {
+    fillEventCategories () {
       this.form.name = this.$t(this.eventCategory)
     }
   },
-  created() {
+  created () {
     this.competition
       ? this.fillCompetitionCategory()
       : this.fillEventCategories()

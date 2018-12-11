@@ -285,8 +285,8 @@ export default {
         this.isLoading = false
         this.$emit('toggleForm')
         this.$notify({
-          title: 'Succès',
-          message: "L'évenement a bien été modifié",
+          title: this.$t('success'),
+          message: this.$t('eventEdited'),
           type: 'success'
         })
       } catch (err) {

@@ -55,8 +55,8 @@ export default {
         this.$emit('closeDialog')
         this.$router.push('/')
         this.$notify({
-          title: 'Succès',
-          message: 'Ton équipe à bien été suprimée',
+          title: this.$t('success'),
+          message: this.$t('teamDeleted'),
           type: 'success'
         })
       } catch (err) {
