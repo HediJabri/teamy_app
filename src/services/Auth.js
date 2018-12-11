@@ -1,7 +1,6 @@
 import Api from '@/services/Api'
 import store from '@/stores/store'
 import router from '@/router'
-import i18n from '@/plugins/i18n'
 
 export default {
   // Register actions
