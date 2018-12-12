@@ -67,7 +67,7 @@ export default {
   mixins: [utilities],
   props: ['team'],
   components: { FormUserEdit, FormRoleSelect },
-  data () {
+  data() {
     return {
       dialogVisible: true,
       stepDisplayed: 'welcome',
@@ -77,7 +77,7 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    modalTop () {
+    modalTop() {
       return this.stepDisplayed === 'formUser' ? '5vh' : '15vh'
     }
   },
@@ -88,15 +88,15 @@ export default {
       'editInfoHighlighted',
       'editContactHighlighted'
     ]),
-    closeDialog () {
+    closeDialog() {
       this.dialogVisible = false
       this.isLoading = false
     },
-    goToNextStep (step) {
+    goToNextStep(step) {
       this.stepDisplayed = step
       this.manageHighlightedInfo(step)
     },
-    membershipCreated () {
+    membershipCreated() {
       this.dialogVisible = false
       this.$notify({
         title: this.$t('success'),
@@ -104,7 +104,7 @@ export default {
         type: 'success'
       })
     },
-    manageHighlightedInfo (step) {
+    manageHighlightedInfo(step) {
       if (step === 'helpIntro') {
         this.editInfoHighlighted(true), this.editContactHighlighted(true)
       }
@@ -112,7 +112,7 @@ export default {
         this.editInfoHighlighted(false), this.editContactHighlighted(false)
       }
     },
-    async editUserOnbording () {
+    async editUserOnbording() {
       try {
         this.isLoading = true
         let onbording = this.currentUser.onbording
@@ -124,7 +124,7 @@ export default {
         this.isLoading = false
       }
     },
-    async getUser () {
+    async getUser() {
       try {
         const user = (await ApiUsers.get(this.currentUser._id)).data.user
         Auth.destroyTeam()
@@ -137,10 +137,13 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     const onbordingTeam = Auth.getTeam()
     if (onbordingTeam && !this.teamMembershipsIsFull(onbordingTeam)) {
       this.onbordingTeam = onbordingTeam
+    }
+    if (onbordingTeam && this.isMember(this.currentUser, onbordingTeam)) {
+      this.stepDisplayed = 'onborded'
     }
   }
 }
