@@ -2,12 +2,6 @@
   <div>
     <div class="card">
       <div class="card-team" v-if="team">
-        <div class="card-team-logo">
-          <div class="logo-wrapper">
-            <img v-if="team.logo" :src="team.logo">
-            <i v-else class="fa fa-shield blue"></i>
-          </div>
-        </div>
         <h5>{{ team.name }}</h5>
           <div class="card-team-info" v-if="teamMembershipsIsFull(team)">
           <span>{{ $t(teamMembershipsIsFull) }}</span>
@@ -17,7 +11,7 @@
             <img v-if="team.mainAdmin.avatar" :src="team.mainAdmin.avatar">
             <img v-else src="../../assets/img/user.png">
           </div>
-          <span>{{ team.mainAdmin.firstName }} {{ $t(inviteYouToJoinHisTeam) }} </span>
+          <span>{{ team.mainAdmin.firstName }} {{ $t('inviteYouToJoinHisTeam') }} </span>
         </div>
       </div>
       <div class="header-social-auth">

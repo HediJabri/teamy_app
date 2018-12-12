@@ -246,6 +246,7 @@
   "player": "Player",
   "players": "Players",
   "playerPlaceholderPosition": "Center-forward, defender...",
+  "position": "Position",
   "poste": "Position",
   "present": "Present",
   "profile": "Profile",
@@ -337,6 +338,6 @@
   "youAccepted": "You accepted",
   "youDeclined": "You declined",
   "youAreATeamMember": "You are now a member of",
-  "youCanNow": "Tu peux maintenant",
+  "youCanNow": "You can now",
   "youHaveBeenRemovedFromTeam": "You have been removed from the team"
 }

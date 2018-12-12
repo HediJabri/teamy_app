@@ -46,7 +46,9 @@ export default {
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
     linkTeam() {
-      return `${process.env.VUE_APP_BASE_APP_URI}register/${this.team.token}`
+      return `${process.env.VUE_APP_BASE_APP_URI}register/${
+        this.$i18n.locale
+      }/${this.team.token}`
     }
   },
   methods: {
