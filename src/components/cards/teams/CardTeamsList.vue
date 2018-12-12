@@ -10,7 +10,7 @@
       <el-button type="primary"
         :loading="page.loadingNext"
         @click="goToNextPage()">
-        Voir plus
+        {{ $t('seeMore')}}
       </el-button>
     </div>
   </div>
@@ -19,19 +19,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
-import TeamySpinner from '@/components/global/TeamySpinner'
 import CardTeamsListItem from '@/components/cards/teams/CardTeamsListItem'
-
 
 export default {
   name: 'CardTeamsList',
   mixins: [utilities],
   props: ['teams', 'page'],
-  components: {
-    TeamySpinner, CardTeamsListItem
-  },
-   computed: {
-    ...mapGetters(['currentUser']),
+  components: { CardTeamsListItem },
+  computed: {
+    ...mapGetters(['currentUser'])
   },
   methods: {
     goToNextPage() {
@@ -42,7 +38,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .row {
   margin-right: 0;
   margin-left: 0;

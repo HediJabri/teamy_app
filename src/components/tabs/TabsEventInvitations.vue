@@ -5,41 +5,61 @@
         <div class="card-filter">
           <div class="card-filter-title">
             <div class="card-filter-title-text">
-              <h5>invitations</h5>
+              <h5>{{$t('invitations')}}</h5>
               <h5 class="card-invitations-count">{{ event.participations.length }}</h5>
             </div>
           </div>
           <div class="card-filter-body">
-            <div class="card-filter-list-item"
-              v-for="filter in filters" :key="filter.id"
+            <div
+              class="card-filter-list-item"
+              v-for="filter in filters"
+              :key="filter.id"
               @click="toggleFilter(filter)"
-              :class="classFilter(filter)">
+              :class="classFilter(filter)"
+            >
               <div class="list-item-body">
-                <p class="list-item-body-top">{{ filter.title }}</p>
+                <p class="list-item-body-top">{{ $t(filter.title) }}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <div class="card-responses" v-if="participationsFiltered">
+        <div
+          class="card-responses"
+          v-if="participationsFiltered"
+        >
           <div class="card-title">
             <div class="card-title-text">
-              <h5>{{ currentFilter.title }}</h5>
+              <h5>{{ $t(currentFilter.title) }}</h5>
               <h5 class="card-count">{{ participationsFiltered.length }}</h5>
             </div>
           </div>
-          <div class="card-body"
-            v-if="participationsFiltered.length">
-            <div class="card-list-item" v-if="participation.user"
-              v-for="(participation, index) in participationsFiltered" :key="index"
-              @click="toggleParticipationDialog(participation)">
+          <div
+            class="card-body"
+            v-if="participationsFiltered.length"
+          >
+            <div
+              class="card-list-item"
+              v-for="(participation, index) in participationsFiltered"
+              :key="index"
+              @click="toggleParticipationDialog(participation)"
+            >
               <div class="list-item-content">
                 <div class="list-item-img avatar">
-                  <img v-if="participation.user.avatar" :src="participation.user.avatar">
-                  <img v-else src="../../assets/img/user.png">
+                  <img
+                    v-if="participation.user.avatar"
+                    :src="participation.user.avatar"
+                  >
+                  <img
+                    v-else
+                    src="../../assets/img/user.png"
+                  >
                 </div>
-                <span v-if="isMainAdmin(participation.user, event.team)" class="list-item-badge"><i class="material-icons">stars</i></span>
+                <span
+                  v-if="isMainAdmin(participation.user, event.team)"
+                  class="list-item-badge"
+                ><i class="material-icons">stars</i></span>
                 <div class="list-item-body">
                   <p class="list-item-body-top">
                     {{ participation.user.firstName }} {{ participation.user.lastName }}
@@ -56,7 +76,8 @@
       v-show="participationShowed"
       :participation="participationShowed"
       :openDialog="dialogShowParticipation"
-      @closeDialog="toggleParticipationDialog($event)" />
+      @closeDialog="toggleParticipationDialog($event)"
+    />
   </div>
 </template>
 
@@ -69,49 +90,56 @@ export default {
   name: 'TabsEventInvitations',
   mixins: [utilities],
   components: { DialogShowParticipation },
-  data () {
+  data() {
     return {
       filters: [
-        { id: 1, title: 'En attente', name: 'pending', border: 'blue' },
-        { id: 2, title: 'Acceptés', name: 'validated', border: 'green' },
-        { id: 3, title: 'Refusés', name: 'refused', border: 'red' },
+        { id: 1, title: 'pending', name: 'pending', border: 'blue' },
+        { id: 2, title: 'accepted', name: 'validated', border: 'green' },
+        { id: 3, title: 'declined', name: 'refused', border: 'red' }
       ],
-      currentFilter: { id: 1, title: 'En attente', name: 'pending', border: 'blue' },
+      currentFilter: {
+        id: 1,
+        title: 'pending',
+        name: 'pending',
+        border: 'blue'
+      },
       participationShowed: null,
       dialogShowParticipation: false
     }
   },
   computed: {
     ...mapGetters(['event']),
-    participationsFiltered () {
-      return this.event.participations.filter(p => p.status === this.currentFilter.name)
+    participationsFiltered() {
+      return this.event.participations.filter(
+        p => p.user && p.status === this.currentFilter.name
+      )
     }
   },
   methods: {
-    toggleParticipationDialog (participation) {
+    toggleParticipationDialog(participation) {
       this.dialogShowParticipation = !this.dialogShowParticipation
       this.participationShowed = participation
     },
-    classFilter (filter) {
+    classFilter(filter) {
       return {
-        'active': filter.id === this.currentFilter.id,
+        active: filter.id === this.currentFilter.id,
         'border-green': filter.border === 'green',
         'border-red': filter.border === 'red',
         'border-blue': filter.border === 'blue'
       }
     },
-    toggleFilter (filter) {
+    toggleFilter(filter) {
       this.currentFilter = filter
     }
   },
   created() {
-    if (!this.eventIsMatchCategory(this.event)) this.currentFilter = this.filters[1]
+    if (!this.eventIsMatchCategory(this.event))
+      this.currentFilter = this.filters[1]
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .card-filter {
   @include card();
   padding: 30px 0 10px 0;
@@ -140,7 +168,7 @@ export default {
 }
 .card-filter-list-item {
   @include list-item-s();
-    border-left: 5px solid transparent;
+  border-left: 5px solid transparent;
 }
 .card-filter-list-item.border-red.active,
 .card-filter-list-item.border-red:hover {
@@ -209,16 +237,28 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .col-xs-12 { padding: 0 }
+  .col-xs-12 {
+    padding: 0;
+  }
   .card-filter {
-    font-size: 12px ;
-    .card-filter-title-text h5 { font-size: 13px }
-    .card-filter-list-item { padding: 10px; font-size: 12px; }
+    font-size: 12px;
+    .card-filter-title-text h5 {
+      font-size: 13px;
+    }
+    .card-filter-list-item {
+      padding: 10px;
+      font-size: 12px;
+    }
   }
   .card-responses {
-    font-size: 12px ;
-    .card-title-text h5 { font-size: 13px }
-    .card-list-item { padding: 10px; font-size: 12px; }
+    font-size: 12px;
+    .card-title-text h5 {
+      font-size: 13px;
+    }
+    .card-list-item {
+      padding: 10px;
+      font-size: 12px;
+    }
   }
 }
 </style>

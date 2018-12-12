@@ -16,9 +16,9 @@
               <img v-else src="../../../assets/img/user.png">
             </div>
             {{ activity.member.firstName }} {{ activity.member.lastName }}
-            <span> est membre de l'équipe</span>
+            <span> {{$t('isTeamMember')}} </span>
           </div>
-          <div v-else>🚫 Compte supprimé...</div>
+          <div v-else>🚫 {{$t('accountDeleted')}}</div>
         </div>
       </div>
       <div v-if="activity.category === 'remove_membership'">
@@ -33,9 +33,9 @@
               <img v-else src="../../../assets/img/user.png">
             </div>
             {{ activity.member.firstName }} {{ activity.member.lastName }}
-            <span> n'est plus membre de l'équipe</span>
+            <span> {{$t('isNotTeamMember')}} </span>
           </div>
-          <div v-else>🚫 Compte supprimé...</div>
+          <div v-else>🚫 {{$t('accountDeleted')}}</div>
         </div>
       </div>
       <div v-if="activity.category === 'new_event'">
@@ -46,11 +46,13 @@
         <div class="card-body" v-if="activity.event">
           <div class="card-body-item-wrapper">
             <div class="calendar-item">
-              <div class="calendar-date">
-                <div class="month">
-                  {{ formatEventMonth(activity.event.dateStart) }}.
+              <div class="calendar">
+                <div class="calendar-date">
+                  <div class="month">
+                    {{ formatEventMonth(activity.event.dateStart) }}.
+                  </div>
+                  <h4 class="day">{{ formatEventDay(activity.event.dateStart) }}</h4>
                 </div>
-                <h4 class="day">{{ formatEventDay(activity.event.dateStart) }}</h4>
               </div>
               <div class="calendar-text">
                 <p class="text">
@@ -62,7 +64,7 @@
                 <p class="subtext" v-if="activity.event.location"> 
                    <span v-if="activity.event.opponent">{{ activity.event.opponent }} - </span>
                    <span v-else>{{ activity.event.location.name }} - </span>
-                   à {{ activity.event.time }}
+                   {{$t('at')}} {{ activity.event.time }}
                 </p>
               </div>
             </div>
@@ -72,9 +74,9 @@
             </div>
           </div>
         </div>
-        <div class="card-body" v-else>L'évenement à été supprimé...</div>
+        <div class="card-body" v-else>🚫 {{$t('eventDeleted')}}</div>
       </div>
-       <div v-if="activity.category === 'new_events_range'">
+      <div v-if="activity.category === 'new_events_range'">
         <p class="card-title">
           <i class="material-icons">insert_invitation</i>
           <span>"{{ formatActivityCategory }}"</span>
@@ -95,25 +97,21 @@
               <div class="calendar-text">
                 <p class="text">
                   <span class="text-wrapper">
-                    {{ activity.event.name }} à {{ activity.event.time }}
+                    {{ activity.event.name }} {{$t('at')}} {{ activity.event.time }}
                     <event-participation-info :event="activity.event" iconMode="true"/>
                   </span>
                 </p>
                 <p class="subtext">
-                  Tous les
+                  {{$t('every')}}
                   <span v-for="(day, index) in activity.recurentDays" :key="index">
                     {{ formatDay(day) }}. 
                   </span>
                 </p>
               </div>
             </div>
-            <!-- <div class="event-competition-item">
-              <event-category-icon :category="activity.event.category" 
-                :competition="activity.event.competition" :size="'s'" />
-            </div> -->
           </div>
         </div>
-        <div class="card-body" v-else>L'évenement à été supprimé...</div>
+        <div class="card-body" v-else>🚫 {{$t('eventDeleted')}}</div>
       </div>
       <div v-if="activity.category === 'new_competition'">
         <p class="card-title">
@@ -134,7 +132,7 @@
             </div>
           </div>
         </div>
-         <div class="card-body" v-else>La compétition à été supprimée...</div>
+         <div class="card-body" v-else>🚫 {{$t('competitionDeleted')}}</div>
       </div>
       <div v-if="activity.category === 'new_result'">
         <p class="card-title">
@@ -144,7 +142,7 @@
         <div class="card-body" v-if="activity.event">
           <div class="card-body-item-wrapper">
             <div class="event-text" v-if="activity.event">
-              <p class="text">{{ activity.event.name }} du {{ formatDate(activity.event.dateStart) }}</p>
+              <p class="text">{{ activity.event.name }} - {{ formatDate(activity.event.dateStart) }}</p>
               <p v-if="activity.event.opponent" class="subtext"> {{ activity.event.opponent }}</p>
               <p v-else-if="activity.event.location" class="subtext"> {{ activity.event.location.name }}</p>
             </div>
@@ -155,7 +153,7 @@
           </div>
           <event-result-info :event="activity.event" />
         </div>
-        <div class="card-body" v-else>L'évenement à été supprimé...</div>
+        <div class="card-body" v-else>🚫 {{$t('eventDeleted')}}</div>
       </div>
     </div>
   </div>
@@ -177,25 +175,38 @@ export default {
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
     formatActivityCategory() {
-      if (this.activity.category === 'new_membership') return 'Nouveau membre'
-      if (this.activity.category === 'remove_membership') return "Départ d'un membre"
-      if (this.activity.category === 'new_event') return 'Nouvel évenement'
-      if (this.activity.category === 'new_events_range') return 'Événements récurrent'
-      if (this.activity.category === 'new_competition') return 'Nouvelle compétition'
-      if (this.activity.category === 'new_result') return 'Nouveau résultat'
-    },
+      if (this.activity.category === 'new_membership')
+        return this.$t('newMember')
+      if (this.activity.category === 'remove_membership')
+        return this.$t('memberLeaving')
+      if (this.activity.category === 'new_event') return this.$t('newEvent')
+      if (this.activity.category === 'new_events_range')
+        return this.$t('newRecurrentEvent')
+      if (this.activity.category === 'new_competition')
+        return this.$t('newCompetition')
+      if (this.activity.category === 'new_result') return this.$t('newResult')
+      return ''
+    }
   },
   methods: {
-    routeToActivity () {
+    routeToActivity() {
       let url
-      if (this.activity.category === 'new_membership') url = `/team/${this.currentTeam._id}/show`
-      if (this.activity.category === 'remove_membership') url = `/home/user-show/${this.activity.member._id}`
-      if (['new_event', 'new_result'].includes(this.activity.category)) url = `/team/${this.currentTeam._id}/event/${this.activity.event._id}`
-      if (this.activity.category === 'new_competition') url = `/team/${this.currentTeam._id}/competition/${this.activity.competition._id}`
+      if (this.activity.category === 'new_membership')
+        url = `/team/${this.currentTeam._id}/show`
+      if (this.activity.category === 'remove_membership')
+        url = `/home/user-show/${this.activity.member._id}`
+      if (['new_event', 'new_result'].includes(this.activity.category))
+        url = `/team/${this.currentTeam._id}/event/${this.activity.event._id}`
+      if (this.activity.category === 'new_competition')
+        url = `/team/${this.currentTeam._id}/competition/${
+          this.activity.competition._id
+        }`
       this.$router.push(url)
     },
     formatDay(day) {
-      return formData.recurrenceDaysList.find(d => d.value === day).title
+      return formData.recurrenceDaysList.find(d => d.value === day)[
+        this.$i18n.locale
+      ]
     }
   }
 }
@@ -208,18 +219,21 @@ export default {
   color: $text-grey-blue;
   font-size: 13px;
   .card-activity-team {
-    i { font-size: 14px; margin-right: 5px}
+    i {
+      font-size: 14px;
+      margin-right: 5px;
+    }
     font-size: 13px;
   }
 }
-.card-activity{
+.card-activity {
   @include card();
   padding: 20px;
   font-size: 13px;
   cursor: pointer;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   &:hover {
-    box-shadow: 1px 3px 5px rgba(5,15,44,0.15);
+    box-shadow: 1px 3px 5px rgba(5, 15, 44, 0.15);
   }
 }
 .card-title {
@@ -229,8 +243,12 @@ export default {
     margin-bottom: 2px;
     color: $blue-grey;
   }
-  i.member { font-size: 20px;}
-  i.competition { font-size: 16px;}
+  i.member {
+    font-size: 20px;
+  }
+  i.competition {
+    font-size: 16px;
+  }
   span {
     margin-left: 5px;
     color: $text-grey-blue;
@@ -241,7 +259,9 @@ export default {
 }
 .card-body-item {
   display: inline-block;
-  span { color: $text-grey-blue;}
+  span {
+    color: $text-grey-blue;
+  }
   .avatar {
     @include avatar();
     display: inline-block;
@@ -265,13 +285,24 @@ export default {
       top: 15px;
     }
   }
-  .calendar-date {
+  .calendar {
     @include calendar-date-xs();
   }
   .calendar-text {
-    .text-wrapper { position: relative; span { position: absolute; top: 0; right: -24px; } }
-    .subtext { color: $text-grey-blue;}
-    p { margin: 0 0 3px 8px;}
+    .text-wrapper {
+      position: relative;
+      span {
+        position: absolute;
+        top: 0;
+        right: -24px;
+      }
+    }
+    .subtext {
+      color: $text-grey-blue;
+    }
+    p {
+      margin: 0 0 3px 8px;
+    }
   }
 }
 .competition-item {
@@ -284,7 +315,10 @@ export default {
   }
 }
 .event-competition-item {
-  img { width: 45px; height: 45px;}
+  img {
+    width: 45px;
+    height: 45px;
+  }
   .card-header-icon {
     @include icon-logo-wrapper();
     font-size: 17px;
@@ -292,8 +326,12 @@ export default {
 }
 .competition-text,
 .event-text {
-  .subtext { color: $text-grey-blue;}
-  p { margin: 0 0 3px 8px;}
+  .subtext {
+    color: $text-grey-blue;
+  }
+  p {
+    margin: 0 0 3px 8px;
+  }
 }
 .event-result {
   @include flex-start();
@@ -301,20 +339,37 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .card-activity { padding: 10px; width: 100%; }
-  .card-body { padding: 10px; }
-  .card-body-item { font-size: 12px; }
-  .competition-item, .competition-item .card-header-icon { width: 40px; height: 40px; font-size: 15px;}
-  .competition-text .subtext { font-size: 11px;}
-  .event-competition-item { display: none }
-  .calendar-item .calendar-text .subtext { font-size: 11px; }
+  .card-activity {
+    padding: 10px;
+    width: 100%;
+  }
+  .card-body {
+    padding: 10px;
+  }
+  .card-body-item {
+    font-size: 12px;
+  }
+  .competition-item,
+  .competition-item .card-header-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+  }
+  .competition-text .subtext {
+    font-size: 11px;
+  }
+  .event-competition-item {
+    display: none;
+  }
+  .calendar-item .calendar-text .subtext {
+    font-size: 11px;
+  }
   .event-text {
     margin-right: 2px;
     font-size: 12px;
-    .subtext { font-size: 11px;}
+    .subtext {
+      font-size: 11px;
+    }
   }
 }
-
-
-
 </style>

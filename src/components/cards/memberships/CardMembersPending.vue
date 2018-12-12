@@ -3,7 +3,7 @@
     v-if="team && teamMembershipsPending.length">
     <div class="card-member-title">
       <div class="card-member-title-text">
-        <h5>demandes en attente</h5>
+        <h5>{{$t('pendingRequests')}}</h5>
       </div>
     </div>
     <div class="card-member-body">
@@ -40,44 +40,55 @@ export default {
   mixins: [utilities],
   props: ['team'],
   computed: {
-    teamMembershipsPending () {
+    teamMembershipsPending() {
       return this.team.memberships.filter(m => m.status === 'pending')
     }
   },
   methods: {
-    ...mapActions(['removeTeamMembership', 'updateTeamMembership', 'removeNotification']),
+    ...mapActions([
+      'removeTeamMembership',
+      'updateTeamMembership',
+      'removeNotification'
+    ]),
     async validateMembership(membership) {
       const membershipBody = { status: 'validated' }
       try {
         await ApiMemberships.patch(membership._id, membershipBody)
         membership.status = 'validated'
         this.updateTeamMembership(membership)
-        const notification = { key: 'pendingMembers', id: membership._id}
+        const notification = { key: 'pendingMembers', id: membership._id }
         this.removeNotification(notification)
-        this.$notify({ title: 'Succès', message: 'La demande à bien été validée', type: 'success' })
+        this.$notify({
+          title: this.$t('success'),
+          message: this.$t('requestValidated'),
+          type: 'success'
+        })
       } catch (err) {
         this.errorNotify(err)
       }
     },
-     async desactivateMembership(membership) {
+    async desactivateMembership(membership) {
       const params = 'refused'
       try {
         await ApiMemberships.desactivate(membership._id, params)
         membership.status = 'desactivated'
         this.updateTeamMembership(membership)
-        const notification = { key: 'pendingMembers', id: membership._id}
+        const notification = { key: 'pendingMembers', id: membership._id }
         this.removeNotification(notification)
-        this.$notify({ title: 'Succès', message: 'La demande à bien été refusée', type: 'success' })
+        this.$notify({
+          title: this.$t('success'),
+          message: this.$t('requestRefused'),
+          type: 'success'
+        })
       } catch (err) {
         this.errorNotify(err)
-      }     
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 // Card Team Intro
 .card-member {
   @include card();
@@ -115,5 +126,4 @@ export default {
     margin: 0 4px;
   }
 }
-
 </style>

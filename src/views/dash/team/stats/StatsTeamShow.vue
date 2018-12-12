@@ -33,22 +33,39 @@ import TeamySpinner from '@/components/global/TeamySpinner'
 export default {
   name: 'StatsTeamShow',
   mixins: [utilities],
-  components: { CardStatsFilter, CardStatsTeam, TableStatsMembers, TeamySpinner },
-  data () {
+  components: {
+    CardStatsFilter,
+    CardStatsTeam,
+    TableStatsMembers,
+    TeamySpinner
+  },
+  data() {
     return {
       filterName: 'team',
-      competitions: null,
+      competitions: null
     }
   },
   computed: {
     ...mapGetters([
-      'currentUser', 'currentTeam', 'currentTeamSeason', 'sports', 
-      'statsEvents', 'statsSeasonFilter', 'statsCategoryFilter', 'statsCompetitionFilter'
-    ]),
+      'currentUser',
+      'currentTeam',
+      'currentTeamSeason',
+      'sports',
+      'statsEvents',
+      'statsSeasonFilter',
+      'statsCategoryFilter',
+      'statsCompetitionFilter'
+    ])
   },
   methods: {
-    ...mapActions(['setSeasonFilter', 'setCategoryFilter', 'setStatsEvents', 'resetStatsData', 'setReloadStats']),
-    changeFilter (filterName) {
+    ...mapActions([
+      'setSeasonFilter',
+      'setCategoryFilter',
+      'setStatsEvents',
+      'resetStatsData',
+      'setReloadStats'
+    ]),
+    changeFilter(filterName) {
       this.filterName = filterName
     },
     resetEvents() {
@@ -58,30 +75,34 @@ export default {
       this.setReloadStats(true)
       this.getTeamAllEvents()
     },
-    async getTeamAllEvents () {
+    async getTeamAllEvents() {
       try {
-        const params = { 
-          teamId: this.currentTeam._id, 
+        const params = {
+          teamId: this.currentTeam._id,
           seasonId: this.statsSeasonFilter ? this.statsSeasonFilter._id : 'all',
-          category:  this.statsCategoryFilter ? this.statsCategoryFilter.category : 'all',
-          competitionId:  this.statsCompetitionFilter ? this.statsCompetitionFilter._id : 'all',
+          category: this.statsCategoryFilter
+            ? this.statsCategoryFilter.category
+            : 'all',
+          competitionId: this.statsCompetitionFilter
+            ? this.statsCompetitionFilter._id
+            : 'all'
         }
         const data = (await ApiEvents.fullIndexTeam(params)).data
         this.setStatsEvents(data.events)
         this.setReloadStats(false)
       } catch (err) {
         this.errorNotify(err)
-      }     
+      }
     },
-    async getCompetitions (teamId) {
+    async getCompetitions(teamId) {
       try {
         const params = { filter: 'current', page: 0, teamId }
         const data = (await ApiCompetitions.indexTeam(params)).data
         this.competitions = data.competitions
       } catch (err) {
         this.errorNotify(err)
-      }     
-    },
+      }
+    }
   },
   watch: {
     statsSeasonFilter() {
@@ -94,21 +115,20 @@ export default {
       this.reloadEvents()
     }
   },
-  created () {
+  created() {
     this.resetStatsData()
     this.getTeamAllEvents()
     this.getCompetitions(this.currentTeam._id)
     this.setSeasonFilter(this.currentTeamSeason)
     this.setCategoryFilter(formData.eventCategoryList[0])
   },
-  destroyed () {
+  destroyed() {
     this.resetStatsData()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .page-stats-team {
   min-height: 700px;
   .teamy-spinner {
@@ -127,19 +147,30 @@ export default {
 }
 
 @media only screen and (max-width: 400px) {
-  .page-wrapper { padding: 0 0 60px 0; }
+  .page-wrapper {
+    padding: 0 0 60px 0;
+  }
 }
 
 @media only screen and (max-width: 719px) {
-  .page-left-container, .page-center-container-l { width: 100%; }
-  .page-wrapper { flex-direction: column; width: 100% }
+  .page-left-container,
+  .page-center-container-l {
+    width: 100%;
+  }
+  .page-wrapper {
+    flex-direction: column;
+    width: 100%;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .page-wrapper { 
-    flex-direction: column; 
+  .page-wrapper {
+    flex-direction: column;
     width: 90%;
-    .page-left-container, .page-center-container-l { width: 90%; }
+    .page-left-container,
+    .page-center-container-l {
+      width: 90%;
+    }
   }
 }
 @media only screen and (max-width: 960px) {

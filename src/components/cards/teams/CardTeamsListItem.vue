@@ -18,7 +18,7 @@
     </div>
     <router-link v-if="isMainAdmin(currentUser, team)" 
       class="card-list-item-edit" :to="`/team/${team._id}/edit`">
-      <el-tooltip content="Modifier l'équipe" placement="bottom" :open-delay="300">
+      <el-tooltip :content="$t('editTeam')" placement="bottom" :open-delay="300">
         <i class="material-icons">settings</i>
       </el-tooltip>
     </router-link>
@@ -42,25 +42,25 @@ export default {
   props: ['team', 'teamAdmin'],
   mixins: [utilities],
   components: { DialogShowTeam },
-  data () {
+  data() {
     return {
-      dialogShowTeam: false,
+      dialogShowTeam: false
     }
   },
   computed: {
     ...mapGetters(['currentUser']),
-    isHomeView () {
+    isHomeView() {
       return this.$route.name === 'home-dashboard'
     }
   },
   methods: {
-    teamShow () {
+    teamShow() {
       if (this.$route.name === 'home-dashboard') {
         this.$router.push(`/team/${this.team._id}/dashboard`)
       } else {
         this.dialogShowTeam = true
       }
-    },
+    }
   }
 }
 </script>

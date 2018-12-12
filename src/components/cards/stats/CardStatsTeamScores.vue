@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="card" v-if="statsEvents">
     <div class="card-body">
-      <div class="card-item" v-for="(item, index) in currentTeamSport().teamStatsList" :key="index">
+      <div class="card-item" v-for="(item, index) in teamStatsList" :key="index">
         <div class="tag-rounded" :class="classBackground(item.color)">
           <i v-if="item.iconCard" :class="classCardIcon(item.iconCard)" 
             class="material-icons">style</i>
@@ -11,7 +11,7 @@
           <p class="card-item-result">
             <ani-num class="ani-number" :number="totalResult(item.key)"></ani-num>
           </p>
-          <p>{{ item.title }}</p>
+          <p>{{ $t(item.title) }}</p>
         </div>
       </div>
     </div>
@@ -27,13 +27,16 @@ export default {
   name: 'CardStatsScores',
   mixins: [utilities],
   components: { AniNum },
-  data () {
+  data() {
     return {
       items: []
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'sports', 'statsEvents']),
+    teamStatsList() {
+      return this.currentTeamSport().teamStatsList
+    },
     scoreTeam() {
       return this.statsEvents.reduce((a, b) => +a + +b.scoreTeam, 0)
     },
@@ -45,17 +48,23 @@ export default {
       if (Number.isNaN(ratio)) return 0
       return ratio
     },
-    yellowCards () {
+    yellowCards() {
       let total = 0
       for (let event of this.statsEvents) {
-        total += event.participations.reduce((a, b) => +a + +b[this.currentTeamSportKey()].yellowCards, 0)
+        total += event.participations.reduce(
+          (a, b) => +a + +b[this.currentTeamSportKey()].yellowCards,
+          0
+        )
       }
       return total
     },
     redCards() {
       let total = 0
       for (let event of this.statsEvents) {
-        total += event.participations.reduce((a, b) => +a + +b[this.currentTeamSportKey()].redCards, 0)
+        total += event.participations.reduce(
+          (a, b) => +a + +b[this.currentTeamSportKey()].redCards,
+          0
+        )
       }
       return total
     }
@@ -64,26 +73,25 @@ export default {
     totalResult(key) {
       return this[key]
     },
-    classBackground (color) {
+    classBackground(color) {
       return {
         'background-green': color === 'green',
         'background-red': color === 'red',
         'background-blue-grey': color === 'blue-grey',
-        'background-grey': color === 'grey',
+        'background-grey': color === 'grey'
       }
     },
-    classCardIcon (color) {
+    classCardIcon(color) {
       return {
-        'yellow': color === 'yellow',
-        'red': color === 'red',
+        yellow: color === 'yellow',
+        red: color === 'red'
       }
-    },
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .card {
   @include card();
   padding: 0;
@@ -98,13 +106,18 @@ export default {
 .card-item {
   width: 25%;
   height: 100px;
-  p { text-align: center;  margin-bottom: 2px; }
-  
+  p {
+    text-align: center;
+    margin-bottom: 2px;
+  }
 }
-.card-item-text { 
+.card-item-text {
   margin-top: 10px;
   font-size: 12px;
-  .card-item-result { font-size: 17px; font-weight: 500}
+  .card-item-result {
+    font-size: 17px;
+    font-weight: 500;
+  }
 }
 
 .tag-rounded {
@@ -116,14 +129,26 @@ export default {
   width: 32px;
   font-size: 16px;
   text-transform: uppercase;
-  i { font-size: 18px; }
-  i.fa { font-size: 14px; }
-  img { width: 14px; }
+  i {
+    font-size: 18px;
+  }
+  i.fa {
+    font-size: 14px;
+  }
+  img {
+    width: 14px;
+  }
 }
-.background-green { background: $green }
-.background-red { background: $red }
-.background-blue-grey { background: $text-grey-blue; }
-.background-grey { background: $solitude; }
-
-
+.background-green {
+  background: $green;
+}
+.background-red {
+  background: $red;
+}
+.background-blue-grey {
+  background: $text-grey-blue;
+}
+.background-grey {
+  background: $solitude;
+}
 </style>

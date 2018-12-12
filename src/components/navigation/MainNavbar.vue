@@ -9,17 +9,12 @@
             <img class="main-navbar-logo" src="../../assets/img/teamy-logo.jpg">
           </router-link>
           <div class="main-navbar-title">
-            <span class="main-navbar-text">version</span>
             <span class="main-navbar-tag">beta</span>
           </div>
         </div>
       </div>
       <!-- Right Navigation -->
-      <div class="main-navbar-right">
-        <!-- <span class="info-icon" :class="{'highlighted': infoHighlighted}">
-          <span class="info-icon-emoji">👉</span>
-          <i class="material-icons" @click="openModalInfo()">info</i>
-        </span> -->
+      <div class="main-navbar-right">        
         <el-dropdown class="dropdown-menu-mobile" v-if="currentUser && currentTeam" trigger="click">
           <span class="el-dropdown-link">
             <i class="material-icons">menu</i>
@@ -29,7 +24,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons icon-margin-bottom">group</i>
-                  <span>Membres</span>
+                  <span>{{$t('members')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -37,7 +32,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">event</i>
-                  <span>Événements</span>
+                  <span>{{$t('events')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -45,7 +40,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="fa fa-trophy"></i>
-                  <span>Compétitions</span>
+                  <span>{{$t('competitions')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -53,7 +48,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons icon-stats">insert_chart_outlined</i>
-                  <span>Stats</span>
+                  <span>{{$t('stats')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -61,7 +56,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">view_list</i>
-                  <span>Saisons</span>
+                  <span>{{$t('seasons')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -81,7 +76,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">home</i>
-                  <span>Accueil</span>
+                  <span>{{$t('home')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -89,7 +84,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons icon-margin-bottom">public</i>
-                  <span>Communauté</span>
+                  <span>{{$t('community')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -98,7 +93,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">account_circle</i>
-                  <span>Mon profil</span>
+                  <span>{{$t('myProfile')}}</span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -106,7 +101,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">settings</i>
-                  <span>Mon compte</span>
+                  <span>{{$t('myAccount')}} </span>
                 </span>
               </el-dropdown-item>
             </router-link>
@@ -114,16 +109,15 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="fa fa-sign-out"></i>
-                  <span>Déconnexion</span>
+                  <span>{{$t('logOut')}}</span>
                 </span>
               </el-dropdown-item>
             </div>
           </el-dropdown-menu>
         </el-dropdown>
+        <dropdown-language v-if="currentUser"/>
       </div>
     </div>
-     <dialog-info-page v-show="currentUser" :user="currentUser"
-      :openDialog="dialogInfoPage" @closeDialog="dialogInfoPage = false" />
   </div>
 </template>
 
@@ -131,25 +125,25 @@
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import Auth from '@/services/Auth.js'
-import DialogInfoPage from '@/components/onbording/DialogInfoPage'
+import DropdownLanguage from '@/components/global/DropdownLanguage'
 
 export default {
   name: 'MainNavbar',
-  components: { DialogInfoPage },
+  components: { DropdownLanguage },
   mixins: [utilities],
-  data () {
+  data() {
     return {
-      dialogInfoPage: false,
+      dialogInfoPage: false
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'infoHighlighted'])
   },
   methods: {
-    logout () {
+    logout() {
       Auth.logout()
     },
-    openModalInfo () {
+    openModalInfo() {
       this.dialogInfoPage = true
     }
   }
@@ -234,7 +228,7 @@ export default {
     );
     border-radius: 20px;
     padding: 1px 10px;
-    margin-left: 5px;
+    margin-right: 5px;
   }
 }
 .main-navbar-links {

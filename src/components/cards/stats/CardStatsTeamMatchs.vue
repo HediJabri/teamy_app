@@ -2,11 +2,11 @@
   <div class="card" v-if="statsEvents">
     <div class="card-title">
       <div class="card-title-text">
-        <h5>derniers matchs</h5>
+        <h5>{{ $t('lastGames') }}</h5>
       </div>
     </div>
     <div class="card-body">
-      <span class="tag-rounded" v-for="(event, index) in lastEvents" v-if="event.result"
+      <span class="tag-rounded" v-for="(event, index) in lastEvents"
         :key="index" :class="classTag(event.result)">
         {{ formatResultLetter(event.result) }}
       </span>
@@ -21,8 +21,8 @@ export default {
   name: 'CardStatsTeam',
   computed: {
     ...mapGetters(['statsEvents']),
-    lastEvents () {
-      let lastEvents = this.statsEvents.slice(0, 10)
+    lastEvents() {
+      let lastEvents = this.statsEvents.filter(e => e.result).slice(0, 10)
       return lastEvents.reverse()
     }
   },
@@ -32,20 +32,18 @@ export default {
       if (result === 'draw') return 'n'
       if (result === 'lost') return 'd'
     },
-    classTag (result) {
+    classTag(result) {
       return {
         'background-green': result === 'win',
         'background-red': result === 'lost',
-        'background-grey': result === 'draw',
+        'background-grey': result === 'draw'
       }
-    },
+    }
   }
-
 }
 </script>
 
 <style lang="scss" scoped>
-
 .card {
   @include card();
   padding: 30px 0 10px 0;
@@ -74,8 +72,13 @@ export default {
   text-transform: uppercase;
   margin: 0 3px;
 }
-.background-green { background: $green }
-.background-red { background: $red }
-.background-grey { background: $border-grey-blue }
-
+.background-green {
+  background: $green;
+}
+.background-red {
+  background: $red;
+}
+.background-grey {
+  background: $border-grey-blue;
+}
 </style>

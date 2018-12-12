@@ -1,4 +1,5 @@
 import axios from 'axios'
+import i18n from '@/plugins/i18n'
 
 const API_URL = process.env.VUE_APP_BASE_API_URI
 
@@ -9,7 +10,8 @@ export default () => {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
       'Content-type': 'application/json',
-      'Authorization': localStorage.getItem('authToken')
+      Authorization: localStorage.getItem('authToken'),
+      Locale: i18n.locale
     }
   })
 }

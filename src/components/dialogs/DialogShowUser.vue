@@ -26,7 +26,7 @@
         <div class="dialog-footer-buttons">
           <el-button type="primary" :loading="isLoading"
             @click="routeUrl(`/user/${user._id}`)">
-            Voir le profil
+            {{$t('seeProfile')}}
           </el-button>
         </div>
       </div>
@@ -35,17 +35,14 @@
 </template>
 
 <script>
-
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
-import TagPosition from '@/components/global/TagPosition'
 
 export default {
   name: 'DialogShowUser',
   props: ['user', 'openDialog'],
   mixins: [utilities],
-  components: { TagPosition },
-  data () {
+  data() {
     return {
       dialogVisible: false,
       isLoading: false
@@ -53,15 +50,15 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser']),
-    userMemberships () {
+    userMemberships() {
       return this.user.memberships.find(m => m.status === 'validated')
     }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog', null)
       }
@@ -71,7 +68,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .dialog-body {
   padding: 0px 25px 10px 25px;
   text-align: center;
@@ -108,7 +104,8 @@ export default {
 }
 .dialog-footer-buttons {
   @include flex-center();
-  .btn-network { margin-right: 12px; }
+  .btn-network {
+    margin-right: 12px;
+  }
 }
-
 </style>

@@ -3,7 +3,7 @@
     <div class="card-team-intro">
       <div class="card-team-intro-title">
         <div class="card-team-intro-title-text">
-          <h5>l'équipe</h5>
+          <h5>{{$t('Team')}}</h5>
         </div>
       </div>
       <div class="card-team-intro-body">
@@ -28,23 +28,19 @@
     <div class="card-team-home" v-if="team">
       <div class="card-team-home-title">
         <div class="card-team-home-title-text">
-          <h5>domicile</h5>
+          <h5>{{$t('mainHome')}}</h5>
         </div>
         <router-link v-if="isMainAdmin(currentUser, team) && !isTeamOverview"
           class="card-icon-cog" :to="`/team/${team._id}/edit`">
-          <el-tooltip content="Modifier le domicile" placement="top" :open-delay="300">
+          <el-tooltip :content="$t('editMainLocation')" placement="top" :open-delay="300">
             <i class="material-icons">settings</i>
           </el-tooltip>
         </router-link>
       </div>
       <div class="card-team-home-body">
-        <p v-if="team.city" class="card-team-home-text">
-          <i class="material-icons">room</i>
-          <span>{{ team.city }}</span>
-        </p>
         <p class="card-team-home-text"
           v-if="formatTeamLocation(team)">
-          <i class="material-icons">home</i>
+          <i class="material-icons">location_on</i>
           <span>{{ formatTeamLocation(team).name }}</span>
         </p>
       </div>
@@ -61,38 +57,31 @@ export default {
   name: 'CardTeamInfos',
   mixins: [utilities],
   props: ['team'],
-  data () {
+  data() {
     return {
       activeTab: true,
-      copySucceeded: null,
+      copySucceeded: null
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeamLocation']),
-    linkTeam () {
+    linkTeam() {
       return `${process.env.VUE_APP_BASE_APP_URI}register/${this.team.token}`
     },
-    isTeamOverview () {
+    isTeamOverview() {
       return this.$route.name === 'team-overview'
     }
   },
   methods: {
-    showTeam () {
+    showTeam() {
       this.$emit('showTeam')
       eventBus.$emit('resetActiveTeamMembers')
     },
-    linkToRegister () {
-      window.open(`${this.linkTeam}/view_mode`, '_blank')
-    },
-    copyLink () {
-      this.$copyText(this.linkTeam)
-      this.$message({ message: 'Copié !', center: true, duration: 1000 });
-    },
-    openDialogShareInvitation () {
+    openDialogShareInvitation() {
       this.$emit('openDialogShare')
     }
   },
-  created () {
+  created() {
     eventBus.$on('showTeamCard', () => {
       this.showTeam()
     })

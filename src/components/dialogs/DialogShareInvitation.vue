@@ -5,22 +5,22 @@
       <div class="dialog-body">
         <div class="dialog-body-team-link">
           <h4 class="dialog-title">
-            Partage le lien d'invitation d'équipe
+            {{$t('shareTeamRegisterLink')}}
           </h4>
           <br>
           <div class="dialog-body-team-created">
-            <p><span>Copie le lien d’inscription</span> ci-dessous et <span>partage le</span> n'importe où aux<span> membres de ton équipe </span>(via email, SMS, fb, messenger...)👇 </p>
+            <p v-html="$t('dialogShareInvitationText')"></p>
             <div class="dialog-body-team-link">
               <el-input v-model="linkTeam" size="medium" >
                 <el-button slot="append" @click="copyLink()">
                   <i class="fa fa-link margin-left" aria-hidden="true"></i>
                 </el-button>
               </el-input>
-              <el-button class="team-link-btn" type="primary" @click="copyLink()">Copier</el-button>
+              <el-button class="team-link-btn" type="primary" @click="copyLink()">{{$t('copy')}}</el-button>
             </div>
-            <p>Toutes les personnes  <span>inscrites via ce lien </span>seront automatiquement <span>membre de l'équipe !</span></p>
+            <p v-html="$t('dialogShareInvitationFooter')"></p>
             <div class="dialog-footer" slot="footer">
-              <el-button class="dialog-btn" type="default" @click="closeDialog()">Retour</el-button>
+              <el-button class="dialog-btn" type="default" @click="closeDialog()">{{$t('back')}}</el-button>
             </div>
           </div>
         </div>
@@ -37,28 +37,32 @@ export default {
   name: 'DialogShareInvitation',
   mixins: [utilities],
   props: ['team'],
-  data () {
+  data() {
     return {
       dialogVisible: true,
-      isLoading: false,
+      isLoading: false
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    linkTeam () {
+    linkTeam() {
       return `${process.env.VUE_APP_BASE_APP_URI}register/${this.team.token}`
     }
   },
   methods: {
-    closeDialog () {
+    closeDialog() {
       this.$emit('closeDialog')
     },
-    linkToRegister () {
+    linkToRegister() {
       window.open(`${this.linkTeam}/view_mode`, '_blank')
     },
-    copyLink () {
+    copyLink() {
       this.$copyText(this.linkTeam)
-      this.$message({ message: 'Copié 👏', center: true, duration: 1000 });
+      this.$message({
+        message: this.$t('copied') + ' 👏',
+        center: true,
+        duration: 1000
+      })
     }
   }
 }
@@ -76,7 +80,7 @@ export default {
   p {
     font-size: 15px;
     line-height: 28px;
-    span {
+    /deep/ span {
       font-weight: 600;
     }
   }

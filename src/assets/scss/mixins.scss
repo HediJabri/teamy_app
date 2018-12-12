@@ -377,7 +377,7 @@
     width: 60px;
     height: 60px;
     text-align: center;
-    box-shadow: 0 1px 2px $grey;
+    box-shadow: 0 2px 4px rgba(5, 15, 44, 0.1);
     border-radius: 3px;
     padding: 0px;
     margin-right: 15px;
@@ -392,19 +392,16 @@
     padding: 2px 0px;
     color: $white-light;
     font-size: 13px;
-    border: 1px solid #2f9be7;
+    border: 1px solid $blue;
     font-weight: 500;
     line-height: 1.4;
     text-transform: capitalize;
   }
   .day {
-    border: 1px solid $grey-normal;
     border-radius: 0px 0px 3px 3px;
     padding: 10px;
     margin: 0px;
-    border-bottom-width: 3px;
-    border-top-width: 0px;
-    font-size: 18px;
+    font-size: 15px;
   }
 }
 
@@ -413,7 +410,7 @@
     width: 50px;
     height: 55px;
     text-align: center;
-    box-shadow: 0 1px 2px $grey;
+    box-shadow: 0 2px 4px rgba(5, 15, 44, 0.1);
     border-radius: 3px;
     padding: 0px;
     margin-right: 10px;
@@ -429,19 +426,16 @@
     padding: 2px 0px;
     color: $white-light;
     font-size: 11px;
-    border: 1px solid #2f9be7;
+    border: 1px solid $blue;
     font-weight: 500;
     line-height: 1.4;
     text-transform: capitalize;
   }
   .day {
-    border: 1px solid $grey-normal;
     border-radius: 0px 0px 3px 3px;
-    padding: 8px;
+    padding: 10px;
     margin: 0px;
-    border-bottom-width: 3px;
-    border-top-width: 0px;
-    font-size: 16px;
+    font-size: 13px;
   }
 }
 
@@ -451,7 +445,7 @@
     width: 40px;
     height: 47px;
     text-align: center;
-    box-shadow: 0 1px 2px $grey;
+    box-shadow: 0 2px 4px rgba(5, 15, 44, 0.1);
     border-radius: 3px;
     padding: 0px;
     margin-right: 10px;
@@ -467,37 +461,34 @@
     padding: 1px 0px;
     color: $white-light;
     font-size: 11px;
-    border: 1px solid #2f9be7;
+    border: 1px solid $blue;
     font-weight: 500;
     line-height: 1.4;
     text-transform: capitalize;
   }
   .day {
     width: 40px;
-    border: 1px solid $grey-normal;
     border-radius: 0px 0px 3px 3px;
-    padding: 5px;
+    padding: 7px;
     margin: 0px;
-    border-bottom-width: 3px;
-    border-top-width: 0px;
-    font-size: 14px;
+    font-size: 11px;
   }
 }
 
 @mixin calendar-date-xxs() {
   text-align: center;
   .calendar-date {
-    width: 28px;
-    height: 32px;
+    width: 30px;
+    height: 34px;
     text-align: center;
-    box-shadow: 0 1px 2px $grey;
+    box-shadow: 0 2px 4px rgba(5, 15, 44, 0.1);
     border-radius: 3px;
     padding: 0px;
     margin-right: 5px;
     float: left;
   }
   .month {
-    width: 28px;
+    width: 30px;
     background: $blue;
     border-top-left-radius: 3px;
     border-radius: 3px 3px 0px 0px;
@@ -511,13 +502,10 @@
     text-transform: capitalize;
   }
   .day {
-    width: 28px;
-    border: 1px solid $grey-normal;
+    width: 30px;
     border-radius: 0px 0px 3px 3px;
-    padding: 3px;
+    padding: 4px;
     margin: 0px;
-    border-bottom-width: 3px;
-    border-top-width: 0px;
     font-size: 9px;
   }
 }

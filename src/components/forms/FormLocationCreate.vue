@@ -2,27 +2,27 @@
   <div v-if="team">
     <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
       <el-form-item prop="name">
-        <p class="form-label">Nom du lieu</p>
-        <el-input placeholder="Stade, Urban, Gymnase..." v-model="form.name">
+        <p class="form-label">{{$t('locationName')}}</p>
+        <el-input :placeholder="$t('locationPlaceholder')" v-model="form.name">
         </el-input>
       </el-form-item>
       <el-form-item>
-        <p class="form-label form-label-small">Adresse du lieu <span> (optionnel)</span></p>
+        <p class="form-label form-label-small">{{$t('address')}} <span> ({{$t('optional')}})</span></p>
         <input-search-places v-on:addLocationGeoloc="addLocationGeoloc($event)"/>
       </el-form-item>
       <el-form-item v-if="!formatTeamLocation(team)" prop="mainLocation">
-        <span class="form-label radio-label">Lieu domicile de l'équipe ?</span>
+        <span class="form-label radio-label">{{$t('teamLocationHome')}} ?</span>
         <el-radio-group v-model="form.mainLocation">
-          <el-radio :label="true">Oui</el-radio>
-          <el-radio :label="false">Non</el-radio>
+          <el-radio :label="true">{{$t('yes')}}</el-radio>
+          <el-radio :label="false">{{$t('no')}}</el-radio>
         </el-radio-group>
       </el-form-item>
       <div class="form-submit">
         <el-button v-if="backButton" class="form-btn" type="default" @click="backAction()">
-          Retour
+          {{$t('back')}}
         </el-button>
         <el-button class="form-btn" type="success" @click="submitForm('form')" :loading="isLoading">
-          Ajouter
+          {{$t('add')}}
         </el-button>
       </div>
     </el-form>
@@ -40,7 +40,7 @@ export default {
   mixins: [utilities],
   props: ['team', 'category', 'mainLocation', 'backButton'],
   components: { InputSearchPlaces },
-  data () {
+  data() {
     return {
       isLoading: false,
       form: {
@@ -50,21 +50,21 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
-        ],
-      },
+          { required: true, message: this.$t('fieldRequired'), trigger: 'blur' }
+        ]
+      }
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    backAction () {
+    backAction() {
       this.resetForm()
       this.$emit('backAction')
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.createLocation()
         } else {
@@ -73,9 +73,10 @@ export default {
         }
       })
     },
-    async createLocation () {
+    async createLocation() {
       this.isLoading = true
-      const locationAddress = document.querySelector('#form-input-location').value
+      const locationAddress = document.querySelector('#form-input-location')
+        .value
       const body = {
         name: this.form.name,
         mainLocation: this.form.mainLocation,
@@ -91,20 +92,20 @@ export default {
         this.impossibleActionNotify()
       }
     },
-    addLocationGeoloc (geolocalisation) {
+    addLocationGeoloc(geolocalisation) {
       this.form.geolocalisation = geolocalisation
     },
-    locationCreated (location) {
+    locationCreated(location) {
       this.resetForm()
       this.$emit('locationCreated', location)
     },
-    resetForm () {
+    resetForm() {
       this.isLoading = false
       this.form.name = ''
       document.querySelector('#form-input-location').value = null
     }
   },
-  created () {
+  created() {
     if (!this.formatTeamLocation(this.team)) this.form.mainLocation = true
   }
 }

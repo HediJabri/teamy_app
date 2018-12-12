@@ -2,7 +2,7 @@
   <transition name="fade" mode="out-in">
     <div class="page-wrapper">
       <div class="page-left-container">
-        <card-user v-if="currentUser" :user="currentUser" :team="null"/>
+        <card-user :user="currentUser" :team="null"/>
       </div>
       <div class="page-center-container-l">
         <form-team-create />

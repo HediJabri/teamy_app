@@ -7,7 +7,7 @@
           <transition name="fade" mode="out-in">
             <div v-if="selectDisplay" class="page-event">
               <div class="page-event-header">
-                <h5>ajouter un événement</h5>
+                <h5>{{ $t('addEvent')}}</h5>
               </div>
               <div class="page-event-body">
                 <div class="row">
@@ -17,7 +17,7 @@
                       <div class="page-card-logo">
                         <event-category-icon :category="item.category" :size="'s'" />
                       </div>
-                      <h6>{{ item.title }}</h6>
+                      <h6>{{ $tc(item.title, 1) }}</h6>
                     </div>
                   </div>
                 </div>
@@ -25,7 +25,7 @@
             </div>
             <div v-else-if="competitions" class="page-competition">
               <div class="page-competition-header">
-                <h5>séléctionnes ta compétition</h5>
+                <h5>{{$t('selectYourCompetition')}}</h5>
               </div>
               <card-competitions-list
                 :competitions="competitions" :filter="filterName"
@@ -52,12 +52,16 @@ import CardTeam from '@/components/cards/teams/CardTeam'
 import CardCompetitionsList from '@/components/cards/competitions/CardCompetitionsList'
 import EventCategoryIcon from '@/components/global/events/EventCategoryIcon'
 
-
 export default {
   name: 'EventNewSelect',
   mixins: [guards, utilities],
-  components: { TeamySpinner, CardTeam, CardCompetitionsList, EventCategoryIcon },
-  data () {
+  components: {
+    TeamySpinner,
+    CardTeam,
+    CardCompetitionsList,
+    EventCategoryIcon
+  },
+  data() {
     return {
       selectDisplay: true,
       competitions: null,
@@ -67,7 +71,7 @@ export default {
         next: 0,
         loadingNext: true,
         allRecordsFetched: false
-      },
+      }
     }
   },
   computed: {
@@ -76,41 +80,48 @@ export default {
   methods: {
     routeSelect(category) {
       if (category === 'competition') {
-         this.getCompetitions(this.page.next)
+        this.getCompetitions(this.page.next)
       } else {
         this.$router.push(`/team/${this.currentTeam._id}/event-new/${category}`)
       }
     },
-    async getCompetitions (pageNext) {
+    async getCompetitions(pageNext) {
       this.page.loadingNext = true
       this.selectDisplay = false
       try {
-        const params = { filter: this.filterName, page: pageNext, teamId: this.currentTeam._id }
+        const params = {
+          filter: this.filterName,
+          page: pageNext,
+          teamId: this.currentTeam._id
+        }
         const data = (await ApiCompetitions.indexTeam(params)).data
-        pageNext > 0 ?  this.competitions = this.competitions.concat(data.competitions) : this.competitions = data.competitions
-        this.competitions.length >= data.competitionsCount ? this.page.allRecordsFetched = true : this.page.allRecordsFetched = false
+        pageNext > 0
+          ? (this.competitions = this.competitions.concat(data.competitions))
+          : (this.competitions = data.competitions)
+        this.competitions.length >= data.competitionsCount
+          ? (this.page.allRecordsFetched = true)
+          : (this.page.allRecordsFetched = false)
         this.page.loadingNext = false
       } catch (err) {
         this.errorNotify(err)
         this.page.loadingNext = false
-      }     
+      }
     },
-    goToNextPage () {
-       if (this.page.next >= 0) {
+    goToNextPage() {
+      if (this.page.next >= 0) {
         this.page.loadingNext = true
-        this.page.next ++
+        this.page.next++
         if (this.competitions) this.getCompetitions(this.page.next)
       }
     }
   },
-  created () {
+  created() {
     this.requireTeamAdminOrManager(this.currentUser, this.currentTeam)
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -134,17 +145,19 @@ export default {
 .page-card {
   @include card();
   height: 145px;
-  padding: 15px 10px!important;
+  padding: 15px 10px !important;
   text-align: center;
   cursor: pointer;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   .page-card-logo {
     @include flex-center();
     margin-top: 15px;
   }
-  h6 { font-size: 15px }
+  h6 {
+    font-size: 15px;
+  }
   &:hover {
-    box-shadow: 1px 3px 5px rgba(5,15,44,0.15);
+    box-shadow: 1px 3px 5px rgba(5, 15, 44, 0.15);
   }
 }
 .page-competition {
@@ -155,25 +168,50 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { padding: 0px 10px 60px 10px; }
-  .page-right-container { display: none; }
-  .page-center-container-l { width: 100%; padding: 0; }
-  .page-competition { padding: 0;}
+  .page-wrapper {
+    padding: 0px 10px 60px 10px;
+  }
+  .page-right-container {
+    display: none;
+  }
+  .page-center-container-l {
+    width: 100%;
+    padding: 0;
+  }
+  .page-competition {
+    padding: 0;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-right-container { display: none; }
-  .page-center-container-l { width: 100%; padding: 0; }
-  .page-competition { padding: 0; }
+  .page-right-container {
+    display: none;
+  }
+  .page-center-container-l {
+    width: 100%;
+    padding: 0;
+  }
+  .page-competition {
+    padding: 0;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 959px) {
-  .page-right-container { display: none; }
-  .page-center-container-l { width: 80%; padding: 0 30px; }
-  .page-competition { padding: 0;}
+  .page-right-container {
+    display: none;
+  }
+  .page-center-container-l {
+    width: 80%;
+    padding: 0 30px;
+  }
+  .page-competition {
+    padding: 0;
+  }
 }
 
 @media only screen and (min-width: 960px) and (max-width: 1160px) {
-  .page-center-container-l { padding: 0 30px; }
+  .page-center-container-l {
+    padding: 0 30px;
+  }
 }
 </style>

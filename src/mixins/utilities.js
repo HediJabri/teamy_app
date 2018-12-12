@@ -1,8 +1,23 @@
+import Vue from 'vue'
 import moment from 'moment'
+import i18n from '../plugins/i18n'
+import ElementUI from 'element-ui'
+import enLang from 'element-ui/lib/locale/lang/en'
+import frLang from 'element-ui/lib/locale/lang/fr'
+import locale from 'element-ui/lib/locale'
 
 const utilities = {
   methods: {
     // General
+    changeAppLocale(appLocale) {
+      let lang
+      if (!appLocale) appLocale = 'en'
+      if (appLocale === 'en') lang = enLang
+      if (appLocale === 'fr') lang = frLang
+      locale.use(lang)
+      i18n.locale = appLocale
+      Vue.use(ElementUI)
+    },
     routeUrl(url) {
       this.$router.push(url)
     },
@@ -56,62 +71,68 @@ const utilities = {
     // Dates
     formatCurrentTime() {
       return moment()
-        .locale('fr')
+        .locale(i18n.locale)
         .format('HH:mm')
     },
     formatCurrentDay() {
       return moment()
-        .locale('fr')
+        .locale(i18n.locale)
         .format('dddd')
+        .slice(0, 3)
+    },
+    formatCurrentDayNumber() {
+      return moment()
+        .locale(i18n.locale)
+        .format('Do')
         .slice(0, 3)
     },
     formatCurrentDayMonth() {
       return moment()
-        .locale('fr')
-        .format('Do MMM')
+        .locale(i18n.locale)
+        .format('MMM')
     },
     formatDay(date) {
       const day = moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('dddd')
         .slice(0, 3)
       return `${day}.`
     },
     formatEventDay(date) {
       return moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('Do')
     },
     formatEventMonth(date) {
       return moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('MMM')
         .slice(0, 3)
     },
     formatDate(date) {
       return moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('ll')
     },
     formatFullDate(date) {
       return moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('dddd ll')
     },
     formatDateCreatedAt(date) {
       return moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('MMM YYYY')
     },
     formatDateFromNow(date) {
       return moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .fromNow()
     },
     formatResult(result) {
-      if (result === 'win') return 'Victoire'
-      if (result === 'draw') return 'Match Nul'
-      if (result === 'lost') return 'Défaite'
+      if (result === 'win') return this.$tc('Win', 1)
+      if (result === 'draw') return this.$tc('Draw', 1)
+      if (result === 'lost') return this.$tc('Lost', 1)
     },
     // Format Age
     formatAge(user) {
@@ -206,7 +227,7 @@ const utilities = {
     // Event Status
     eventIsPassed(event) {
       const dateTimeNow = moment()
-        .locale('fr')
+        .locale(i18n.locale)
         .format('YYYY/MM/DD HH:mm')
       const dateEvent = moment(event.dateStart)
         .format('YYYY/MM/DD')
@@ -220,10 +241,10 @@ const utilities = {
     },
     eventIsToday(date) {
       const dateNow = moment()
-        .locale('fr')
+        .locale(i18n.locale)
         .format('YYYY-MM-DD')
       const dateEvent = moment(date)
-        .locale('fr')
+        .locale(i18n.locale)
         .format('YYYY-MM-DD')
         .toString()
       if (dateNow === dateEvent) return true
@@ -240,24 +261,24 @@ const utilities = {
     errorNotify(error) {
       console.log(error)
       this.$notify({
-        title: 'Erreur',
-        message: 'Une erreur est survenue',
+        title: this.$t('error'),
+        message: this.$t('errorOccurred'),
         type: 'error'
       })
     },
     impossibleActionNotify(error) {
       console.log(error)
       this.$notify({
-        title: 'Erreur',
-        message: 'Action impossible',
+        title: this.$t('error'),
+        message: this.$t('impossibleAction'),
         type: 'error'
       })
     },
     noAccessPageNotify(error) {
       console.log(error)
       this.$notify({
-        title: 'Erreur',
-        message: "Tu n'as pas accès à cette page !",
+        title: this.$t('error'),
+        message: this.$t('noPageAccess'),
         type: 'error'
       })
       this.$router.push('/')

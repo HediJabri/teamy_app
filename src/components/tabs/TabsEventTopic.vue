@@ -1,75 +1,119 @@
 <template>
-<div class="tabs-topic" v-if="event">
-  <div class="tabs-comments" v-if="event.topic">
-    <div class="tabs-comments-header">
-      <h5 v-if="event.topic.comments">{{ event.topic.comments.length }} messages</h5>
-    </div>
-    <div class="tabs-comments-list"
-      v-if="event.topic.comments && event.topic.comments.length">
-      <div class="tabs-comments-list-item-wrapper"
-        v-for="comment in event.topic.comments" :key="comment._id">
-        <div class="tabs-comments-list-item">
-          <div class="list-item-content">
-            <div class="list-item-img avatar">
-              <img v-if="comment.user.avatar" :src="comment.user.avatar">
-              <img v-else src="../../assets/img/user.png">
-            </div>
-            <div class="list-item-body">
-              <p class="list-item-body-top">
-                {{ comment.user.firstName }} {{ comment.user.lastName }}
-              </p>
-              <p class="list-item-body-bottom"></p>
+  <div
+    class="tabs-topic"
+    v-if="event"
+  >
+    <div
+      class="tabs-comments"
+      v-if="event.topic"
+    >
+      <div class="tabs-comments-header">
+        <h5 v-if="event.topic.comments"> {{$tc('Comment', event.topic.comments.length)}}</h5>
+      </div>
+      <div
+        class="tabs-comments-list"
+        v-if="event.topic.comments && event.topic.comments.length"
+      >
+        <div
+          class="tabs-comments-list-item-wrapper"
+          v-for="comment in event.topic.comments"
+          :key="comment._id"
+        >
+          <div class="tabs-comments-list-item">
+            <div class="list-item-content">
+              <div class="list-item-img avatar">
+                <img
+                  v-if="comment.user.avatar"
+                  :src="comment.user.avatar"
+                >
+                <img
+                  v-else
+                  src="../../assets/img/user.png"
+                >
+              </div>
+              <div class="list-item-body">
+                <p class="list-item-body-top">
+                  {{ comment.user.firstName }} {{ comment.user.lastName }}
+                </p>
+                <p class="list-item-body-bottom"></p>
+              </div>
             </div>
           </div>
+          <p class="list-item-content-bottom">
+            {{ comment.content }}
+            <el-tooltip
+              v-if="comment.membersToNotify"
+              :content="`${$tc('membersNotified', comment.membersToNotify)}`"
+              placement="top"
+              :open-delay="300"
+            >
+              <i class="fa fa-envelope"></i>
+            </el-tooltip>
+          </p>
         </div>
-        <p class="list-item-content-bottom">
-          {{ comment.content }}
-          <el-tooltip v-if="comment.membersToNotify" 
-            :content="`${comment.membersToNotify} membres notifiés`" placement="top" :open-delay="300">
-            <i  class="fa fa-envelope"></i>
-          </el-tooltip>
-        </p>
       </div>
-    </div>
-    <div class="tabs-comments-form">
-      <el-input type="textarea" :rows="3" v-model="newComment"
-        placeholder="Ajouter un message">
-      </el-input>
-      <div class="tabs-comments-buttons">
-        <div class="tabs-comments-btn">
-          <el-button type="default"
-            :disabled="newComment.length === 0"
-            @click="openDialogNotifyMembers">
-            Notifier
-            <i class="fa fa-envelope margin-left" :class="{'blue': newComment.length}"></i>
-          </el-button>
-          <div v-if="membersToNotify.length" class="tabs-comments-tag">
-            <span >{{ membersToNotify.length }} membres</span>
+      <div class="tabs-comments-form">
+        <el-input
+          type="textarea"
+          :rows="3"
+          v-model="newComment"
+          :placeholder="$t('writeYourMessageHere')"
+        >
+        </el-input>
+        <div class="tabs-comments-buttons">
+          <div class="tabs-comments-btn">
+            <el-button
+              type="default"
+              :disabled="newComment.length === 0"
+              @click="openDialogNotifyMembers"
+            >
+              {{$t('notify')}}
+              <i
+                class="fa fa-envelope margin-left"
+                :class="{'blue': newComment.length}"
+              ></i>
+            </el-button>
+            <div
+              v-if="membersToNotify.length"
+              class="tabs-comments-tag"
+            >
+              <span> {{$tc('member', membersToNotify.length)}}</span>
+            </div>
           </div>
+          <div class="tabs-comments-btn">
+            <el-button
+              type="primary"
+              :disabled="newComment.length === 0"
+              @click="postComment"
+            >
+              {{$t('add')}}
+              <i class="fa fa-plus-circle margin-left"></i>
+            </el-button>
+          </div>
+
         </div>
-        <div class="tabs-comments-btn">
-          <el-button type="primary"
-            :disabled="newComment.length === 0"
-            @click="postComment">
-            Ajouter
-            <i class="fa fa-plus-circle margin-left"></i>
-          </el-button>
-        </div>
-       
       </div>
     </div>
-  </div>
-  <div class="tabs-comments-empty-item" v-else>
-    <el-button type="primary" @click="createTopic()" :loading="isTopicLoading">
-      Commencer une conversation <i class="material-icons">forum</i>
-    </el-button>
-  </div>
-  <dialog-notify-members
-      v-show="event" :team="event.team"
+    <div
+      class="tabs-comments-empty-item"
+      v-else
+    >
+      <el-button
+        type="primary"
+        @click="createTopic()"
+        :loading="isTopicLoading"
+      >
+        {{$t('addComment')}} <i class="material-icons">forum</i>
+      </el-button>
+    </div>
+    <dialog-notify-members
+      v-show="event"
+      :team="event.team"
       :openDialog="dialogNotifyMembers"
       @closeDialog="dialogNotifyMembers = false"
-      v-on:initMembersToNotify="initMembersToNotify($event)" />
-</div>
+      v-on:initMembersToNotify="initMembersToNotify($event)"
+    />
+  </div>
 </template>
 
 <script>
@@ -83,7 +127,7 @@ export default {
   name: 'TabsEventComments',
   mixins: [utilities],
   components: { DialogNotifyMembers },
-  data () {
+  data() {
     return {
       membersToNotify: [],
       dialogNotifyMembers: false,
@@ -92,11 +136,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentUser', 'event']),
+    ...mapGetters(['currentUser', 'event'])
   },
   methods: {
     ...mapActions(['addEventTopic', 'addEventTopicComment']),
-    openDialogNotifyMembers () {
+    openDialogNotifyMembers() {
       this.dialogNotifyMembers = true
     },
     initMembersToNotify(members) {
@@ -105,7 +149,11 @@ export default {
     async createTopic() {
       try {
         this.isTopicLoading = true
-        const body = { name: this.event.name, user: this.currentUser._id, event: this.event._id }
+        const body = {
+          name: this.event.name,
+          user: this.currentUser._id,
+          event: this.event._id
+        }
         const topic = (await ApiTopics.post(body)).data.topic
         this.addEventTopic(topic)
         this.isTopicLoading = false
@@ -114,10 +162,16 @@ export default {
         this.isTopicLoading = false
       }
     },
-    async postComment () {
+    async postComment() {
       try {
-        const body = { content: this.newComment, user: this.currentUser._id, topic: this.event.topic._id, team: this.event.team._id }
-        if (this.membersToNotify.length) body.membersToNotify = this.membersToNotify
+        const body = {
+          content: this.newComment,
+          user: this.currentUser._id,
+          topic: this.event.topic._id,
+          team: this.event.team._id
+        }
+        if (this.membersToNotify.length)
+          body.membersToNotify = this.membersToNotify
         const comment = (await ApiComments.post(body)).data.comment
         this.addEventTopicComment(comment)
         this.newComment = ''
@@ -125,7 +179,7 @@ export default {
       } catch (err) {
         this.impossibleActionNotify(err)
       }
-    },
+    }
   }
 }
 </script>
@@ -140,9 +194,11 @@ export default {
   .el-button {
     padding: 9px 14px 12px 14px;
     @include flex-center;
-    i { font-size: 15px; margin-left:5px }
+    i {
+      font-size: 15px;
+      margin-left: 5px;
+    }
   }
-  
 }
 .tabs-comments-header {
   @include page-title;
@@ -165,7 +221,11 @@ export default {
   padding-left: 60px;
   font-size: 13px;
   margin-top: -5px;
-  i { color: $blue; cursor: pointer; margin-left: 5px }
+  i {
+    color: $blue;
+    cursor: pointer;
+    margin-left: 5px;
+  }
 }
 .tabs-comments-buttons {
   margin-top: 10px;
@@ -174,20 +234,32 @@ export default {
   .tabs-comments-btn {
     margin-left: 5px;
   }
-  .tabs-comments-tag { 
+  .tabs-comments-tag {
     margin-top: 10px;
     span {
       @include flex-center;
       @include tag-flat-s;
-      i { color: $blue; margin-left: 5px }
+      i {
+        color: $blue;
+        margin-left: 5px;
+      }
     }
   }
 }
 
 @media only screen and (max-width: 479px) {
-  .tabs-comments { padding: 0; }
-  .tabs-comments-list-item { padding: 9px 0px; }
-  .list-item-content-bottom { padding-left: 35px; font-size: 12px;}
-  textarea { font-size: 13px; }
+  .tabs-comments {
+    padding: 0;
+  }
+  .tabs-comments-list-item {
+    padding: 9px 0px;
+  }
+  .list-item-content-bottom {
+    padding-left: 35px;
+    font-size: 12px;
+  }
+  textarea {
+    font-size: 13px;
+  }
 }
 </style>

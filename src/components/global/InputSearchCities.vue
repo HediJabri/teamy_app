@@ -1,6 +1,6 @@
 <template>
   <input
-    placeholder="Recherche ta ville"
+    :placeholder="$t('searchYourCity')"
     type="search"
     id="form-input-location"
   />
@@ -8,29 +8,31 @@
 <script>
 export default {
   name: 'InputSearchPlaces',
-  mounted () {
-    let places = require('places.js');
+  mounted() {
+    let places = require('places.js')
     let placesAutocomplete = places({
       container: document.querySelector('#form-input-location'),
       language: ['en'],
       type: 'city',
       templates: {
-        value: function (suggestion) {
-          return `${suggestion.name}, ${suggestion.country} `;
+        value: function(suggestion) {
+          return `${suggestion.name}, ${suggestion.country} `
         }
       }
-    });
-    placesAutocomplete.on('change', function resultSelected (e) {
-      console.log(e)
-      this.$emit('addCity', {
-        city: e.suggestion.name,
-        country: {
-          name: e.suggestion.country,
-          code: e.suggestion.countryCode
-        }
-      })
-    }.bind(this));
-  },
+    })
+    placesAutocomplete.on(
+      'change',
+      function resultSelected(e) {
+        this.$emit('addCity', {
+          city: e.suggestion.name,
+          country: {
+            name: e.suggestion.country,
+            code: e.suggestion.countryCode
+          }
+        })
+      }.bind(this)
+    )
+  }
 }
 </script>
 <style lang="scss">

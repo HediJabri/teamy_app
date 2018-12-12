@@ -3,7 +3,7 @@
     <div class="card-filter">
       <div class="card-filter-title">
         <div class="card-filter-title-text">
-          <h5>compétitions</h5>
+          <h5>{{$t('competitions')}}</h5>
         </div>
         <div class="card-filter-title-btn">
         </div>
@@ -17,7 +17,7 @@
           'border-red': filter.border === 'red',
           'border-blue': filter.border === 'blue'}">
           <div class="list-item-body">
-            <p class="list-item-body-top">{{ filter.title }}</p>
+            <p class="list-item-body-top">{{ $t(filter.name) }}</p>
           </div>
         </div>
       </div>
@@ -26,7 +26,7 @@
       v-if="isAdmin(currentUser, currentTeam)">
       <el-button type="primary"
       @click="routeUrl(`/team/${currentTeam._id}/competition-new`)">
-        Ajouter une compétition
+       {{$t('addCompetition')}}
         <i class="fa fa-plus-circle margin-left"></i>
       </el-button>
     </div>
@@ -39,11 +39,23 @@ import { utilities } from '@/mixins/utilities.js'
 export default {
   name: 'CardCompetitionsFilter',
   mixins: [utilities],
-  data () {
+  data() {
     return {
       filters: [
-        { id: 1, title: 'En Cours', name: 'current', active: true, border: 'blue' },
-        { id: 2, title: 'Cloturée', name: 'clotured', active: false, border: 'red' }
+        {
+          id: 1,
+          title: 'En Cours',
+          name: 'current',
+          active: true,
+          border: 'blue'
+        },
+        {
+          id: 2,
+          title: 'Cloturée',
+          name: 'closed',
+          active: false,
+          border: 'red'
+        }
       ]
     }
   },
@@ -51,7 +63,7 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    toggleFilter (filterName) {
+    toggleFilter(filterName) {
       this.$emit('filterChange', filterName)
       for (let f of this.filters) {
         f.active = false
@@ -64,7 +76,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .card-filter {
   @include card();
   padding: 30px 0 10px 0;
@@ -89,15 +100,18 @@ export default {
 }
 .card-filter-list-item.border-red.active {
   border-left: 5px solid $red;
-  p { font-weight: 600!important; }
+  p {
+    font-weight: 600 !important;
+  }
 }
 .card-filter-list-item.border-blue.active {
   border-left: 5px solid $blue;
-  p { font-weight: 600!important; }
+  p {
+    font-weight: 600 !important;
+  }
 }
 .card-filter-btn-add {
   @include flex-center();
   margin-bottom: 20px;
 }
-
 </style>

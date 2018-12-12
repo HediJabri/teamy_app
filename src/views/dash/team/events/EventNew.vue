@@ -25,7 +25,7 @@ export default {
   name: 'EventNew',
   mixins: [guards, utilities],
   components: { TeamySpinner, CardTeam, FormEventCreate },
-  data () {
+  data() {
     return {
       formIsReady: false,
       eventCategory: null,
@@ -33,10 +33,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentUser','currentTeam'])
+    ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    async getCompetition (id) {
+    async getCompetition(id) {
       try {
         const competition = (await ApiCompetitions.get(id)).data.competition
         this.competition = competition
@@ -46,7 +46,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.requireTeamAdminOrManager(this.currentUser, this.currentTeam)
     if (this.$route.params.type === 'competition') {
       this.eventCategory = 'competition'
@@ -60,7 +60,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -76,18 +75,32 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { padding: 0px 10px 60px 10px; }
-  .page-center-container-l { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    padding: 0px 10px 60px 10px;
+  }
+  .page-center-container-l {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-center-container-l { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-center-container-l {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .page-center-container-l { width: 90% !important; }
-  .page-right-container { display: none }
+  .page-center-container-l {
+    width: 90% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 </style>

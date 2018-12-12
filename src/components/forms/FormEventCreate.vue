@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="form-wrapper">
     <div class="form-header">
-      <h5>nouvel évenement</h5>
+      <h5>{{ $t('newEvent') }}</h5>
     </div>
     <div class="form-card">
       <div class="form-body">
@@ -12,9 +12,9 @@
             </div>
             <div v-if="competition">
               <h5>{{ competition.name }}</h5>
-              <p>{{ formatCompetition(competition.category) }}</p>
+              <p>{{ $t(competition.category) }}</p>
             </div>
-            <h5 v-else-if="form.name === 'Autre'" class="form-header-name">{{ otherCategory }}</h5>
+            <h5 v-else-if="form.name === $t('other')" class="form-header-name">{{ otherCategory }}</h5>
             <h5 v-else class="form-header-name"> {{ form.name }}</h5>
             <hr>
           </div>
@@ -22,36 +22,35 @@
             <div class="row">
               <div class="col-xs-12">
                 <div class="form-label-group form-label-column">
-                  <p class="form-label form-label-small">Nom de l'évenement</p>
+                  <p class="form-label form-label-small">{{ $t('eventName') }}</p>
                   <el-radio-group v-model="form.locationCategory">
-                    <el-radio label="Domicile"></el-radio>
-                    <el-radio label="Extérieur"></el-radio>
+                    <el-radio :label="'home'" >{{$t('atHome')}}</el-radio>
+                    <el-radio :label="'away'">{{$t('away')}}</el-radio>
                   </el-radio-group>
                 </div>
                 <el-form-item prop="name">
-                  <el-select v-model="form.name" placeholder="Ajouter le nom de l'évenement">
+                  <el-select v-model="form.name" :placeholder="$t('addEventName')">
                     <el-option v-for="category in eventCategories"
-                      :label="category" :value="category" :key="category">
-                      <span>{{ category }}</span>
+                      :label="$t(category)" :value="$t(category)" :key="category">
                     </el-option>
-                    <el-option :label="'Autre'" :value="'Autre'" :key="'Autre'">
+                    <el-option :label="$tc('Other', 1)" :value="$tc('Other', 1)" :key="$tc('Other', 1)">
                     </el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item v-if="form.name === 'Autre'">
-                  <el-input v-model="otherCategory" placeholder="Autre nom d'évenement">
+                <el-form-item v-if="form.name === $t('other')">
+                  <el-input v-model="otherCategory" :placeholder="$t('eventName')">
                   </el-input>
                 </el-form-item>
               </div>
               <div class="col-xs-12" v-if="eventCategory !== 'training'">
                 <el-form-item prop="opponent">
                   <div class="form-item-left">
-                    <span class="form-label">Adversaire</span>
+                    <span class="form-label">{{$t('opponent')}}</span>
                     <el-switch v-model="opponent"></el-switch>
                   </div>
                   <transition name="fade" mode="out-in">
                     <el-input v-if="opponent" v-model="form.opponent"
-                      placeholder="Nom de l'équipe adverse">
+                      :placeholder="$t('opponentName')">
                     </el-input>
                   </transition>
                 </el-form-item>
@@ -59,7 +58,7 @@
               <div class="col-xs-12">
                 <el-form-item prop="recurring">
                   <div class="form-item-left">
-                    <span class="form-label">Événement récurrent</span>
+                    <span class="form-label">{{$t('recurringEvent')}}</span>
                     <el-switch v-model="form.recurring"></el-switch>
                   </div>
                 </el-form-item>
@@ -71,7 +70,7 @@
                       <el-date-picker
                         type="date"
                         format="dd-MM-yyyy"
-                        placeholder="Date de début"
+                        :placeholder="$t('startDate')"
                         v-model="form.periodStart"
                         style="width: 100%;">
                       </el-date-picker>
@@ -79,11 +78,12 @@
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <el-form-item prop="time">
-                      <el-time-select
-                        v-model="form.time" :picker-options="{ start: '07:00', step: '00:15', end: '23:45' }"
-                        placeholder="Heure de l'événement"
-                        style="width: 100%;">
-                      </el-time-select>
+                      <el-select v-model="form.time" :placeholder="$t('time')">
+                        <i slot="prefix" class="el-input__icon el-icon-time"></i>
+                        <el-option v-for="time in formData.timeList"
+                          :label="time[$i18n.locale]" :value="time[$i18n.locale]" :key="time[$i18n.locale]">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                   </div>
                   <div class="col-xs-12 col-sm-6">
@@ -91,7 +91,7 @@
                       <el-date-picker
                         type="date"
                         format="dd-MM-yyyy"
-                        placeholder="Date de fin"
+                        :placeholder="$t('endDate')"
                         v-model="form.periodEnd"
                         style="width: 100%;">
                       </el-date-picker>
@@ -99,7 +99,7 @@
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <el-form-item prop="recurrence">
-                      <el-select v-model="form.recurrence" placeholder="Type de récurrence">
+                      <el-select v-model="form.recurrence" :placeholder="$t('recurrenceType')">
                         <el-option v-for="category in recurrenceCategories"
                           :label="category.title" :value="category.value" :key="category.value">
                           <span>{{ category.title }}</span>
@@ -109,11 +109,11 @@
                   </div>
                   <div class="col-xs-12">
                     <el-form-item prop="recurentDays">
-                      <p class="form-label">Jours de récurrence</p>
+                      <p class="form-label">{{$t('recurrenceDays')}}</p>
                       <el-checkbox-group v-model="form.recurentDays">
                         <el-checkbox v-for="day in recurrenceDaysList" :key="day.value"
                           :value="day.value" :label="day.value" name="type" border size="mini">
-                          {{ day.title }}
+                          {{ day[$i18n.locale] }}
                         </el-checkbox>
                       </el-checkbox-group>
                     </el-form-item>
@@ -121,36 +121,37 @@
                 </div>
               </div>
               <div v-else class="col-xs-12">
-                <p class="form-label form-label-small">Date et heure de l'événement</p>
+                <p class="form-label form-label-small">{{$t('date')}} {{$t('and')}} {{$t('eventTime')}}</p>
                 <div class="form-date-time-wrapper">
                   <el-form-item prop="dateStart">
                     <el-date-picker
                       type="date"
                       format="dd-MM-yyyy"
-                      placeholder="Date"
+                      :placeholder="$t('date')"
                       v-model="form.dateStart"
                       style="width: 100%;">
                     </el-date-picker>
                   </el-form-item>
                   <div class="form-date-time-separator"> - </div>
                   <el-form-item prop="time">
-                     <el-time-select
-                      v-model="form.time" :picker-options="{ start: '07:00', step: '00:15', end: '23:45' }"
-                      placeholder="Heure"
-                      style="width: 100%;">
-                    </el-time-select>
+                    <el-select v-model="form.time" :placeholder="$t('time')">
+                      <i slot="prefix" class="el-input__icon el-icon-time"></i>
+                      <el-option v-for="time in formData.timeList"
+                        :label="time[$i18n.locale]" :value="time[$i18n.locale]" :key="time[$i18n.locale]">
+                      </el-option>
+                    </el-select>
                   </el-form-item>
                 </div>
               </div>
               <div class="col-xs-12">
                 <el-form-item prop="location">
                   <div class="form-label-group">
-                    <p class="form-label">Lieu de l'événement</p>
+                    <p class="form-label">{{ $t('eventLocation') }}</p>
                     <el-button class="btn-m" type="primary" @click="openDialogAddLocation()" >
-                      <span>Ajouter un lieu<i class="fa fa-plus-circle margin-left"></i></span>
+                      <span>{{ $t('addLocation') }}<i class="fa fa-plus-circle margin-left"></i></span>
                     </el-button>
                   </div>
-                  <el-select v-model="form.location" filterable placeholder="Séléctionner un lieu">
+                  <el-select v-model="form.location" filterable :placeholder="$t('selectLocation')">
                     <el-option v-for="location in teamLocations"
                       :label="location.name" :value="location._id" :key="location._id">
                     </el-option>
@@ -159,20 +160,21 @@
               </div>
               <div class="col-xs-12 col-sm-6">
                 <el-form-item prop="placeAppointment">
-                  <p class="form-label">Point de rdv</p>
+                  <p class="form-label">{{ $t('meetingPoint') }}</p>
                   <el-input v-model="form.placeAppointment"
-                    placeholder="Vestiaire, parking du stade...">
+                    :placeholder="$t('meetingPointPlaceholder')">
                   </el-input>
                 </el-form-item>
               </div>
               <div class="col-xs-12 col-sm-6">
                 <el-form-item prop="timeAppointment">
-                  <p class="form-label">Heure du rdv</p>
-                  <el-time-select
-                    v-model="form.timeAppointment" :picker-options="{ start: '07:00', step: '00:15', end: '23:45' }"
-                    placeholder="Heure du rdv"
-                    style="width: 100%;">
-                  </el-time-select>
+                  <p class="form-label">{{$t('meetingTime')}}</p>
+                  <el-select v-model="form.timeAppointment" :placeholder="$t('time')">
+                    <i slot="prefix" class="el-input__icon el-icon-time"></i>
+                    <el-option v-for="time in formData.timeList"
+                      :label="time[$i18n.locale]" :value="time[$i18n.locale]" :key="time[$i18n.locale]">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </div>
             </div>
@@ -181,7 +183,7 @@
                 class="btn-large"
                 :loading="isLoading"
                 @click="submitForm('form')">
-                <span>Créer cet évenement</span>
+                <span>{{$t('createEvent')}}</span>
               </el-button>
             </div>
           </el-form>
@@ -193,7 +195,7 @@
     </div>
     <dialog-add-location
       v-show="currentTeam" :team="currentTeam"
-      :openDialog="dialogAddLocation" :category="filterLocationCategory"
+      :openDialog="dialogAddLocation" :category="form.locationCategory"
       v-on:locationCreated="locationCreated($event)"
       @closeDialog="dialogAddLocation = false" />
   </div>
@@ -212,7 +214,7 @@ export default {
   mixins: [utilities],
   props: ['eventCategory', 'competition'],
   components: { DialogAddLocation, EventCategoryIcon },
-  data() {
+  data () {
     return {
       errors: [],
       formData: data,
@@ -222,15 +224,15 @@ export default {
       competitionEventCategories: null,
       opponent: true,
       dialogAddLocation: false,
-      recurrenceCategories: [{ title: 'Toutes les semaines', value: 'weekly' }],
+      recurrenceCategories: [{ title: this.$t('weekly'), value: 'weekly' }],
       recurrenceDaysList: data.recurrenceDaysList,
       form: {
-        locationCategory: 'Domicile',
+        locationCategory: 'home',
         name: null,
         category: null,
         opponent: null,
         dateStart: null,
-        time: '18:00',
+        time: null,
         location: null,
         timeAppointment: null,
         placeAppointment: null,
@@ -246,14 +248,14 @@ export default {
         name: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'change'
           }
         ],
         location: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'change'
           }
         ],
@@ -261,14 +263,14 @@ export default {
           {
             type: 'date',
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'change'
           }
         ],
         time: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'change'
           }
         ],
@@ -276,7 +278,7 @@ export default {
           {
             type: 'date',
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'change'
           }
         ],
@@ -284,7 +286,7 @@ export default {
           {
             type: 'date',
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'change'
           }
         ],
@@ -301,28 +303,21 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'currentTeamLocation']),
-    hasErrors() {
+    hasErrors () {
       return this.errors.length > 0
     },
-    filterLocationCategory() {
-      let filter
-      this.form.locationCategory === 'Domicile'
-        ? (filter = 'home')
-        : (filter = 'away')
-      return filter
-    },
-    teamLocations() {
+    teamLocations () {
       return this.currentTeam.locations
     }
   },
   methods: {
-    openDialogAddLocation() {
+    openDialogAddLocation () {
       this.dialogAddLocation = true
     },
-    locationCreated(location) {
+    locationCreated (location) {
       this.form.location = location._id
     },
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.newLocationName ? this.createLocation() : this.createEvent()
@@ -332,20 +327,20 @@ export default {
         }
       })
     },
-    createEvent() {
+    createEvent () {
       this.form.recurring
         ? this.createRecurrentEvent()
         : this.createUniqueEvent()
     },
-    async createUniqueEvent() {
+    async createUniqueEvent () {
       this.isLoading = true
       this.formatForm()
       try {
         const event = (await ApiEvents.post(this.form)).data.event
         this.isLoading = false
         this.$notify({
-          title: 'Succès',
-          message: "L'évenement a bien été crée",
+          title: this.$t('success'),
+          message: this.$t('eventCreated'),
           type: 'success'
         })
         this.$router.push(`/team/${this.currentTeam._id}/event/${event._id}`)
@@ -354,15 +349,15 @@ export default {
         this.isLoading = false
       }
     },
-    async createRecurrentEvent() {
+    async createRecurrentEvent () {
       this.isLoading = true
       this.formatForm()
       try {
         await ApiEvents.postRecurrent(this.form)
         this.isLoading = false
         this.$notify({
-          title: 'Succès',
-          message: 'Les évenements ont bien été crées',
+          title: this.$t('success'),
+          message: this.$t('eventsCreated'),
           type: 'success'
         })
         this.$router.push(`/team/${this.currentTeam._id}/events`)
@@ -371,29 +366,26 @@ export default {
         this.isLoading = false
       }
     },
-    formatForm() {
+    formatForm () {
       this.form.team = this.currentTeam._id
       this.form.season = this.currentSeason(this.currentTeam)._id
-      this.form.locationCategory = this.filterLocationCategory
-      if (this.form.dateStart)
-        if (this.form.name === 'Autre') this.form.name = this.otherCategory
       if (this.competition) this.form.competition = this.competition._id
       if (this.form.location._id) this.form.location = this.form.location._id
+      if (this.form.name === this.$t('other'))
+        this.form.name = this.otherCategory
     },
-    fillCompetitionCategory() {
+    fillCompetitionCategory () {
       for (let competitionType of this.formData.competitionCategories) {
         if (competitionType.category === this.competition.category) {
           this.eventCategories = competitionType.eventCategories
         }
       }
     },
-    fillEventCategories() {
-      if (this.eventCategory === 'friendly') this.form.name = 'Match Amical'
-      if (this.eventCategory === 'training') this.form.name = 'Entrainement'
-      if (this.eventCategory === 'other') this.form.name = 'Autre'
+    fillEventCategories () {
+      this.form.name = this.$t(this.eventCategory)
     }
   },
-  created() {
+  created () {
     this.competition
       ? this.fillCompetitionCategory()
       : this.fillEventCategories()

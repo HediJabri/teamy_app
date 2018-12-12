@@ -8,7 +8,6 @@
       <el-form :model="formEmail" :rules="rulesEmail" ref="formEmail" label-position="labelPosition">
         <div class="row">
           <div class="col-xs-12">
-          <!-- <p class="form-user-avatar-label"><span>Email</span></p> -->
             <el-form-item prop="email">
               <el-input placeholder="Email" v-model="formEmail.email"></el-input>
             </el-form-item>
@@ -17,7 +16,7 @@
         <div class="form-user-btn-submit">
           <el-button type="success" class="btn-xl" 
             :loading="isLoading" @click="submitForm('formEmail')">
-            Modifier mon email
+            {{$t('editEmail')}}
           </el-button>
         </div>
       </el-form>
@@ -27,29 +26,27 @@
     </div>
      <div class="form-user-card">
       <div class="form-user-title">
-        <h5 class="uppercase">mot de passe</h5>
+        <h5 class="uppercase">{{$t('password')}}</h5>
       </div>
       <el-form :model="formPassword" :rules="rulesPassword" ref="formPassword" label-position="labelPosition">
         <div class="row">
           <div class="col-xs-12">
-            <!-- <p class="form-user-avatar-label"><span>Ancien mot de passe</span></p> -->
             <el-form-item prop="oldPassword">
               <el-input type="password" v-model="formPassword.oldPassword" 
-                placeholder="Ancien mot de passe"></el-input>
+                :placeholder="$t('oldPassword')"></el-input>
             </el-form-item>
           </div>
            <div class="col-xs-12">
-            <!-- <p class="form-user-avatar-label"><span>Nouveau mot de passe</span></p> -->
             <el-form-item prop="newPassword">
               <el-input type="password" v-model="formPassword.newPassword" 
-                placeholder="Nouveau mot de passe"></el-input>
+                :placeholder="$t('newPassword')"></el-input>
             </el-form-item>
           </div>
         </div>
         <div class="form-user-btn-submit">
           <el-button type="success" class="btn-xl" 
             :loading="isLoading" @click="submitForm('formPassword')">
-            Modifier
+            {{$t('edit')}}
           </el-button>
         </div>
       </el-form>
@@ -61,26 +58,23 @@
 </template>
 
 <script>
-// import moment from 'moment'
 import { mapGetters, mapActions } from 'vuex'
 import ApiUsers from '@/services/ApiUsers.js'
 import { utilities } from '@/mixins/utilities.js'
-import TagPosition from '@/components/global/TagPosition'
 
 export default {
   name: 'FormUserAccount',
   mixins: [utilities],
-  components: { TagPosition },
-  data () {
+  data() {
     var validateField = (rule, value, callback) => {
       if (value === '' || null) {
-        callback(new Error('Ce champ est obligatoire'))
+        callback(new Error(this.$t('fieldRequired')))
       } else {
         callback()
       }
     }
     var validateEmail = (rule, value, callback) => {
-      function validateEmail (email) {
+      function validateEmail(email) {
         var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         return re.test(email)
       }
@@ -102,17 +96,17 @@ export default {
       labelPosition: 'top',
       errors: [],
       formEmail: {
-        email: '',
+        email: ''
       },
       formPassword: {
         oldPassword: '',
-        newPassword: '',
+        newPassword: ''
       },
       rulesEmail: {
         email: [
           { validator: validateField, trigger: 'blur' },
-          { validator: validateEmail, trigger: 'blur' } 
-        ],
+          { validator: validateEmail, trigger: 'blur' }
+        ]
       },
       rulesPassword: {
         oldPassword: [
@@ -128,19 +122,20 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser']),
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
     }
   },
   methods: {
-     ...mapActions(['initUser']),
-    fillFormUser () {
+    ...mapActions(['initUser']),
+    fillFormUser() {
       if (this.currentUser) {
-        this.formEmail.email = this.currentUser.local && this.currentUser.local.email
+        this.formEmail.email =
+          this.currentUser.local && this.currentUser.local.email
       }
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.editUser(formName)
         } else {
@@ -152,16 +147,24 @@ export default {
     async editUser(formName) {
       this.isLoading = true
       try {
-        let body 
-        if (formName === 'formPassword') body =  { oldPassword: this.formPassword.oldPassword, newPassword: this.formPassword.newPassword }
-        if (formName === 'formEmail') body = { local: { email: this.formEmail.email } }
+        let body
+        if (formName === 'formPassword')
+          body = {
+            oldPassword: this.formPassword.oldPassword,
+            newPassword: this.formPassword.newPassword
+          }
+        if (formName === 'formEmail')
+          body = { local: { email: this.formEmail.email } }
         await ApiUsers.patchAccount(this.currentUser._id, body)
         this.getUser()
       } catch (err) {
-        console.log(err)
-        this.$notify({ title: 'Erreur', message: 'Mot de passe invalide', type: 'error' })
+        this.$notify({
+          title: this.$t('success'),
+          message: this.$t('invalidPassword'),
+          type: 'error'
+        })
         this.isLoading = false
-      }     
+      }
     },
     async getUser() {
       try {
@@ -170,24 +173,27 @@ export default {
       } catch (err) {
         this.errorNotify(err)
         this.isLoading = false
-      }     
+      }
     },
-    afterRequestSucceed (user) {
+    afterRequestSucceed(user) {
       this.initUser(user)
       this.isLoading = false
       this.$router.push('/')
-      const notifMessage =  'Ton compte a bien été modifié'
-      this.$notify({ title: 'Succès', message: notifMessage, type: 'success' })
+      const notifMessage = this.$t('accountHasBeenEdited')
+      this.$notify({
+        title: this.$t('success'),
+        message: notifMessage,
+        type: 'success'
+      })
     }
   },
-  created () {
+  created() {
     this.fillFormUser()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .form-user-wrapper {
   width: 100%;
   margin: 0px auto;
@@ -240,11 +246,11 @@ export default {
   color: $red;
 }
 .form-user-select-left {
-  float: left
+  float: left;
 }
 .form-user-select-right {
   float: right;
-  line-height: 10px!important;
+  line-height: 10px !important;
   margin-top: 8px;
 }
 .form-user-bottom {
@@ -263,10 +269,13 @@ export default {
   width: 100%;
 }
 
-
 @media only screen and (max-width: 479px) {
-  .form-user-card { padding: 80px 20px 30px 20px; }
-  .col-xs-6 { padding-right: 5px; padding-left: 5px }
+  .form-user-card {
+    padding: 80px 20px 30px 20px;
+  }
+  .col-xs-6 {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
 }
-
 </style>

@@ -39,7 +39,6 @@ import CardTeamInfos from '@/components/cards/teams/CardTeamInfos'
 import CardTeamLink from '@/components/cards/teams/CardTeamLink'
 import CardTeamLarge from '@/components/cards/teams/CardTeamLarge'
 import CardUserLarge from '@/components/cards/users/CardUserLarge'
-import CardTeamPrizes from '@/components/cards/teams/CardTeamPrizes'
 import CardMembers from '@/components/cards/memberships/CardMembers'
 import CardMembersPending from '@/components/cards/memberships/CardMembersPending'
 import DialogShareInvitation from '@/components/dialogs/DialogShareInvitation'
@@ -47,19 +46,28 @@ import DialogShareInvitation from '@/components/dialogs/DialogShareInvitation'
 export default {
   name: 'TeamShow',
   mixins: [utilities],
-  components: { TeamySpinner, CardTeamInfos, CardTeamLink, CardTeamLarge, CardTeamPrizes, CardMembers, CardUserLarge, CardMembersPending, DialogShareInvitation },
-  data () {
+  components: {
+    TeamySpinner,
+    CardTeamInfos,
+    CardTeamLink,
+    CardTeamLarge,
+    CardMembers,
+    CardUserLarge,
+    CardMembersPending,
+    DialogShareInvitation
+  },
+  data() {
     return {
       teamId: null,
       team: null,
       competitions: null,
       memberShowed: null,
-      dialogShareInvitation: false,
+      dialogShareInvitation: false
     }
   },
   computed: {
     ...mapGetters(['currentTeam', 'currentUser']),
-    teamMembershipsPending () {
+    teamMembershipsPending() {
       return this.team.memberships.filter(m => m.status === 'pending')
     }
   },
@@ -70,7 +78,7 @@ export default {
         if (team) this.getTeamToken(team)
       } catch (err) {
         this.errorNotify(err)
-      }     
+      }
     },
     async getTeamToken(team) {
       if (this.isAdmin(this.currentUser, team)) {
@@ -78,37 +86,42 @@ export default {
           const token = (await ApiTeams.getTeamToken(team._id)).data.token
           team.token = token
           this.team = team
-          if ( this.team && this.team.token && this.team.memberships.length === 1 && this.isMainAdmin(this.currentUser, this.team)) {
+          if (
+            this.team &&
+            this.team.token &&
+            this.team.memberships.length === 1 &&
+            this.isMainAdmin(this.currentUser, this.team)
+          ) {
             this.dialogShareInvitation = true
           }
         } catch (err) {
           this.errorNotify(err)
           this.team = team
-        }     
+        }
       } else {
         this.team = team
       }
     },
-    newTeamMember (member) {
+    newTeamMember(member) {
       this.team.members.push(member)
     },
-    showMember (event) {
+    showMember(event) {
       this.memberShowed = event
     },
-    showTeam () {
+    showTeam() {
       this.memberShowed = null
     },
-    openDialogShareInvitation () {
+    openDialogShareInvitation() {
       this.dialogShareInvitation = true
-    } ,
+    }
   },
   watch: {
-    '$route' () {
+    $route() {
       const teamId = this.$route.params.id
       if (teamId) this.getTeam(teamId)
     }
   },
-  created () {
+  created() {
     this.teamId = this.$route.params.teamId
     this.getTeam(this.teamId)
     eventBus.$on('reloadTeamShow', () => {
@@ -120,7 +133,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -135,21 +147,35 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { flex-direction: column }
-  .page-right-container, .page-left-container, 
-  .page-center-container { width: 100% !important; }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-right-container,
+  .page-left-container,
+  .page-center-container {
+    width: 100% !important;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-wrapper { flex-direction: column }
-  .page-right-container, .page-left-container, 
-  .page-center-container { width: 90% !important; }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-right-container,
+  .page-left-container,
+  .page-center-container {
+    width: 90% !important;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .page-wrapper { flex-direction: column }
-  .page-right-container, .page-left-container, 
-  .page-center-container { width: 80% !important; }
+  .page-wrapper {
+    flex-direction: column;
+  }
+  .page-right-container,
+  .page-left-container,
+  .page-center-container {
+    width: 80% !important;
+  }
 }
-
 </style>
