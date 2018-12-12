@@ -70,7 +70,6 @@ export default {
     },
     showMember(event) {
       this.memberShowed = event
-      console.log(this.memberShowed)
     },
     showTeam() {
       this.memberShowed = null

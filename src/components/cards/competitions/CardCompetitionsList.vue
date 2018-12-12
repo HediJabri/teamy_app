@@ -5,7 +5,7 @@
         <div class="card-item-link" @click="routeTo(competition)">
           <div class="card-item-header">
             <h5>{{ competition.name }}</h5>
-            <p>{{ formatCompetition(competition.category) }}</p>
+            <p>{{ $t(competition.category) }}</p>
             <img v-if="competition.image" :src="competition.image" alt="">
             <div class="card-item-header-icon" v-else>
               <i class="fa fa-trophy" ></i>
@@ -17,7 +17,7 @@
             </div>
             <div>
               <span class="emoji">🗓 </span>
-              <span class="text-item">Evenements : {{ competition.events.length }}</span>
+              <span class="text-item">{{ $t('events') }} : {{ competition.events.length }}</span>
             </div>
           </div>
         </div>
@@ -27,23 +27,23 @@
         <el-button type="primary"
           :loading="page.loadingNext"
           @click="goToNextPage()">
-          Voir plus
+          {{ $t('seeMore')}}
         </el-button>
       </div>
       <div class="btn-add-competition"
         v-if="isAdmin(currentUser, currentTeam) && page.allRecordsFetched && from === 'event-new'">
         <el-button type="primary"
           @click="routeUrl(`/team/${currentTeam._id}/competition-new`)">
-         Ajouter une competition
+         {{ $t('addCompetition')}}
         </el-button>
       </div>
     </div>
     <div v-else class="card-list-empty">
       <div class="card-list-empty-wrapper">
-        <p>Aucune compétition {{ filterEmptyMessage }}...</p>
+        <p>{{$tc('competition', 0)}}</p>
         <el-button type="primary" @click="routeUrl(`/team/${currentTeam._id}/competition-new`)"
-          v-if="isAdmin(currentUser, currentTeam) && $route.name === 'events-new-select' || filterEmptyMessage">
-          Ajouter<i class="fa fa-plus-circle margin-left"></i>
+          v-if="isAdmin(currentUser, currentTeam) && $route.name === 'events-new-select' || filter">
+          {{ $t('add')}}<i class="fa fa-plus-circle margin-left"></i>
         </el-button>
       </div>
     </div>
@@ -59,33 +59,36 @@ export default {
   mixins: [utilities],
   props: ['competitions', 'page', 'filter', 'from'],
   computed: {
-     ...mapGetters(['currentUser', 'currentTeam']),
-    filterEmptyMessage () {
-      if (this.filter === 'current') return 'en cours'
-      if (this.filter === 'future') return 'à venir'
-      if (this.filter === 'closed') return 'cloturée'
-    }
+    ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    goToNextPage() {
+    goToNextPage () {
       this.$emit('goToNextPage')
     },
     routeTo (competition) {
       if (this.from === 'event-new') {
-        this.$router.push(`/team/${this.currentTeam._id}/event-new/competition/${competition._id}`)
+        this.$router.push(
+          `/team/${this.currentTeam._id}/event-new/competition/${
+          competition._id
+          }`
+        )
       } else {
-        this.$router.push(`/team/${this.currentTeam._id}/competition/${competition._id}`)
+        this.$router.push(
+          `/team/${this.currentTeam._id}/competition/${competition._id}`
+        )
       }
     },
     competitionEvents (competition) {
-      if (this.competitions.events) return this.competitions.events.filter(e => parseInt(e['competition-id']) === parseInt(competition.id)).length
+      if (this.competitions.events)
+        return this.competitions.events.filter(
+          e => parseInt(e['competition-id']) === parseInt(competition.id)
+        ).length
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .card-item {
   @include card();
   text-align: center;
@@ -134,20 +137,27 @@ export default {
   @include flex-center();
 }
 
-.card-list-empty-wrapper
-.btn-next-page,
+.card-list-empty-wrapper .btn-next-page,
 .btn-add-competition {
   @include flex-center();
   margin-bottom: 20px;
-  
 }
 .card-list-empty-wrapper {
   text-align: center;
 }
 
 @media only screen and (max-width: 479px) {
-  .card-item { padding: 20px 15px; }
-  .card-item-header { padding: 0 }
-  .card-item-body { padding: 20px 0; p { text-align: center } }
+  .card-item {
+    padding: 20px 15px;
+  }
+  .card-item-header {
+    padding: 0;
+  }
+  .card-item-body {
+    padding: 20px 0;
+    p {
+      text-align: center;
+    }
+  }
 }
 </style>

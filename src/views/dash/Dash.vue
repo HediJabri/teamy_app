@@ -29,14 +29,17 @@ export default {
   name: 'Dash',
   mixins: [utilities],
   components: {
-    MainNavbar, SecondNavbar, TeamySpinner, ButtonContact
+    MainNavbar,
+    SecondNavbar,
+    TeamySpinner,
+    ButtonContact
   },
   computed: {
     ...mapGetters(['sportsLoaded', 'currentUser', 'currentTeam']),
     globalDataStoreLoaded() {
-      if (this.sportsLoaded && this.currentUser) {
-        return true
-      }
+      let result
+      this.sportsLoaded && this.currentUser ? (result = true) : (result = false)
+      return result
     }
   },
   methods: {
@@ -47,21 +50,22 @@ export default {
         this.initSports(sports)
       } catch (err) {
         this.errorNotify(err)
-      }     
+      }
     },
     async getCurrentUser(id) {
       try {
         const user = (await ApiUsers.get(id)).data.user
         this.initUser(user)
+        this.changeAppLocale(user.lang)
       } catch (err) {
         this.logout()
-      }     
+      }
     },
-    logout () {
+    logout() {
       Auth.logout()
     }
   },
-  created () {
+  created() {
     const id = Auth.getUserId()
     this.getSports()
     this.getCurrentUser(id)
@@ -70,7 +74,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .page-dash {
   background-color: $ghost-white;
   min-height: 110vh;
@@ -80,14 +83,20 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-dash-wrapper { padding: 0 5px; }
+  .page-dash-wrapper {
+    padding: 0 5px;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-dash-wrapper { padding: 0 15px; }
+  .page-dash-wrapper {
+    padding: 0 15px;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 1160px) {
-  .page-dash-wrapper { padding: 0 30px; }
+  .page-dash-wrapper {
+    padding: 0 30px;
+  }
 }
 </style>

@@ -3,25 +3,25 @@
     <div class="card">
       <div class="card-title">
         <div class="card-title-text">
-          <h5>Communauté</h5>
+          <h5>{{$t('community')}}</h5>
         </div>
       </div>
       <div class="card-body">
         <div class="card-list-item border-blue active"
           v-for="filter in filters" :key="filter.id">
           <div class="list-item-body">
-            <p class="list-item-body-top">{{ filter.title }}</p>
+            <p class="list-item-body-top">{{$t(filter.title)}}</p>
           </div>
         </div>
       </div>
     </div>
     <div class="filters-wrapper">
-      <h5>Filtres</h5>
+      <h5>{{$t('filters')}}</h5>
       <el-select v-model="sportSelected" placeholder="Sports">
-         <el-option :label="'Tous les sports'" :value="'all'">
+         <el-option :label="$t('allSports')" :value="'all'">
         </el-option>
         <el-option v-for="(sport, index) in sports.list" :key="index" 
-          :label="sport.name" :value="sport.key">
+          :label="$t(sport.key)" :value="sport.key">
         </el-option>
       </el-select>
     </div>
@@ -35,11 +35,9 @@ import { utilities } from '@/mixins/utilities.js'
 export default {
   name: 'CardCommunityTypes',
   mixins: [utilities],
-  data () {
+  data() {
     return {
-      filters: [
-        { id: 1, title: 'équipes', active: true, border: 'blue' },
-      ],
+      filters: [{ id: 1, title: 'teams', active: true, border: 'blue' }],
       sportSelected: null,
       zoneSelected: null
     }
@@ -48,9 +46,9 @@ export default {
     ...mapGetters(['currentUser', 'sports'])
   },
   watch: {
-    sportSelected (sport) {
+    sportSelected(sport) {
       this.$emit('changeFilter', { key: 'sport', name: sport })
-    },
+    }
   }
 }
 </script>

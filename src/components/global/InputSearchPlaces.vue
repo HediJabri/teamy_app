@@ -1,26 +1,33 @@
 <template>
-  <input placeholder="Adresse du lieu" type="search" id="form-input-location" />
+  <input
+    :placeholder="$t('address')"
+    type="search"
+    id="form-input-location"
+  />
 </template>
 <script>
 export default {
   name: 'InputSearchPlaces',
-  mounted () {
-    let places = require('places.js');
+  mounted() {
+    let places = require('places.js')
     let placesAutocomplete = places({
       container: document.querySelector('#form-input-location'),
       language: 'fr',
       countries: ['fr'],
       type: 'address',
       templates: {
-        value: function (suggestion) {
-          return `${suggestion.name}, ${suggestion.city}`;
+        value: function(suggestion) {
+          return `${suggestion.name}, ${suggestion.city}`
         }
       }
-    });
-    placesAutocomplete.on('change', function resultSelected (e) {
-      this.$emit('addLocationGeoloc', e.suggestion.latlng)
-    }.bind(this));
-  },
+    })
+    placesAutocomplete.on(
+      'change',
+      function resultSelected(e) {
+        this.$emit('addLocationGeoloc', e.suggestion.latlng)
+      }.bind(this)
+    )
+  }
 }
 </script>
 <style lang="scss">

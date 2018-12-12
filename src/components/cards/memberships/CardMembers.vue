@@ -2,27 +2,26 @@
   <div class="card-members" v-if="team">
     <div class="card-members-title">
       <div class="card-members-title-text">
-        <h5>membres</h5>
+        <h5>{{$t('members')}}</h5>
       </div>
       <div class="card-members-title-button" v-if="isTeamOverwiew">
         <el-button type="primary" class="btn-m"
           v-if="isPendingMember(team._id)"
           :loading="isLoading"
           @click="desactivateMembership">
-          Annuler la demande
+          {{$t('cancelRequest')}}
           <i class="fa fa-times margin-left"></i>
         </el-button>
         <el-button type="primary" class="btn-m"
           v-else-if="!isMember(currentUser, team)"
           @click="openDialogMembershipRequest">
-          Rejoindre l'équipe
-          <i class="fa fa-plus-circle margin-left"></i>
+          {{$t('join')}}
+          <i class="fa fa-share margin-left"></i>
         </el-button>
       </div>
     </div>
     <div class="card-members-body" v-if="teamMembershipsValidated">
-      <div class="card-members-list-item"
-        v-if="membership.user" :key="index"
+      <div class="card-members-list-item" :key="index"
         :class="{'active': activeMember === index}"
         v-for="(membership, index) in teamMembershipsValidated">
         <div class="list-item-content" @click="showMember(membership, index)">
@@ -46,7 +45,7 @@
         <el-button class="btn-m" type="primary"
           v-if="isCurrentUser(membership.user, team) && !membership.position && !isTeamOverwiew" 
           @click="openDialogEditMembership()" >
-          <span>Ajouter mon rôle<i class="fa fa-plus-circle margin-left"></i></span>
+          <span>{{$t('addMyRole')}}<i class="fa fa-plus-circle margin-left"></i></span>
         </el-button>
       </div>
     </div>
@@ -63,7 +62,6 @@
 </template>
 
 <script>
-
 import { mapGetters, mapActions } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import { eventBus } from '@/main'
@@ -76,7 +74,7 @@ export default {
   mixins: [utilities],
   props: ['team'],
   components: { DialogMembershipRequest, DialogEditMembership },
-  data () {
+  data() {
     return {
       activeMember: null,
       dialogMembershipRequest: false,
@@ -89,41 +87,49 @@ export default {
     isTeamOverwiew() {
       return this.$route.name === 'team-overview'
     },
-    teamMembershipsValidated () {
-      return this.team.memberships.filter(m => m.status === 'validated')
+    teamMembershipsValidated() {
+      return this.team.memberships.filter(
+        m => m.user && m.status === 'validated'
+      )
     }
   },
   methods: {
-     ...mapActions(['updateUserMembership']),
-    openDialogMembershipRequest () {
+    ...mapActions(['updateUserMembership']),
+    openDialogMembershipRequest() {
       this.dialogMembershipRequest = true
     },
-    openDialogEditMembership () {
+    openDialogEditMembership() {
       this.dialogEditMembership = true
     },
-    showMembershipDialog (membership, index) {
+    showMembershipDialog(membership, index) {
       membership.openDialog = true
       this.showMember(membership, index)
     },
-    showMember (membership, index) {
+    showMember(membership, index) {
       this.activeMember = index
       this.$emit('showMember', membership)
     },
     async desactivateMembership() {
       const params = 'removeRequest'
-      const membership = this.currentUser.memberships.find(m => m.team && m.team._id === this.team._id)
+      const membership = this.currentUser.memberships.find(
+        m => m.team && m.team._id === this.team._id
+      )
       try {
         await ApiMemberships.desactivate(membership._id, params)
         membership.status = 'desactivated'
         this.updateUserMembership(membership)
         this.dialogVisible = false
-        this.$notify({ title: 'Succès', message: 'La demande à bien été annulée', type: 'success' })
+        this.$notify({
+          title: this.$t('success'),
+          message: this.$t('requestCanceled'),
+          type: 'success'
+        })
       } catch (err) {
         this.errorNotify(err)
-      }     
-    },
+      }
+    }
   },
-  created () {
+  created() {
     eventBus.$on('resetActiveTeamMembers', () => {
       this.activeMember = null
     })
@@ -132,7 +138,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .card-members {
   @include card();
   padding: 30px 0 10px 0;
@@ -155,8 +160,12 @@ export default {
 }
 .card-members-list-item {
   @include list-item-s();
-  .list-item-tag { @include tag-flat-s(); min-width: 30px;}
-  .list-item-content { cursor: pointer; }
+  .list-item-tag {
+    @include tag-flat-s();
+    min-width: 30px;
+  }
+  .list-item-content {
+    cursor: pointer;
+  }
 }
-
 </style>

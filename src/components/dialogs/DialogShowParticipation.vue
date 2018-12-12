@@ -25,17 +25,17 @@
           <el-button type="default" :loading="isLoading"
             v-if="!participation.staff"
             @click="updateParticipation(false, true)">
-            Staff <i class="fa fa-share margin-left blue"></i>
+            {{$t('staff')}} <i class="fa fa-share margin-left blue"></i>
           </el-button>
           <el-button type="primary" :loading="isLoading"
             v-if="participation.substitute || participation.staff"
             @click="updateParticipation(false, false)">
-            Titulaire <i class="fa fa-share margin-left"></i>
+            {{$tc('firstTeamPlayer', 1)}} <i class="fa fa-share margin-left"></i>
           </el-button>
           <el-button type="primary" :loading="isLoading"
             v-if="!participation.substitute"
             @click="updateParticipation(true, false)">
-            Remplaçant <i class="fa fa-share margin-left"></i>
+            {{$tc('substitute', 1)}} <i class="fa fa-share margin-left"></i>
           </el-button>
         </div>
       </div>
@@ -44,11 +44,11 @@
           v-if="isAdmin(currentUser, event.team)">
           <el-button type="danger" :loading="isLoading"
             @click="updateParticipationStatus('refused')">
-            Absent <i class="fa fa-times-circle margin-left"></i>
+            {{$t('absent')}} <i class="fa fa-times-circle margin-left"></i>
           </el-button>
           <el-button type="success" :loading="isLoading"
             @click="updateParticipationStatus('validated')">
-            Présent <i class="fa fa-check-circle margin-left"></i>
+            {{$t('present')}} <i class="fa fa-check-circle margin-left"></i>
           </el-button>
         </div>
       </div>
@@ -57,29 +57,26 @@
 </template>
 
 <script>
-
 import { mapActions, mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import ApiParticipations from '@/services/ApiParticipations'
-import TagPosition from '@/components/global/TagPosition'
 
 export default {
   name: 'DialogShowParticipation',
   props: ['participation', 'mode', 'openDialog'],
   mixins: [utilities],
-  components: { TagPosition },
-  data () {
+  data() {
     return {
       dialogVisible: false,
       isLoading: false
     }
   },
   computed: {
-    ...mapGetters(['currentTeam', 'currentUser', 'event']),
+    ...mapGetters(['currentTeam', 'currentUser', 'event'])
   },
   methods: {
     ...mapActions(['updateEventParticipation']),
-    async updateParticipation (substitute, staff) {
+    async updateParticipation(substitute, staff) {
       const status = 'validated'
       const body = { status, substitute }
       try {
@@ -94,7 +91,7 @@ export default {
         this.isLoading = false
       }
     },
-    async updateParticipationStatus (status) {
+    async updateParticipationStatus(status) {
       const body = { status }
       try {
         await ApiParticipations.patch(this.participation._id, body)
@@ -108,10 +105,10 @@ export default {
     }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog', null)
       }
@@ -121,7 +118,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .dialog-body {
   padding: 0px 25px 10px 25px;
   text-align: center;
@@ -148,5 +144,4 @@ export default {
 .dialog-footer-buttons {
   @include flex-center();
 }
-
 </style>

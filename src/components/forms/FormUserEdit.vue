@@ -3,13 +3,13 @@
     :class="{'onbording-mode': onbordingMode}">
     <div class="form-user-card">
       <div class="form-user-title" v-if="!onbordingMode">
-        <h5 class="uppercase">mon compte</h5>
+        <h5 class="uppercase">{{$t('myAccount')}}</h5>
       </div>
       <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
         <div>
           <p class="form-user-avatar-label" >
             <i class="material-icons">account_circle</i>
-            <span>Photo de profil</span>
+            <span>{{$t('profilePhoto')}}</span>
           </p>
           <image-upload
             :preview="true"
@@ -18,28 +18,28 @@
           <div v-if="!onbordingMode" class="row">
             <div class="col-xs-6">
               <el-form-item prop="firstName">
-                <el-input placeholder="Prénom" v-model="form.firstName"></el-input>
+                <el-input :placeholder="$t('firstName')" v-model="form.firstName"></el-input>
               </el-form-item>
             </div>
             <div class="col-xs-6">
               <el-form-item prop="lastName">
-                <el-input placeholder="Nom" v-model="form.lastName"></el-input>
+                <el-input :placeholder="$t('lastName')" v-model="form.lastName"></el-input>
               </el-form-item>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-xs-6">
+        <div  v-if="!onbordingMode" class="row">
+          <div class="col-xs-12 col-sm-6">
             <el-form-item prop="phone">
-              <el-input placeholder="Numéro de téléphone" v-model="form.phone"></el-input>
+              <el-input :placeholder="$t('phoneNumber')" v-model="form.phone"></el-input>
             </el-form-item>
           </div>
-          <div class="col-xs-6">
+          <div class="col-xs-12 col-sm-6">
             <el-form-item prop="birthdate">
               <el-date-picker
                 type="date"
                 format="dd-MM-yyyy"
-                placeholder="Date de naissance"
+                :placeholder="$t('birthdate')"
                 v-model="form.birthdate"
                 style="width: 100%;"
                 :default-value="defaultBirthdate">
@@ -51,12 +51,12 @@
           <el-button v-if="!onbordingMode" type="success" 
             class="btn-xl" :class="{'disabled': photoIsLoading}"
             :loading="isLoading" @click="submitForm('form')" >
-            Modifier mes infos
+            {{$t('editInfo')}}
           </el-button>
            <el-button v-else type="primary" 
             class="btn-xl btn-onbording-mode" :class="{'disabled': photoIsLoading}"
             :loading="isLoading" @click="submitForm('form')" >
-            Valider mes infos
+            {{$t('validate')}}
           </el-button>
         </div>
       </el-form>
@@ -66,7 +66,7 @@
     </div>
     <div class="form-user-bottom" @click="openDialogDeleteAccount()"
       v-if="!onbordingMode">
-      Suprimer mon compte
+       {{$t('deleteMyAccount')}}
     </div>
     <dialog-delete-account
       v-show="currentUser"
@@ -76,24 +76,22 @@
 </template>
 
 <script>
-// import moment from 'moment'
 import { mapGetters, mapActions } from 'vuex'
 import ApiUsers from '@/services/ApiUsers.js'
 import { utilities } from '@/mixins/utilities.js'
 import formData from '@/data/forms.js'
 import ImageUpload from '@/components/global/ImageUpload'
-import TagPosition from '@/components/global/TagPosition'
 import DialogDeleteAccount from '@/components/dialogs/DialogDeleteAccount'
 
 export default {
   name: 'FormUserEdit',
   mixins: [utilities],
   props: ['onbordingMode'],
-  components: { TagPosition, ImageUpload, DialogDeleteAccount },
+  components: { ImageUpload, DialogDeleteAccount },
 
-  data () {
+  data() {
     var validatePhone = (rule, value, callback) => {
-      function validatePhone (phone) {
+      function validatePhone(phone) {
         // eslint-disable-next-line no-useless-escape
         let re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
         return re.test(phone)
@@ -116,20 +114,36 @@ export default {
         firstName: '',
         lastName: '',
         birthdate: '',
-        phone: null,
+        phone: null
       },
       rules: {
         firstName: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('fieldRequired'),
+            trigger: 'blur'
+          }
         ],
         lastName: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('fieldRequired'),
+            trigger: 'blur'
+          }
         ],
         birthdate: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('fieldRequired'),
+            trigger: 'blur'
+          }
         ],
         phone: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'blur' },
+          {
+            required: true,
+            message: this.$t('fieldRequired'),
+            trigger: 'blur'
+          },
           { validator: validatePhone, trigger: 'blur' }
         ]
       },
@@ -138,38 +152,41 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser']),
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
     }
   },
   methods: {
     ...mapActions(['initUser']),
-    openDialogDeleteAccount () {
+    openDialogDeleteAccount() {
       this.dialogDeleteAccount = true
     },
-    fillFormUser () {
+    fillFormUser() {
       if (this.currentUser) {
-        this.form.avatar = this.currentUser.avatar ? this.currentUser.avatar : null
+        this.form.avatar = this.currentUser.avatar
+          ? this.currentUser.avatar
+          : null
         this.form.firstName = this.currentUser.firstName
         this.form.lastName = this.currentUser.lastName
-        this.form.birthdate = this.currentUser.birthdate ? this.currentUser.birthdate : null
+        this.form.birthdate = this.currentUser.birthdate
+          ? this.currentUser.birthdate
+          : null
         this.form.phone = this.currentUser.phone ? this.currentUser.phone : null
       }
     },
-    addUserAvatar (url) {
+    addUserAvatar(url) {
       this.form.avatar = url
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.editUser()
         } else {
-          console.log('error submit!!')
           return false
         }
       })
     },
-    async editUser () {
+    async editUser() {
       this.isLoading = true
       try {
         await ApiUsers.put(this.currentUser._id, this.form)
@@ -179,7 +196,7 @@ export default {
         this.isLoading = false
       }
     },
-    async getUser () {
+    async getUser() {
       try {
         const user = (await ApiUsers.get(this.currentUser._id)).data.user
         this.afterRequestSucceed(user)
@@ -188,15 +205,19 @@ export default {
         this.isLoading = false
       }
     },
-    afterRequestSucceed (user) {
+    afterRequestSucceed(user) {
       this.initUser(user)
       this.isLoading = false
       this.$router.push('/')
-      const notifMessage = 'Les infos de ton compte ont bien été modifiées'
-      this.$notify({ title: 'Succès', message: notifMessage, type: 'success' })
+      const notifMessage = this.$t('accountHasBeenEdited')
+      this.$notify({
+        title: this.$t('success'),
+        message: notifMessage,
+        type: 'success'
+      })
     }
   },
-  created () {
+  created() {
     this.fillFormUser()
   }
 }

@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-title">
           <div class="card-title-text">
-            <h5>compétitions</h5>
+            <h5>{{$t('competitions')}}</h5>
           </div>
         </div>
         <div class="card-body">
@@ -33,15 +33,15 @@ export default {
     }
   },
   methods: {
-    async getCompetitions (teamId) {
+    async getCompetitions(teamId) {
       try {
         const params = { filter: 'current', page: 0, teamId }
         const data = (await ApiCompetitions.indexTeam(params)).data
         this.competitions = data.competitions.slice(0, 3)
       } catch (err) {
         this.errorNotify(err)
-      }     
-    },
+      }
+    }
   },
   created() {
     this.getCompetitions(this.teamId)
@@ -50,7 +50,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .card {
   @include card();
   padding: 30px 0 10px 0;

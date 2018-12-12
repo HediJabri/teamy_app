@@ -2,8 +2,8 @@
   <div class="image-upload">
     <label class="image-upload-file-select">
       <div class="el-button image-upload-btn">
-        <span v-if="loadingFile === true">Chargement <i class="el-icon-loading"></i></span>
-        <span v-else>Choisis un fichier <i class="fa fa-cloud-upload"></i></span>
+        <span v-if="loadingFile === true">{{$t('loading')}} <i class="el-icon-loading"></i></span>
+        <span v-else>{{$t('chooseFile')}} <i class="fa fa-cloud-upload"></i></span>
       </div>
       <div class="image-upload-file-text">
         <span class="image-upload-file-name" v-if="fileName">{{ fileName }}</span>
@@ -30,7 +30,7 @@ import axios from 'axios'
 export default {
   name: 'ImageUpload',
   props: ['preview'],
-  data () {
+  data() {
     return {
       fileName: null,
       loadingFile: false,
@@ -39,12 +39,14 @@ export default {
     }
   },
   computed: {
-    clUrl () {
-      return `https://api.cloudinary.com/v1_1/${process.env.VUE_APP_CL_CLOUD_NAME}/upload`
+    clUrl() {
+      return `https://api.cloudinary.com/v1_1/${
+        process.env.VUE_APP_CL_CLOUD_NAME
+      }/upload`
     }
   },
   methods: {
-    upload (file) {
+    upload(file) {
       this.uploadValidated = false
       this.loadingFile = true
       this.$emit('photoIsLoading', true)
@@ -72,22 +74,28 @@ export default {
   margin-top: 10px;
   position: relative;
   @include flex-start();
-  label { margin-bottom: 5px; }
+  label {
+    margin-bottom: 5px;
+  }
 }
-.image-upload-file-select > input[type="file"] {
+.image-upload-file-select > input[type='file'] {
   display: none;
 }
 .image-upload-btn {
-  background-image: linear-gradient(to bottom, HSL(200, 100%, 69%), HSL(213, 77%, 52%)) !important;
-  padding: 8px 12px!important;
-  font-size: 13px!important;
-  font-weight: 500!important;
-  border-radius: 2px!important;
-  color: white!important;
-  border: none!important;
-  transition: all ease 0.3s!important;
-  float: left!important;
-  margin-bottom: 5px!important;
+  background-image: linear-gradient(
+    to bottom,
+    HSL(200, 100%, 69%),
+    HSL(213, 77%, 52%)
+  ) !important;
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  border-radius: 2px !important;
+  color: white !important;
+  border: none !important;
+  transition: all ease 0.3s !important;
+  float: left !important;
+  margin-bottom: 5px !important;
   i {
     margin-left: 5px;
   }
@@ -108,8 +116,12 @@ export default {
   .image-upload-file-validated {
     position: absolute;
     left: 0;
-    i { font-size: 15px; }
-    i.fa-file-image-o { font-size: 13px; }
+    i {
+      font-size: 15px;
+    }
+    i.fa-file-image-o {
+      font-size: 13px;
+    }
   }
 }
 .image-upload-avatar-preview {
@@ -118,5 +130,4 @@ export default {
   left: 65%;
   top: -25px;
 }
-
 </style>

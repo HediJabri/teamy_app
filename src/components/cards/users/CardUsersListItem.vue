@@ -9,13 +9,10 @@
       {{ user.firstName }}
       {{ user.lastName }}
     </h4>
-    <h5>
-      Joueur
-    </h5>
     <h5 v-if="userMemberships" class="card-list-item-team">
       {{ userMemberships.team.name }}
     </h5>
-    <h5 v-else class="card-list-item-team">Joueur libre</h5>
+    <h5 v-else class="card-list-item-team">{{$t('freePlayer')}}</h5>
   </div>
   <dialog-show-user
     v-show="user"
@@ -29,49 +26,47 @@
 <script>
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
-import TagPosition from '@/components/global/TagPosition'
 import DialogShowUser from '@/components/dialogs/DialogShowUser'
 
 export default {
   name: 'CardUsersListItem',
   props: ['user'],
   mixins: [utilities],
-  components: { TagPosition, DialogShowUser },
-  data () {
+  components: { DialogShowUser },
+  data() {
     return {
-      dialogShowUser: false,
+      dialogShowUser: false
     }
   },
   computed: {
     ...mapGetters(['currentUser']),
-    userMemberships () {
+    userMemberships() {
       return this.user.memberships.find(m => m.status === 'validated')
     },
-    isUserEditView () {
+    isUserEditView() {
       return this.$route.name === 'user-edit'
     }
   },
   methods: {
-    isCurrentUser (userId) {
+    isCurrentUser(userId) {
       return userId === this.currentUser._id
     },
-    openDialogShowUser () {
+    openDialogShowUser() {
       this.dialogShowUser = true
-    },
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .card-list-item {
   @include card();
   padding: 30px 20px 20px 20px;
   text-align: center;
   cursor: pointer;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   &:hover {
-    box-shadow: 1px 3px 5px rgba(5,15,44,0.15);
+    box-shadow: 1px 3px 5px rgba(5, 15, 44, 0.15);
   }
 }
 .card-list-item.team-padded {
@@ -124,7 +119,9 @@ export default {
     right: -5px;
     bottom: -4px;
     color: $blue;
-    i { font-size: 19px;}
+    i {
+      font-size: 19px;
+    }
   }
 }
 .card-list-item-icon-edit {
@@ -133,7 +130,7 @@ export default {
   right: 25px;
   i {
     font-size: 17px;
-    color:  $text-grey-blue;
+    color: $text-grey-blue;
     cursor: pointer;
   }
 }

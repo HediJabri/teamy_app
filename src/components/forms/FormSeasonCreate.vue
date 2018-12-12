@@ -2,43 +2,43 @@
   <div v-if="team">
     <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
       <el-form-item prop="name">
-        <p class="form-label">Saison</p>
+        <p class="form-label">{{$t('season')}}</p>
         <el-input placeholder="2018-2019" v-model="form.name">
         </el-input>
       </el-form-item>
       <el-form-item prop="dateStart">
-        <p class="form-label">Date de début</p>
+        <p class="form-label">{{$t('dateStart')}}</p>
         <el-date-picker
           type="date"
           format="dd-MM-yyyy"
-          placeholder="Date"
+          :placeholder="$t('date')"
           v-model="form.dateStart"
           style="width: 100%;">
         </el-date-picker>
       </el-form-item>
       <el-form-item prop="dateEnd">
-        <p class="form-label">Date de fin</p>
+        <p class="form-label">{{$t('dateEnd')}}</p>
         <el-date-picker
           type="date"
           format="dd-MM-yyyy"
-          placeholder="Date"
+          :placeholder="$t('date')"
           v-model="form.dateEnd"
           style="width: 100%;">
         </el-date-picker>
       </el-form-item>
       <el-form-item v-if="displayStatus" prop="currentSeason">
-        <span class="form-label radio-label">Saison Actuelle</span>
+        <span class="form-label radio-label">{{$t('currentSeason')}}</span>
         <el-radio-group v-model="form.currentSeason">
-          <el-radio :label="true">Oui</el-radio>
-          <el-radio :label="false">Non</el-radio>
+          <el-radio :label="true">{{$t('yes')}}</el-radio>
+          <el-radio :label="false">{{$t('no')}}</el-radio>
         </el-radio-group>
       </el-form-item>
       <div class="form-submit">
         <el-button v-if="backButton" class="form-btn" type="default" @click="backAction()">
-          Retour
+          {{$t('back')}}
         </el-button>
         <el-button class="form-btn" type="success" @click="submitForm('form')" :loading="isLoading">
-          Valider
+          {{$t('validate')}}
         </el-button>
       </div>
     </el-form>
@@ -68,21 +68,21 @@ export default {
         name: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'blur'
           }
         ],
         dateStart: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'blur'
           }
         ],
         dateEnd: [
           {
             required: true,
-            message: 'Ce champ est obligatoire',
+            message: this.$t('fieldRequired'),
             trigger: 'blur'
           }
         ]

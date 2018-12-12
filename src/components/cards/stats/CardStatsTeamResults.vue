@@ -4,7 +4,7 @@
       <div class="card-title-text">
         <h5>saison {{ statsSeasonFilter.name }}</h5>
         <span v-if="statsCompetitionFilter">{{ statsCompetitionFilter.name }}</span>
-        <span v-else>{{ statsCategoryFilter.subtitle }}</span>
+        <span v-else>{{ $tc(statsCategoryFilter.title, 2) }}</span>
       </div>
     </div>
     <div class="card-body">
@@ -15,18 +15,18 @@
           </div>
         </div>
         <div class="col-xs-5">
-          <h5><ani-num class="ani-number" :number="allEvents"></ani-num> {{ pluralizeWord(allEvents, 'match') }}</h5>
+          <h5><ani-num class="ani-number" :number="allEvents"></ani-num> {{ $tc('Game', allEvents) }}</h5>
           <p class="green">
             <ani-num class="ani-number" :number="winResult"></ani-num> 
-            {{ pluralizeWord(winResult, 'Victoire') }} <i class="fa fa-check-circle"></i>
+            {{ $tc('Win', winResult) }} <i class="fa fa-check-circle"></i>
           </p>
           <p class="red">
             <ani-num class="ani-number" :number="lostResult"></ani-num> 
-            {{ pluralizeWord(winResult, 'Défaite') }} <i class="fa fa-times-circle"></i>
+            {{ $tc('Lost', lostResult) }} <i class="fa fa-times-circle"></i>
           </p>
           <p class="text-blue-grey">
             <ani-num class="ani-number" :number="drawResult"></ani-num> 
-            {{ pluralizeWord(winResult, 'Nul') }} <i class="fa fa-minus-circle"></i>
+            {{ $tc('Draw', drawResult) }} <i class="fa fa-minus-circle"></i>
           </p>
         </div>
       </div>
@@ -45,7 +45,13 @@ export default {
   mixins: [utilities],
   components: { AniNum, ChartResultsRate },
   computed: {
-    ...mapGetters(['statsEvents', 'statsSeasonFilter', 'statsCategoryFilter', 'statsCompetitionFilter', 'statsReloading']),
+    ...mapGetters([
+      'statsEvents',
+      'statsSeasonFilter',
+      'statsCategoryFilter',
+      'statsCompetitionFilter',
+      'statsReloading'
+    ]),
     allEvents() {
       return this.statsEvents.filter(e => e.result).length
     },
@@ -71,31 +77,70 @@ export default {
   @include title-card();
   .card-title-text {
     @include flex-start();
-    h5 { text-transform: uppercase; margin-right: 12px;}
-    span { color: $text-grey-blue; font-size: 12px; margin-right: 6px}
+    h5 {
+      text-transform: uppercase;
+      margin-right: 12px;
+    }
+    span {
+      color: $text-grey-blue;
+      font-size: 12px;
+      margin-right: 6px;
+    }
   }
 }
 .card-body {
   margin-top: 40px;
-  h5 { text-transform: uppercase; font-size: 15px; font-weight: 600; margin-bottom: 16px; }
-  h5 .ani-number { font-size: 18px }
-  p { font-weight: 400; margin-bottom: 4px; font-size: 13px}
-  .ani-number { width: 28px; font-size: 15px; font-weight: 600; }
-  i { margin-left: 2px }
-}
-
-@media only screen and (max-width: 400px) {
-  .col-xs-7, .col-xs-5 { width: 90%!important }
-}
-
-@media only screen and (max-width: 480px) {
-  .card { height: 330px; }
-  .card-title-text span { display: none }
-  .card-body {
-    .row { @include flex-center(); flex-direction: column; }
-    .col-xs-7, .col-xs-5 { width: 70% }
-    h5, p { text-align: center }
+  h5 {
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  h5 .ani-number {
+    font-size: 18px;
+  }
+  p {
+    font-weight: 400;
+    margin-bottom: 4px;
+    font-size: 13px;
+  }
+  .ani-number {
+    width: 28px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  i {
+    margin-left: 2px;
   }
 }
 
+@media only screen and (max-width: 400px) {
+  .col-xs-7,
+  .col-xs-5 {
+    width: 90% !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .card {
+    height: 330px;
+  }
+  .card-title-text span {
+    display: none;
+  }
+  .card-body {
+    .row {
+      @include flex-center();
+      flex-direction: column;
+    }
+    .col-xs-7,
+    .col-xs-5 {
+      width: 70%;
+    }
+    h5,
+    p {
+      text-align: center;
+    }
+  }
+}
 </style>

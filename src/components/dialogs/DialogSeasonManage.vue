@@ -3,8 +3,8 @@
     <el-dialog title="" :visible.sync="dialogVisible" :fullscreen="smallDevice()" :top="'5vh'">
       <div class="dialog-body">
         <h4 class="dialog-title">
-          <span v-if="formMode === 'create'">Ajouter une saison </span>
-          <span v-else>Editer la saison </span>
+          <span v-if="formMode === 'create'">{{$t('addSeason')}}</span>
+          <span v-else>{{$t('editSeason')}}</span>
         </h4>
         <div class="dialog-content" v-if="dialogVisible">
           <form-season-create v-if="formMode === 'create'" 
@@ -29,7 +29,7 @@ export default {
   mixins: [utilities],
   props: ['openDialog', 'team', 'formMode', 'season'],
   components: { FormSeasonCreate, FormSeasonEdit },
-  data () {
+  data() {
     return {
       isLoading: false,
       dialogVisible: false
@@ -43,22 +43,30 @@ export default {
     addSeason(season) {
       this.addTeamSeason(season)
       this.closeDialog()
-      this.$notify({ title: 'Succès', message: 'La saison a bien été ajouté', type: 'success' })
+      this.$notify({
+        title: this.$t('success'),
+        message: this.$t('seasonAdded'),
+        type: 'success'
+      })
     },
     seasonEdited(season) {
       this.editTeamSeason(season)
       this.closeDialog()
-      this.$notify({ title: 'Succès', message: 'La saison a bien été modifié', type: 'success' })
+      this.$notify({
+        title: this.$t('success'),
+        message: this.$t('seasonEdited'),
+        type: 'success'
+      })
     },
     closeDialog() {
       this.dialogVisible = false
     }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }
@@ -68,7 +76,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .dialog-body {
   padding: 0px 25px;
   text-align: center;
@@ -76,18 +83,24 @@ export default {
   .dialog-title {
     @include flex-center();
     font-weight: bold;
-    i { margin: 0 0 0 5px; font-size: 20px; }
+    i {
+      margin: 0 0 0 5px;
+      font-size: 20px;
+    }
   }
-  p { 
+  p {
     font-size: 15px;
     line-height: 28px;
-    span { font-weight: 600 }
+    span {
+      font-weight: 600;
+    }
   }
 }
 .dialog-content {
   margin-top: 30px;
   margin-bottom: 25px;
-  p {text-align: center;}
+  p {
+    text-align: center;
+  }
 }
-
 </style>

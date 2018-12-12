@@ -2,7 +2,7 @@
   <div class="card" v-if="team">
     <div class="card-title">
       <div class="card-title-text">
-        <h5>lieu domicile</h5>
+        <h5>{{$t('mainHome')}}</h5>
       </div>
     </div>
     <div class="card-body">
@@ -17,7 +17,7 @@
         <div class="btn-submit">
           <el-button type="success" class="btn-xl"
             :loading="isLoading" @click="submitForm('form')">
-            <span>Changer le lieu</span>
+            <span>{{$t('changeLocation')}}</span>
           </el-button>
         </div>
       </el-form>
@@ -34,29 +34,35 @@ export default {
   name: 'CardTeamLocationEdit',
   mixins: [utilities],
   props: ['team'],
-  data () {
+  data() {
     return {
       isLoading: false,
       form: {
-        location: null,
+        location: null
       },
       rules: {
         location: [
-          { required: true, message: 'Ce champ est obligatoire', trigger: 'change' }
-        ],
+          {
+            required: true,
+            message: this.$t('fieldRequired'),
+            trigger: 'change'
+          }
+        ]
       }
     }
   },
   computed: {
     ...mapGetters(['currentTeamLocation', 'currentTeam']),
-    homeLocations () {
-      return this.currentTeam.locations.filter(location => location.category === 'home')
+    homeLocations() {
+      return this.currentTeam.locations.filter(
+        location => location.category === 'home'
+      )
     }
   },
   methods: {
     ...mapActions(['editTeamLocation']),
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.updateLocation()
         } else {
@@ -65,20 +71,25 @@ export default {
         }
       })
     },
-    async updateLocation () {
+    async updateLocation() {
       this.isLoading = true
       const body = { team: this.currentTeam._id, mainLocation: true }
       try {
-        const location = (await ApiLocations.patch(this.form.location, body)).data
+        const location = (await ApiLocations.patch(this.form.location, body))
+          .data
         this.editTeamLocation(location)
-        this.$notify({ title: 'Succès', message: "Le domicile principal de l'équipe a bien été changé", type: 'success' })
+        this.$notify({
+          title: this.$t('success'),
+          message: this.$t('mainLocationEdited'),
+          type: 'success'
+        })
         this.$router.push(`/team/${this.currentTeam._id}/dashboard`)
       } catch (err) {
         this.impossibleActionNotify()
       }
     }
   },
-  created () {
+  created() {
     this.form.location = this.currentTeamLocation._id
   }
 }

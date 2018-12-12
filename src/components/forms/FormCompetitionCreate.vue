@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="form-wrapper">
     <div class="form-wrapper-title">
-      <h5>nouvelle compétition</h5>
+      <h5>{{$t('newCompetition')}}</h5>
     </div>
     <div class="form-card">
       <div class="form-card-title">
@@ -21,13 +21,13 @@
               </div>
               <div class="col-xs-12">
                 <div class="form-label-group">
-                  <p class="form-label">Saison</p>
+                  <p class="form-label">{{$t('season')}}</p>
                   <el-button class="btn-m" type="primary" @click="routeUrl(`seasons`)" >
-                    <span>Ajouter<i class="fa fa-plus-circle margin-left"></i></span>
+                    <span>{{$t('add')}}<i class="fa fa-plus-circle margin-left"></i></span>
                   </el-button>
                 </div>
                 <el-form-item prop="season">
-                  <el-select v-model="form.season" placeholder="Sélectionnes une saison">
+                  <el-select v-model="form.season">
                     <el-option v-for="season in currentTeam.seasons"
                       :label="season.name" :value="season._id" :key="season._id">
                     </el-option>
@@ -35,18 +35,17 @@
                 </el-form-item>
               </div>
               <div class="col-xs-12">
-                <p class="form-label">Type de compétition</p>
+                <p class="form-label">{{$t('competitionType')}}</p>
                 <el-form-item prop="category">
-                  <el-select v-model="form.category" placeholder="Sélectionnes un type">
+                  <el-select v-model="form.category" :placeholder="$t('selectType')">
                     <el-option v-for="competition in formData.competitionCategories"
-                      :label="competition.name" :value="competition.category" :key="competition.category">
-                      <span>{{ competition.name }}</span>
+                      :label="$t(competition.category)" :value="competition.category" :key="competition.category">
                     </el-option>
                   </el-select>
                 </el-form-item>
               </div>
               <div class="col-xs-12">
-                <p class="form-label">Nom de la compétition</p>
+                <p class="form-label">{{$t('competitionName')}}</p>
                 <el-form-item prop="name">
                   <el-input placeholder="District 1" v-model="form.name">
                   </el-input>
@@ -59,7 +58,7 @@
               class="btn-large"
               :loading="isLoading"
               @click="submitForm('form')">
-              <span>Ajouter cette compétition</span>
+              <span>{{$t('addCompetition')}}</span>
             </el-button>
           </div>
         </el-form>
@@ -72,7 +71,6 @@
 </template>
 
 <script>
-// import moment from 'moment'
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import data from '@/data/forms.js'
@@ -81,15 +79,7 @@ import ApiCompetitions from '@/services/ApiCompetitions.js'
 export default {
   name: 'FormCompetitionCreate',
   mixins: [utilities],
-  props: ['brand'],
-  data () {
-    var validateField = (rule, value, callback) => {
-      if (value === '' || null) {
-        callback(new Error('Ce champ est obligatoire'))
-      } else {
-        callback()
-      }
-    }
+  data() {
     return {
       isLoading: false,
       formData: data,
@@ -100,53 +90,67 @@ export default {
         category: null,
         season: null,
         infos: null,
-        image: null,
+        image: null
       },
       rules: {
         name: [
-          { validator: validateField, trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('fieldRequired'),
+            trigger: 'blur'
+          }
         ],
         category: [
-          { validator: validateField, trigger: 'blur' }
-        ],
+          {
+            required: true,
+            message: this.$t('fieldRequired'),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
-    },
+    }
   },
   methods: {
-    formatSeason (seasonId) {
+    formatSeason(seasonId) {
       return this.currentTeam.seasons.find(s => s._id === seasonId).name
     },
-    toggleForm () {
+    toggleForm() {
       this.$emit('toggleForm')
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.createCompetition()
         } else {
-          console.log('error submit!!')
           return false
         }
       })
     },
-     async createCompetition() {
+    async createCompetition() {
       this.isLoading = true
       this.form.team = this.currentTeam._id
       try {
-        const competition = (await ApiCompetitions.post(this.form)).data.competition
+        const competition = (await ApiCompetitions.post(this.form)).data
+          .competition
         this.isLoading = false
-        this.$notify({ title: 'Succès', message: 'La compétition a bien été créée', type: 'success' })
-        this.$router.push(`/team/${this.currentTeam._id}/competition/${competition._id}`)
+        this.$notify({
+          title: this.$t('success'),
+          message: this.$t('competitionCreated'),
+          type: 'success'
+        })
+        this.$router.push(
+          `/team/${this.currentTeam._id}/competition/${competition._id}`
+        )
       } catch (err) {
         this.errorNotify(err)
         this.isLoading = false
-      }     
+      }
     }
   },
   created() {
@@ -156,7 +160,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .form-wrapper {
   width: 100%;
   margin: 0px auto;
@@ -200,7 +203,9 @@ export default {
   width: 50%;
   margin: 30px auto;
   text-align: center;
-  p { text-align: center; }
+  p {
+    text-align: center;
+  }
   .brand-category {
     color: $grey-dark;
     font-weight: 300;
@@ -214,27 +219,31 @@ export default {
   .brand-date {
     color: $blue-dark-medium;
     margin-top: 15px;
-    span { 
+    span {
       font-weight: 600;
-       margin: 0 4px;
+      margin: 0 4px;
     }
   }
 }
 
 .form-header-custom {
   margin-top: 50px;
-  .form-header { @include icon-logo-wrapper;}
-  .form-header-title { 
+  .form-header {
+    @include icon-logo-wrapper;
+  }
+  .form-header-title {
     text-align: center;
     font-weight: 500;
-    margin-bottom: 40px; 
-    margin-top: 10px; 
+    margin-bottom: 40px;
+    margin-top: 10px;
   }
 }
-.form-label-group { 
-  @include flex-space-between;  
-  height: 35px; 
-  .btn-m { margin-bottom: 5px; } 
+.form-label-group {
+  @include flex-space-between;
+  height: 35px;
+  .btn-m {
+    margin-bottom: 5px;
+  }
 }
 .form-btn-submit {
   padding: 20px 0;
@@ -251,29 +260,53 @@ export default {
   margin-bottom: 10px;
 }
 
-.el-form { padding: 0 25%; }
-.el-button { font-size: 14px; }
-.el-select { width: 100%; }
+.el-form {
+  padding: 0 25%;
+}
+.el-button {
+  font-size: 14px;
+}
+.el-select {
+  width: 100%;
+}
 
 @media only screen and (max-width: 479px) {
-  .form-header-brand { 
+  .form-header-brand {
     width: 100%;
-    .brand-logo { width: 60px; height: 60px;}
-    .brand-date { font-size: 11px; }
+    .brand-logo {
+      width: 60px;
+      height: 60px;
+    }
+    .brand-date {
+      font-size: 11px;
+    }
   }
-  .el-form { padding: 0; }
-  .form-wrapper-title .form-wrapper-tag { display: none; }
-  .el-select-dropdown.el-popper { left: 0!important }
-  .select-option-left { font-size: 11px!important ; }
+  .el-form {
+    padding: 0;
+  }
+  .form-wrapper-title .form-wrapper-tag {
+    display: none;
+  }
+  .el-select-dropdown.el-popper {
+    left: 0 !important;
+  }
+  .select-option-left {
+    font-size: 11px !important ;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .form-header-brand { width: 80%; }
-  .el-form { padding: 0 10px; }
+  .form-header-brand {
+    width: 80%;
+  }
+  .el-form {
+    padding: 0 10px;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .el-form { padding: 0 80px; }
+  .el-form {
+    padding: 0 80px;
+  }
 }
-
 </style>

@@ -1,35 +1,47 @@
 <template>
   <div class="button-fb-auth">
-    <a :href="`${url}`" class="btn-facebook">
+    <a
+      :href="`${url}`"
+      class="btn-facebook"
+    >
       <i class="fa fa-facebook-official"></i>
-      {{ text }} <span>avec</span> Facebook
-      <i v-if="loading" class="el-icon-loading"></i>
+      {{ text }} <span>{{$t('with')}}</span> Facebook
+      <i
+        v-if="loading"
+        class="el-icon-loading"
+      ></i>
     </a>
-    <p v-if="loading" class="loading">
-      connexion en cours...
+    <p
+      v-if="loading"
+      class="loading"
+    >
+      {{$t('login')}} {{$t('inProgress')}}...
     </p>
   </div>
 </template>
 <script>
 window.fbAsyncInit = function() {
-   // eslint-disable-next-line no-undef
-    FB.init({
-      appId      : process.env.VUE_APP_FB_APP_ID,
-      cookie     : true,
-      xfbml      : true,
-      version    : 'v3.0'
-    });
-     // eslint-disable-next-line no-undef
-    FB.AppEvents.logPageView();
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+  // eslint-disable-next-line no-undef
+  FB.init({
+    appId: process.env.VUE_APP_FB_APP_ID,
+    cookie: true,
+    xfbml: true,
+    version: 'v3.0'
+  })
+  // eslint-disable-next-line no-undef
+  FB.AppEvents.logPageView()
+}
+;(function(d, s, id) {
+  var js,
+    fjs = d.getElementsByTagName(s)[0]
+  if (d.getElementById(id)) {
+    return
+  }
+  js = d.createElement(s)
+  js.id = id
+  js.src = 'https://connect.facebook.net/en_US/sdk.js'
+  fjs.parentNode.insertBefore(js, fjs)
+})(document, 'script', 'facebook-jssdk')
 
 export default {
   name: 'ButtonAuthFb',
@@ -37,27 +49,35 @@ export default {
   data() {
     return {
       loading: false,
-      url: `https://www.facebook.com/v3.0/dialog/oauth?client_id=${process.env.VUE_APP_FB_APP_ID}&redirect_uri=${process.env.VUE_APP_BASE_APP_URI}login&state="{st=state123abc,ds=123456789}"&response_type=token&scope=email`
+      url: `https://www.facebook.com/v3.0/dialog/oauth?client_id=${
+        process.env.VUE_APP_FB_APP_ID
+      }&redirect_uri=${
+        process.env.VUE_APP_BASE_APP_URI
+      }login&state="{st=state123abc,ds=123456789}"&response_type=token&scope=email`
     }
   },
   methods: {
     loginFb() {
-       // eslint-disable-next-line no-undef
-      FB.getLoginStatus(this.checkLoginState);
+      // eslint-disable-next-line no-undef
+      FB.getLoginStatus(this.checkLoginState)
     },
-    openFbLoginDialog () {
+    openFbLoginDialog() {
       // eslint-disable-next-line no-undef
       FB.login(this.checkLoginState, { scope: 'email' })
     },
-    checkLoginState (response) {
+    checkLoginState(response) {
       if (response.status === 'connected') {
         const token = response.authResponse.accessToken
         this.$emit('AuthWithFb', token)
       } else {
-        const url = `https://www.facebook.com/v3.0/dialog/oauth?client_id=${process.env.VUE_APP_FB_APP_ID}&redirect_uri=${process.env.VUE_APP_BASE_APP_URI}login&state="{st=state123abc,ds=123456789}"&response_type=token&scope=email`
-        window.location.href = url;
+        const url = `https://www.facebook.com/v3.0/dialog/oauth?client_id=${
+          process.env.VUE_APP_FB_APP_ID
+        }&redirect_uri=${
+          process.env.VUE_APP_BASE_APP_URI
+        }login&state="{st=state123abc,ds=123456789}"&response_type=token&scope=email`
+        window.location.href = url
       }
-    },
+    }
   },
   created() {
     const fullPath = this.$route.fullPath
@@ -65,7 +85,10 @@ export default {
     // Todo => includes state value in .env vars
     if (fullPath.includes('#state=')) {
       this.loading = true
-      const token = fullPath.substring(fullPath.lastIndexOf("access_token=") + 13,  fullPath.lastIndexOf("&expires_in="));
+      const token = fullPath.substring(
+        fullPath.lastIndexOf('access_token=') + 13,
+        fullPath.lastIndexOf('&expires_in=')
+      )
       this.$emit('AuthWithFb', token)
     }
   }
@@ -77,18 +100,20 @@ export default {
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.6px;
-  background: #466AAE;
-  border: 1px solid #466AAE;
+  background: #466aae;
+  border: 1px solid #466aae;
   color: white;
   padding: 7px 25px;
   text-decoration: none;
   border-radius: 2px;
   text-align: center;
-  i { margin-right: 4px; }
+  i {
+    margin-right: 4px;
+  }
   &:hover,
   &:focus {
-    background: #466AAE;
-    border: 1px solid #466AAE;
+    background: #466aae;
+    border: 1px solid #466aae;
     opacity: 0.8;
   }
 }
@@ -103,7 +128,9 @@ export default {
     margin-right: 2px;
     font-size: 12px;
     padding: 7px 10px;
-    span { display: none }
+    span {
+      display: none;
+    }
   }
 }
 </style>

@@ -22,15 +22,19 @@ import { guards, utilities } from '@/mixins/utilities.js'
 import ApiEvents from '@/services/ApiEvents.js'
 import TeamySpinner from '@/components/global/TeamySpinner'
 import CardTeam from '@/components/cards/teams/CardTeam'
-import CardTeamEmpty from '@/components/cards/teams/CardTeamEmpty'
 import CardEventLarge from '@/components/cards/events/CardEventLarge'
 import FormEventEdit from '@/components/forms/FormEventEdit'
 
 export default {
   name: 'event-show',
   mixins: [guards, utilities],
-  components: { TeamySpinner, CardTeam, CardTeamEmpty, CardEventLarge, FormEventEdit },
-  data () {
+  components: {
+    TeamySpinner,
+    CardTeam,
+    CardEventLarge,
+    FormEventEdit
+  },
+  data() {
     return {
       loadingEvent: true,
       displayFormEdit: false
@@ -43,13 +47,13 @@ export default {
     ...mapActions(['initEvent', 'resetEvent']),
     scrollTop() {
       let scroll = new SmoothScroll('a[href*="#"]')
-      scroll.animateScroll(0);
+      scroll.animateScroll(0)
     },
-    toggleForm () {
+    toggleForm() {
       this.displayFormEdit = !this.displayFormEdit
       this.scrollTop()
     },
-    async getEvent (id) {
+    async getEvent(id) {
       try {
         const event = (await ApiEvents.get(id)).data.event
         this.initEvent(event)
@@ -61,24 +65,23 @@ export default {
     }
   },
   watch: {
-    '$route' () {
+    $route() {
       const eventId = this.$route.params.id
       if (eventId) this.getEvent(eventId)
     }
   },
-  created () {
+  created() {
     this.resetEvent()
     const eventId = this.$route.params.id
     if (eventId) this.getEvent(eventId)
   },
-  destroyed () {
+  destroyed() {
     this.resetEvent()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -94,18 +97,32 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { padding: 0px 10px 60px 10px; }
-  .page-center-container-l { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    padding: 0px 10px 60px 10px;
+  }
+  .page-center-container-l {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-center-container-l { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-center-container-l {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .page-center-container-l { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-center-container-l {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 </style>

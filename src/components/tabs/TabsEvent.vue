@@ -1,18 +1,25 @@
 <template>
   <div v-if="event && activeTabId">
     <div class="tabs-wrapper">
-      <div class="tabs" v-for="tab in tabs" :key="tab.id"
-        v-if="displayTab(tab)" @click="active(tab)"
-        :class="{'active': activeTabId === tab.id}">
-        <span class="text-item">{{ tab.name }}</span>
+      <div
+        class="tabs"
+        v-for="tab in tabsdisplayed"
+        :key="tab.id"
+        @click="active(tab)"
+        :class="{'active': activeTabId === tab.id}"
+      >
+        <span class="text-item">{{$t(tab.name)}}</span>
       </div>
     </div>
     <div class="tabs-content">
-      <transition name="fade" mode="out-in">
+      <transition
+        name="fade"
+        mode="out-in"
+      >
         <tabs-event-report v-if="activeTabId === 1 && eventIsMatchCategory(event)" />
         <tabs-event-composition v-else-if="activeTabId === 2 && eventIsMatchCategory(event)" />
         <tabs-event-invitations v-else-if="activeTabId === 3" />
-        <tabs-event-topic v-else-if="activeTabId === 4"/>
+        <tabs-event-topic v-else-if="activeTabId === 4" />
       </transition>
     </div>
   </div>
@@ -29,41 +36,53 @@ import TabsEventInvitations from '@/components/tabs/TabsEventInvitations'
 export default {
   name: 'TabsEvent',
   mixins: [utilities],
-  components: { TabsEventReport, TabsEventComposition, TabsEventInvitations, TabsEventTopic },
-  data () {
+  components: {
+    TabsEventReport,
+    TabsEventComposition,
+    TabsEventInvitations,
+    TabsEventTopic
+  },
+  data() {
     return {
       tabs: [
-        {id: 1, name: 'rapport'}, 
-        {id: 2, name: 'composition'},
-        {id: 3, name: 'invitations'},
-        {id: 4, name: 'forum'}
+        { id: 1, name: 'report' },
+        { id: 2, name: 'group' },
+        { id: 3, name: 'invitations' },
+        { id: 4, name: 'comments' }
       ],
       activeTabId: null
     }
   },
   computed: {
     ...mapGetters(['event']),
-    validatedParticipations () {
+    tabsdisplayed() {
+      return this.tabs.filter(tab => this.displayTab(tab))
+    },
+    validatedParticipations() {
       return this.event.participations.filter(p => p.status === 'validated')
     },
-    refusedParticipations () {
+    refusedParticipations() {
       return this.event.participations.filter(p => p.status === 'refused')
     },
-    pendingParticipations () {
+    pendingParticipations() {
       return this.event.participations.filter(p => p.status === 'pending')
     }
   },
   methods: {
-    active (tab) {
+    active(tab) {
       this.activeTabId = tab.id
     },
     displayTab(tab) {
       if (tab.id === 1 && !this.eventIsPassed(this.event)) return false
-      if ((tab.id === 1 || tab.id === 2) && !this.eventIsMatchCategory(this.event)) return false
+      if (
+        (tab.id === 1 || tab.id === 2) &&
+        !this.eventIsMatchCategory(this.event)
+      )
+        return false
       return true
     }
   },
-  created () {
+  created() {
     if (!this.eventIsMatchCategory(this.event)) {
       this.activeTabId = 3
     } else if (this.eventIsPassed(this.event)) {
@@ -76,7 +95,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .tabs-wrapper {
   @include flex-center();
   height: 50px;
@@ -126,10 +144,14 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .tabs-wrapper { 
+  .tabs-wrapper {
     height: 35px;
-    .tabs { width: 110px; height: 35px; padding: 0 10px; font-size: 10px; }
+    .tabs {
+      width: 110px;
+      height: 35px;
+      padding: 0 10px;
+      font-size: 10px;
+    }
   }
 }
-
 </style>

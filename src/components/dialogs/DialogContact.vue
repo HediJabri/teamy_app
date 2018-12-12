@@ -4,18 +4,18 @@
       <div class="dialog-body">
         <h4 class="dialog-title">Salut {{ currentUser.firstName }} 👋</h4>
         <br>
-        <p>Tu as repéré un bug ? Une suggestion pour Teamy ou n'importe quelle autre question ?</p>
-        <p><strong>Envois nous ton message,</strong> on te réponds au plus vite 😊</p><br />
+        <p v-html="$t('dialogContactSentence')"></p>
+        <br>
         <el-input type="textarea" :rows="5" v-model="newMessage" placeholder="Ecris ton message ici...">
         </el-input>
       </div>
       <span class="dialog-footer" slot="footer">
         <el-button class="dialog-btn" type="default" @click="dialogVisible = false">
-          Annuler
+          {{$t('cancel')}}
         </el-button>
         <el-button class="dialog-btn" type="success" @click="sendMessage" 
           :disabled="newMessage.length === 0" :loading="isLoading">
-          Envoyer
+          {{$t('send')}}
         </el-button>
       </span>
     </el-dialog>
@@ -31,7 +31,7 @@ export default {
   name: 'DialogContact',
   mixins: [utilities],
   props: ['openDialog', 'user'],
-  data () {
+  data() {
     return {
       newMessage: '',
       dialogVisible: false,
@@ -45,23 +45,31 @@ export default {
     async sendMessage() {
       this.isLoading = true
       try {
-        const body = { content: this.newMessage, user: null, sender: this.currentUser._id }
+        const body = {
+          content: this.newMessage,
+          user: null,
+          sender: this.currentUser._id
+        }
         await ApiUsers.sendMessage(body)
         this.isLoading = false
         this.$emit('closeDialog')
         this.newMessage = ''
-        this.$notify({ title: 'Succès', message: "Le message a bien été envoyé", type: 'success' })
+        this.$notify({
+          title: this.$t('success'),
+          message: this.$t('messageSent'),
+          type: 'success'
+        })
       } catch (err) {
         this.isLoading = false
         this.errorNotify(err)
-      }     
+      }
     }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }
@@ -71,7 +79,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .dialog-body {
   padding: 0px 25px 10px 25px;
   text-align: center;
@@ -94,7 +101,6 @@ export default {
 .dialog-btn {
   padding: 12px 17px;
   font-size: 14px;
-
 }
 .el-dialog__footer {
   padding: 20px;

@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Auth from '@/services/Auth.js'
 import SmoothScroll from 'smooth-scroll'
+import { utilities } from '@/mixins/utilities.js'
+import Auth from '@/services/Auth.js'
+import i18n from '@/plugins/i18n'
 // Auth
+import AuthLayout from '@/views/auth/AuthLayout'
 import Register from '@/views/auth/Register'
 import Login from '@/views/auth/Login'
 import Contact from '@/views/auth/Contact'
@@ -39,22 +42,27 @@ var router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '/login',
-      name: 'login',
-      component: Login,
-      meta: { requiresGuest: true }
-    },
-    {
-      path: '/contact',
-      name: 'contact',
-      component: Contact,
-      meta: { requiresGuest: true }
-    },
-    {
-      path: '/register/:teamToken?',
-      name: 'register',
-      component: Register,
-      meta: { requiresGuest: true }
+      path: '/auth',
+      component: AuthLayout,
+      redirect: '/login',
+      meta: { requiresGuest: true },
+      children: [
+        {
+          path: '/login/:lang?',
+          name: 'login',
+          component: Login
+        },
+        {
+          path: '/contact/:lang?',
+          name: 'contact',
+          component: Contact
+        },
+        {
+          path: '/register/:lang?/:teamToken?',
+          name: 'register',
+          component: Register
+        }
+      ]
     },
     {
       path: '/',
@@ -188,6 +196,10 @@ var router = new Router({
 router.beforeEach(function(to, from, next) {
   let scroll = new SmoothScroll('a[href*="#"]')
   scroll.animateScroll(0)
+  const lang = to.params.lang
+  if (lang) {
+    utilities.methods.changeAppLocale(lang)
+  }
   if (
     to.matched.some(function(record) {
       return record.meta.requiresGuest
@@ -204,7 +216,7 @@ router.beforeEach(function(to, from, next) {
     !Auth.loggedIn()
   ) {
     next({
-      path: '/login',
+      path: `/login/${i18n.locale}`,
       query: { redirect: to.fullPath }
     })
   } else {

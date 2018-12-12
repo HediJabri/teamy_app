@@ -1,84 +1,76 @@
 <template lang="html">
-  <div class="banner">
-    <div class="banner-wrapper">
-      <div class="banner-logo-wrapper">
-        <a href="https://teamy.us">
-          <img src="../../assets/img/teamy-logo-white.png" class="logo">
-        </a>
-        </div> 
-      <div class="card">
-        <div class="card-team" v-if="team">
-          <div class="card-team-logo">
-            <div class="logo-wrapper">
-              <img v-if="team.logo" :src="team.logo">
-              <i v-else class="fa fa-shield blue"></i>
-            </div>
-          </div>
-          <h5>{{ team.name }}</h5>
-           <div class="card-team-info" v-if="teamMembershipsIsFull(team)">
-            <span>Nb de membres maximum atteint</span>
-          </div>
-          <div v-else class="card-team-info">
-            <div class="avatar">
-              <img v-if="team.mainAdmin.avatar" :src="team.mainAdmin.avatar">
-              <img v-else src="../../assets/img/user.png">
-            </div>
-            <span>{{ team.mainAdmin.firstName }} t'invites à rejoindre son équipe</span>
+  <div>
+    <div class="card">
+      <div class="card-team" v-if="team">
+        <div class="card-team-logo">
+          <div class="logo-wrapper">
+            <img v-if="team.logo" :src="team.logo">
+            <i v-else class="fa fa-shield blue"></i>
           </div>
         </div>
-        <div class="header-social-auth">
-          <button-fb-auth v-on:AuthWithFb="registerWithFb($event)" :text="'Inscription'"/>
-          <div class="header-separator">
-            <span class="header-separator-line"></span>
-            <span class="header-separator-text">ou</span>
-            <span class="header-separator-line"></span>
-          </div>
+        <h5>{{ team.name }}</h5>
+          <div class="card-team-info" v-if="teamMembershipsIsFull(team)">
+          <span>{{ $t(teamMembershipsIsFull) }}</span>
         </div>
-        <el-form :model="registerForm" :rules="rulesRegister" ref="registerForm" label-position="labelPosition" class="demo-ruleForm">
-          <div class="row">
-            <div class="col-xs-6 col-left">
-              <el-form-item prop="firstName">
-                <el-input placeholder="Prénom" type="firstName" v-model="registerForm.firstName">
-                </el-input>
-              </el-form-item>
-            </div>
-            <div class="col-xs-6 col-right">
-              <el-form-item prop="lastName">
-                <el-input placeholder="Nom" type="lastName" v-model="registerForm.lastName">
-                </el-input>
-              </el-form-item>
-            </div>
+        <div v-else class="card-team-info">
+          <div class="avatar">
+            <img v-if="team.mainAdmin.avatar" :src="team.mainAdmin.avatar">
+            <img v-else src="../../assets/img/user.png">
           </div>
-          <el-form-item prop="email">
-            <el-input placeholder="Email" type="email" v-model="registerForm.email">
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input placeholder="Mot de passe" type="password" 
-              v-model="registerForm.password" @keyup.enter.native="submitForm('registerForm')">
-            </el-input>
-          </el-form-item>
-          <div class="text-center">
-            <el-button type="success"
-            class="btn-register"
-            :loading="isLoading"
-            @click="submitForm('registerForm')">
-              Inscription
-            </el-button>
-          </div>
-        </el-form>
-        <div v-if="hasErrors">
-          <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
+          <span>{{ team.mainAdmin.firstName }} {{ $t(inviteYouToJoinHisTeam) }} </span>
         </div>
       </div>
-      <div class="banner-footer">
-        <span>Déjà un compte ?</span>
-        <router-link to="/login" class="link">
-          Connexion
-        </router-link>
+      <div class="header-social-auth">
+        <button-fb-auth v-on:AuthWithFb="registerWithFb($event)" :text="$t('signUp')"/>
+        <div class="header-separator">
+          <span class="header-separator-line"></span>
+          <span class="header-separator-text">{{ $t('or') }}</span>
+          <span class="header-separator-line"></span>
+        </div>
       </div>
-     </div>
-    <br>
+      <el-form :model="registerForm" :rules="rulesRegister" ref="registerForm" label-position="labelPosition" class="demo-ruleForm">
+        <div class="row">
+          <div class="col-xs-6 col-left">
+            <el-form-item prop="firstName">
+              <el-input :placeholder="$t('firstName')" type="firstName" v-model="registerForm.firstName">
+              </el-input>
+            </el-form-item>
+          </div>
+          <div class="col-xs-6 col-right">
+            <el-form-item prop="lastName">
+              <el-input :placeholder="$t('lastName')" type="lastName" v-model="registerForm.lastName">
+              </el-input>
+            </el-form-item>
+          </div>
+        </div>
+        <el-form-item prop="email">
+          <el-input :placeholder="$t('email')" type="email" v-model="registerForm.email">
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input :placeholder="$t('password')" type="password" 
+            v-model="registerForm.password" @keyup.enter.native="submitForm('registerForm')">
+          </el-input>
+        </el-form-item>
+        <div class="text-center">
+          <el-button type="success"
+          class="btn-register"
+          :loading="isLoading"
+          @click="submitForm('registerForm')">
+            {{$t('signUp')}}
+          </el-button>
+        </div>
+      </el-form>
+      <div v-if="hasErrors">
+        <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
+      </div>
+    </div>
+    <div class="banner-footer">
+      <span>{{ $t('alreadyAnAccount') }}</span>
+      <router-link to="/login" class="link">
+        {{$t('login')}}
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -96,7 +88,7 @@ export default {
   data() {
     var validateInput = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('Ce champ est obligatoire'))
+        callback(new Error(this.$t('fieldRequired')))
       } else {
         callback()
       }
@@ -166,6 +158,7 @@ export default {
       this.errors = []
       this.isLoading = true
       try {
+        this.registerForm.lang = this.$i18n.locale
         const res = await Auth.register(this.registerForm)
         this.authUser(res.data)
       } catch (err) {

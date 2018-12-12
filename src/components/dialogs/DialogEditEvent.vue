@@ -3,17 +3,17 @@
     <el-dialog title="" :visible.sync="dialogVisible" :fullscreen="smallDevice()">
       <div class="dialog-body">
        <h4 class="dialog-title">
-          <span>Modifier l'évenement</span>
+          <span>{{$t('editEvent')}}</span>
         </h4>
         <br>
-        <p>Veux tu <strong>prévenir les participants par mail</strong> de la modification de l'événement ?</p>
+        <p v-html="$t('dialogEditEventSentence')"></p>
       </div>
       <span class="dialog-footer" slot="footer">
         <el-button class="dialog-btn" type="success" @click="confirm(true)">
-          Oui
+          {{$t('yes')}}
         </el-button>
         <el-button class="dialog-btn" type="danger" @click="confirm(false)">
-          Non
+          {{$t('no')}}
         </el-button>
       </span>
     </el-dialog>
@@ -28,7 +28,7 @@ export default {
   name: 'DialogEditEvent',
   mixins: [utilities],
   props: ['openDialog', 'event'],
-  data () {
+  data() {
     return {
       dialogVisible: false
     }
@@ -39,13 +39,13 @@ export default {
   methods: {
     confirm(action) {
       this.$emit('confirmEditEvent', action)
-    },
+    }
   },
   watch: {
-    openDialog () {
+    openDialog() {
       this.dialogVisible = this.openDialog
     },
-    dialogVisible () {
+    dialogVisible() {
       if (this.dialogVisible === false) {
         this.$emit('closeDialog')
       }
@@ -55,7 +55,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .dialog-body {
   padding: 0px 25px 10px 25px;
   text-align: center;
@@ -69,6 +68,7 @@ export default {
     }
   }
   p {
+    line-height: 26px;
     font-size: 15px;
   }
   .el-input {
@@ -78,7 +78,6 @@ export default {
 .dialog-btn {
   padding: 12px 17px;
   font-size: 14px;
-
 }
 .el-dialog__footer {
   padding: 20px;

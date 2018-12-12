@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-title">
         <div class="card-title-text">
-          <h5>événements</h5>
+          <h5>{{ $t('events')}}</h5>
         </div>
       </div>
       <div class="card-body">
@@ -15,7 +15,7 @@
           'border-red': filter.border === 'red',
           'border-blue': filter.border === 'blue'}">
           <div class="list-item-body">
-            <p class="list-item-body-top">{{ filter.title }}</p>
+            <p class="list-item-body-top">{{ $t(filter.title) }}</p>
           </div>
         </div>
       </div>
@@ -24,7 +24,7 @@
       v-if="isAdmin(currentUser, currentTeam)">
       <el-button type="primary"
         @click="routeUrl(`/team/${currentTeam._id}/event-new-select`)">
-        Ajouter un événement
+        {{ $t('addEvent')}}
         <i class="fa fa-plus-circle margin-left"></i>
       </el-button>
     </div>
@@ -38,11 +38,17 @@ import { utilities } from '@/mixins/utilities.js'
 export default {
   name: 'CardEventsFilter',
   mixins: [utilities],
-  data () {
+  data() {
     return {
       filters: [
-        { id: 1, title: 'A venir', name: 'future', active: true, border: 'blue' },
-        { id: 2, title: 'Passé', name: 'passed', active: false, border: 'red' }
+        {
+          id: 1,
+          title: 'next',
+          name: 'future',
+          active: true,
+          border: 'blue'
+        },
+        { id: 2, title: 'passed', name: 'passed', active: false, border: 'red' }
       ]
     }
   },
@@ -50,25 +56,26 @@ export default {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-    toggleFilter (filterName) {
+    toggleFilter(filterName) {
       this.$emit('filterChange', filterName)
       for (let f of this.filters) {
         f.active = false
       }
       let filter = this.filters.find(f => f.name === filterName)
       filter.active = true
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .card {
   @include card();
   padding: 30px 0 10px 0;
   font-size: 13px;
-  .card-body { margin-top: 22px; }
+  .card-body {
+    margin-top: 22px;
+  }
 }
 .card-untitle {
   @include card();
@@ -96,15 +103,18 @@ export default {
 }
 .card-list-item.border-red.active {
   border-left: 5px solid $red;
-  p { font-weight: 600!important; }
+  p {
+    font-weight: 600 !important;
+  }
 }
 .card-list-item.border-blue.active {
   border-left: 5px solid $blue;
-  p { font-weight: 600!important; }
+  p {
+    font-weight: 600 !important;
+  }
 }
 .card-btn-add {
   @include flex-center();
   margin-bottom: 20px;
 }
-
 </style>

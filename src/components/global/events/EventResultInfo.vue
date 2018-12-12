@@ -3,12 +3,12 @@
   <div v-if="!event.result" class="event-result-btn">
     <el-button type="primary" v-if="resultButton && isAdmin(currentUser, event.team)"
       @click="openDialogAddEventResult('add')">
-      Ajouter le résultat
+      {{$t('addResult')}}
       <i class="fa fa-plus-circle margin-left"></i>
     </el-button>
     <div v-else class="event-result-info">
-      <span class="result-info" v-if="resultButton">Résultat en attente...</span>
-      <span class="result-info" v-else>En attente...</span>
+      <span class="result-info" v-if="resultButton"> {{$t('pendingResult')}}...</span>
+      <span class="result-info" v-else>{{$t('pending')}}...</span>
     </div>
   </div>
   <div v-else class="event-result-info" 
@@ -35,21 +35,22 @@ export default {
   mixins: [utilities],
   computed: {
     ...mapGetters(['currentUser']),
-    isMatchResult () {
+    isMatchResult() {
       return ['win', 'draw', 'lost'].includes(this.event.result)
     }
   },
   methods: {
-    classTagSize () {
+    classTagSize() {
       return {
         'tag-s': this.tagSize === 's',
-        'tag-l': this.tagSize === 'l',
+        'tag-l': this.tagSize === 'l'
       }
     },
     openDialogAddEventResult(mode) {
-      if (this.isAdmin(this.currentUser, this.event.team)) this.$emit('openDialogAddEventResult', mode)
+      if (this.isAdmin(this.currentUser, this.event.team))
+        this.$emit('openDialogAddEventResult', mode)
     }
-  },
+  }
 }
 </script>
 
@@ -61,11 +62,15 @@ export default {
 .event-result-btn {
   @include flex-center();
 }
-.event-result-info.cursor { cursor: pointer }
+.event-result-info.cursor {
+  cursor: pointer;
+}
 .event-result-info {
   text-align: center;
   position: relative;
-  i { font-size: 15px; }
+  i {
+    font-size: 15px;
+  }
   .emoji-result {
     position: absolute;
     bottom: -2px;
@@ -74,7 +79,7 @@ export default {
   }
 }
 .result-info {
-  color: $blue-dark!important;
+  color: $blue-dark !important;
   @include tag-flat();
   font-size: 12px;
   position: relative;
@@ -84,11 +89,14 @@ export default {
 }
 .result-info.tag-s {
   @include tag-flat-s();
-  i { font-size: 12px!important; }
+  i {
+    font-size: 12px !important;
+  }
 }
 
 @media only screen and (max-width: 479px) {
-  .event-result-info .result-info { font-size: 12px;}
+  .event-result-info .result-info {
+    font-size: 12px;
+  }
 }
-
 </style>

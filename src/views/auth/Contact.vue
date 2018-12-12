@@ -1,45 +1,37 @@
 <template lang="html">
-  <div class="banner">
-    <div class="banner-wrapper">
-      <div class="banner-logo-wrapper">
-        <a href="https://teamy.us">
-          <img src="../../assets/img/teamy-logo-white.png" class="logo">
-        </a>
+  <div>
+    <div class="card">
+      <div class="header">
+        <h4>Contact 👋</h4>
+        <p v-html="$t('contactUsSentence')"></p>
       </div>
-      <div class="card">
-        <div class="header">
-          <h4>Contact 👋</h4>
-          <p>Tu as <span>une question ?</span> Laisse nous <span>ton email et ton message</span>, on te répond au plus vite ! </p>
-        </div>
-        <el-form class="form-body" :model="form" :rules="rules" ref="form" label-position="labelPosition">
-          <el-form-item prop="email">
-            <el-input placeholder="Email" type="email" v-model="form.email">
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="message">
-            <el-input type="textarea" :rows="5" v-model="form.message" placeholder="Ecris ton message ici...">
-            </el-input>
-          </el-form-item>
-          <!-- <hr> -->
-          <el-form-item class="text-center">
-            <el-button type="success"
-              class="btn-send"
-              :loading="isLoading"
-              @click="submitForm('form')">
-              Envoyer
-            </el-button>
-          </el-form-item>
-        </el-form>
-        <div v-if="hasErrors">
-          <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
-        </div>
-      </div>
-       <div class="banner-footer">
-        <router-link to="/register" class="link">Inscription</router-link>
-        <router-link to="/login" class="link">Connexion</router-link>
+      <el-form class="form-body" :model="form" :rules="rules" ref="form" label-position="labelPosition">
+        <el-form-item prop="email">
+          <el-input :placeholder="$t('email')" type="email" v-model="form.email">
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="message">
+          <el-input type="textarea" :rows="4" v-model="form.message" :placeholder="`${$t('leaveYourMessageHere')}...`">
+          </el-input>
+        </el-form-item>
+        <!-- <hr> -->
+        <el-form-item class="text-center">
+          <el-button type="success"
+            class="btn-send"
+            :loading="isLoading"
+            @click="submitForm('form')">
+            {{$t('send')}}
+          </el-button>
+        </el-form-item>
+      </el-form>
+      <div v-if="hasErrors">
+        <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
       </div>
     </div>
-    <br> 
+    <div class="banner-footer">
+      <router-link to="/register" class="link">{{$t('signUp')}}</router-link>
+      <router-link to="/login" class="link">{{$t('login')}}</router-link>
+    </div>
   </div>
 </template>
 
@@ -54,7 +46,7 @@ export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('Ce champ est obligatoire'))
+        callback(new Error(this.$t('fieldRequired')))
       } else {
         callback()
       }
@@ -119,8 +111,8 @@ export default {
         this.form.message = ''
         this.form.email = ''
         this.$notify({
-          title: 'Succès',
-          message: 'Le message a bien été envoyé',
+          title: this.$t('success'),
+          message: this.$t('messageSent'),
           type: 'success'
         })
       } catch (err) {
@@ -182,9 +174,9 @@ export default {
   text-align: center;
   p {
     margin: 20px 0;
-  }
-  span {
-    font-weight: 600;
+    /deep/ span {
+      font-weight: 600;
+    }
   }
 }
 

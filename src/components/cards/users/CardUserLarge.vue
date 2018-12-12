@@ -12,25 +12,25 @@
      <span>{{ membership.position }}</span>
     </div>
     <div class="card-user-tag" v-if="membership.user.birthdate">
-      <span v-if="membership.user.birthdate">{{ formatAge(membership.user) }} ans</span>
+      <span v-if="membership.user.birthdate">{{ formatAge(membership.user) }} {{$t('yearsOld')}}</span>
     </div>
     <div class="card-user-buttons">
       <div class="card-user-buttons-wrapper">
          <el-button type="primary"
           @click="routeToProfil(membership.user)">
-          Voir le profil
+          {{$t('seeProfile')}}
         </el-button>   
       </div>
     </div>
     <div class="card-user-icons">
       <el-tooltip v-if="!isCurrentUser(membership.user)" 
-        :content="'Contacter'" placement="top" :open-delay="300">
+        :content="$t('toContact')" placement="top" :open-delay="300">
         <i class="fa fa-envelope blue icon-contact" @click="openDialogContactUser()"></i>
       </el-tooltip>
       <div v-if="isAdmin(currentUser, team) && !isTeamOverview">
         <el-dropdown trigger="click">
           <div class="el-dropdown-link">
-            <el-tooltip :content="'Modifier le profil'" placement="top" :open-delay="300">
+            <el-tooltip :content="$t('editProfile')" placement="top" :open-delay="300">
               <i class="material-icons icon-settings">settings</i>
             </el-tooltip>
           </div>
@@ -39,7 +39,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">settings</i>
-                  <span>Modifier le profil</span>
+                  <span>{{$t('editProfile')}}</span>
                 </span>
               </el-dropdown-item>
             </div>
@@ -48,7 +48,7 @@
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">sync</i>
-                  <span>Retirer de l'équipe</span>
+                  <span>{{$t('removeFromTeam')}}</span>
                 </span>
               </el-dropdown-item>
             </div>
@@ -77,7 +77,6 @@ import { mapGetters, mapActions } from 'vuex'
 import { eventBus } from '@/main'
 import ApiMemberships from '@/services/ApiMemberships.js'
 import { utilities } from '@/mixins/utilities.js'
-import TagPosition from '@/components/global/TagPosition'
 import DialogDeleteMembership from '@/components/dialogs/DialogDeleteMembership'
 import DialogEditMembership from '@/components/dialogs/DialogEditMembership'
 import DialogContactUser from '@/components/dialogs/DialogContactUser'
@@ -86,46 +85,59 @@ export default {
   name: 'CardUserLarge',
   props: ['membership', 'team'],
   mixins: [utilities],
-  components: { TagPosition, DialogDeleteMembership, DialogEditMembership, DialogContactUser },
-  data () {
+  components: {
+    DialogDeleteMembership,
+    DialogEditMembership,
+    DialogContactUser
+  },
+  data() {
     return {
       user: null,
       dialogDeleteMembership: false,
       dialogEditMembership: false,
-      dialogContactUser: false,
+      dialogContactUser: false
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    isTeamOverview () {
+    isTeamOverview() {
       return this.$route.name === 'team-overview'
     }
   },
   methods: {
     ...mapActions(['removeTeamMembership']),
-    openDialogDeleteMembership () {
+    openDialogDeleteMembership() {
       this.dialogDeleteMembership = true
     },
-    openDialogEditMembership () {
+    openDialogEditMembership() {
       this.dialogEditMembership = true
     },
-    openDialogContactUser () {
+    openDialogContactUser() {
       this.dialogContactUser = true
     },
-    async deleteMembership (id) {
+    async deleteMembership(id) {
       try {
         await ApiMemberships.delete(id, 'removeFromAdmin')
         this.$emit('showTeam')
         eventBus.$emit('resetActiveTeamMembers')
         const membership = this.team.memberships.find(m => m._id === id)
-        this.team.memberships.splice(this.team.memberships.indexOf(membership), 1)
+        this.team.memberships.splice(
+          this.team.memberships.indexOf(membership),
+          1
+        )
         this.removeTeamMembership(membership._id)
-        this.$notify({ title: 'Succès', message: `${this.user.firstName} a bien été retiré de l'équipe`, type: 'success' })
+        this.$notify({
+          title: this.$t('success'),
+          message: `${this.user.firstName} ${this.$t(
+            'hasBeenRemovedFromTeam'
+          )} `,
+          type: 'success'
+        })
       } catch (err) {
         this.errorNotify(err)
       }
     }
-  },
+  }
 }
 </script>
 

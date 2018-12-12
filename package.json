@@ -1,12 +1,12 @@
 {
   "name": "teamy_app",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy": "npm run build && now && now alias",
     "lint": "vue-cli-service lint",
+    "deploy": "npm run build && now && now alias",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -22,6 +22,8 @@
     "tween.js": "^16.6.0",
     "vue": "^2.5.17",
     "vue-clipboard2": "^0.2.1",
+    "vue-flag-icon": "^1.0.6",
+    "vue-i18n": "^8.0.0",
     "vue-router": "^3.0.1",
     "vue-simple-spinner": "^1.2.8",
     "vuex": "^3.0.1"
@@ -42,6 +44,7 @@
     "eslint-plugin-vue": "^5.0.0-0",
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0",
+    "vue-cli-plugin-i18n": "^0.5.1",
     "vue-template-compiler": "^2.5.17"
   }
 }

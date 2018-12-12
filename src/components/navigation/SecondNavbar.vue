@@ -8,14 +8,14 @@
             :class="{'active': $route.name === 'team-dashboard'}">
             <span class="second-navbar-text">
               <i class="material-icons icon-margin-bottom">dashboard</i>
-              <span>Tableau de bord</span>
+              <span>{{$t('dashboard')}}</span>
             </span>
           </router-link>
           <router-link class="second-navbar-item" :to="`/team/${this.currentTeam._id}/show`"
             :class="{'active': $route.name === 'team-show' }">
             <span class="second-navbar-text ">
               <i class="material-icons icon-margin-bottom">group</i>
-              <span>Membres</span>
+              <span>{{$t('members')}}</span>
               <el-badge :value="notifications.pendingMembers.length" class="item"
                 v-if="isAdmin(currentUser, currentTeam) && notifications.pendingMembers && notifications.pendingMembers.length">
               </el-badge>
@@ -25,7 +25,7 @@
             :class="{'active': eventsRoutesNames.includes($route.name) }">
             <span class="second-navbar-text ">
               <i class="material-icons icon-event">event</i>
-              <span>Événements</span>
+              <span>{{$t('events')}}</span>
               <el-badge v-if="notifications.pendingParticipations && notifications.pendingParticipations.length" 
                 :value="notifications.pendingParticipations.length" class="item">
               </el-badge>
@@ -35,14 +35,14 @@
             :class="{'active': competitionsRoutesNames.includes($route.name) }">
             <span class="second-navbar-text-fa icon-margin-bottom">
               <i class="fa fa-trophy"></i>
-              <span>Compétitions</span>
+              <span>{{$t('competitions')}}</span>
             </span>
           </router-link>
           <router-link v-if="currentTeam" class="second-navbar-item" :to="`/team/${currentTeam._id}/stats`"
             :class="{'active': $route.name === 'stats' }">
             <span class="second-navbar-text" >
               <i class="material-icons icon-stats">insert_chart_outlined</i>
-              <span>Stats</span>
+              <span>{{$t('stats')}}</span>
             </span>
           </router-link>
         </div>
@@ -60,7 +60,7 @@
                 <el-dropdown-item v-if="isAdmin(currentUser, currentTeam)">
                   <span class="dropdown-text">
                     <i class="material-icons">view_list</i>
-                    <span>Saisons</span>
+                    <span>{{$t('seasons')}}</span>
                   </span>
                 </el-dropdown-item>
               </div>
@@ -68,7 +68,7 @@
                 <el-dropdown-item>
                   <span class="dropdown-text">
                     <i class="material-icons">account_circle</i>
-                    <span>Profil membre</span>
+                    <span>{{$t('memberProfile')}}</span>
                   </span>
                 </el-dropdown-item>
               </div>
@@ -76,7 +76,7 @@
                 <el-dropdown-item v-if="isMainAdmin(currentUser, currentTeam)">
                   <span class="dropdown-text">
                     <i class="material-icons">settings</i>
-                    <span>Modifier l'équipe</span>
+                    <span>{{$t('editTeam')}}</span>
                   </span>
                 </el-dropdown-item>
               </div>
@@ -86,7 +86,7 @@
                 <el-dropdown-item>
                   <span class="dropdown-text">
                     <i class="material-icons">delete</i>
-                    <span>Supprimer l'équipe</span>
+                    <span>{{$t('deleteTeam')}}</span>
                   </span>
                 </el-dropdown-item>
               </div>
@@ -95,7 +95,7 @@
                 <el-dropdown-item>
                   <span class="dropdown-text">
                     <i class="material-icons">sync</i>
-                    <span>Me retirer de l'équipe</span>
+                    <span>{{$t('removeMyselfFromTeam')}}</span>
                   </span>
                 </el-dropdown-item>
               </div>
@@ -108,14 +108,14 @@
           <router-link class="second-navbar-item" to="/">
             <span class="second-navbar-text">
               <i class="material-icons icon-margin-bottom icon-home">home</i>
-              <span>Accueil</span>
+              <span>{{$t('home')}}</span>
             </span>
           </router-link>
           <router-link class="second-navbar-item" to="/home/community"
             :class="{'active': $route.name === 'community'}">
             <span class="second-navbar-text">
               <i class="material-icons icon-margin-bottom">public</i>
-              <span>Communauté</span>
+              <span>{{$t('community')}}</span>
             </span>
           </router-link>
         </div>
@@ -148,15 +148,30 @@ export default {
     return {
       dialogDeleteTeam: false,
       dialogDeleteMembership: false,
-      eventsRoutesNames: ['events-new-select', 'events-new', 'events-index', 'events-show'],
-      competitionsRoutesNames: ['competitions-index', 'competition-show', 'competition-new']
+      eventsRoutesNames: [
+        'events-new-select',
+        'events-new',
+        'events-index',
+        'events-show'
+      ],
+      competitionsRoutesNames: [
+        'competitions-index',
+        'competition-show',
+        'competition-new'
+      ]
     }
   },
   computed: {
-    ...mapGetters(['currentUser', 'currentTeam', 'notifsLoaded', 'notifications', 'sports']),
+    ...mapGetters([
+      'currentUser',
+      'currentTeam',
+      'notifsLoaded',
+      'notifications',
+      'sports'
+    ]),
     isHomeView () {
       return this.$route.name === 'home-dashboard'
-    },
+    }
   },
   methods: {
     routeUrl (url) {

@@ -2,11 +2,13 @@
   <div class="card" v-if="event">
     <div class="card-header">
       <div class="card-left">
-        <div class="calendar-date">
-          <div class="month">
-            {{ formatEventMonth(event.dateStart) }}.
+        <div class="calendar">
+          <div class="calendar-date">
+            <div class="month">
+              {{ formatEventMonth(event.dateStart) }}.
+            </div>
+            <h4 class="day">{{ formatEventDay(event.dateStart) }}</h4>
           </div>
-          <h4 class="day">{{ formatEventDay(event.dateStart) }}</h4>
         </div>
       </div>
       <div class="card-right">
@@ -40,7 +42,7 @@
       <div v-if="event.timeAppointment">
         <span class="emoji">🕚 </span>
         <span v-if="event.timeAppointment" class="text-item margin-right">
-          Rdv {{ event.timeAppointment }} - 
+          {{ $t('meeting')}} {{ event.timeAppointment }} - 
         </span>
         <span v-if="event.placeAppointment" class="text-item">{{ event.placeAppointment }}</span>
       </div>
@@ -62,13 +64,13 @@
         <el-button type="primary"
           v-if="isAdmin(currentUser, event.team)"
           @click="openDialogInviteEvent">
-          Inviter mes membres <i class="fa fa-envelope margin-left"></i>
+          {{$t('inviteMembers')}} <i class="fa fa-envelope margin-left"></i>
         </el-button>
       </div>
       <transition name="fade" mode="out-in">
         <div v-if="userParticipation && userParticipation.status === 'pending'"
           class="card-participation-response">
-          Es tu dispo pour participer à cet évenement ?
+          {{ $t('availableForEvent')}}
           <div class="card-participation-actions">
             <el-button type="success" @click="updateParticipation('validated', userParticipation)">Oui</el-button>
             <el-button type="danger" @click="updateParticipation('refused', userParticipation)">Non</el-button>
@@ -77,14 +79,14 @@
         <div v-else-if="userParticipation && userParticipation.status === 'validated'"
           class="card-participation-response">
           <i class="fa fa-check-circle green"></i>
-          Tu as accepté l'invitation<br>
-          <span @click="updateParticipation('refused', userParticipation)">Refuser</span>
+          {{ $t('youAccepted')}}<br>
+          <span @click="updateParticipation('refused', userParticipation)">{{ $t('decline')}}</span>
         </div>
         <div v-else-if="userParticipation && userParticipation.status === 'refused'"
           class="card-participation-response">
           <i class="fa fa-times-circle red"></i>
-          Tu as refusé l'invitation<br>
-          <span @click="updateParticipation('validated', userParticipation)">Accepter</span>
+          {{ $t('youDeclined')}}<br>
+          <span @click="updateParticipation('validated', userParticipation)">{{ $t('accept')}}</span>
         </div>
       </transition>
     </div>
@@ -121,8 +123,14 @@ import TabsEvent from '@/components/tabs/TabsEvent'
 export default {
   name: 'CardEventLarge',
   mixins: [utilities],
-  components: { DialogCreateParticipations, DialogAddEventResult, EventResultInfo, EventCategoryIcon, TabsEvent },
-  data () {
+  components: {
+    DialogCreateParticipations,
+    DialogAddEventResult,
+    EventResultInfo,
+    EventCategoryIcon,
+    TabsEvent
+  },
+  data() {
     return {
       dialogInviteEvent: false,
       dialogAddEventResult: false,
@@ -131,42 +139,53 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'event']),
-    userParticipation () {
-      return this.event.participations.find(p => p.user && p.user._id === this.currentUser._id)
+    userParticipation() {
+      return this.event.participations.find(
+        p => p.user && p.user._id === this.currentUser._id
+      )
     },
-    validatedParticipations () {
-      return this.event.participations.filter(p => p.status === 'validated').length
-    },
-    refusedParticipations () {
-      return this.event.participations.filter(p => p.status === 'refused').length
-    },
-    pendingParticipations () {
-      return this.event.participations.filter(p => p.status === 'pending').length
-    },
-    compositionParticipations () {
+    validatedParticipations() {
       return this.event.participations.filter(p => p.status === 'validated')
+        .length
     },
+    refusedParticipations() {
+      return this.event.participations.filter(p => p.status === 'refused')
+        .length
+    },
+    pendingParticipations() {
+      return this.event.participations.filter(p => p.status === 'pending')
+        .length
+    },
+    compositionParticipations() {
+      return this.event.participations.filter(p => p.status === 'validated')
+    }
   },
   methods: {
     ...mapActions(['updateEventParticipation', 'removeNotification']),
-    toggleForm () {
+    toggleForm() {
       this.$emit('toggleForm')
     },
-    openDialogInviteEvent () {
+    openDialogInviteEvent() {
       this.dialogInviteEvent = true
     },
-    openDialogAddEventResult (mode) {
-      mode === 'add' ? this.dialogEventResultMode = 'add' : this.dialogEventResultMode = 'edit'
+    openDialogAddEventResult(mode) {
+      mode === 'add'
+        ? (this.dialogEventResultMode = 'add')
+        : (this.dialogEventResultMode = 'edit')
       this.dialogAddEventResult = true
     },
-    async updateParticipation (status, participation) {
+    async updateParticipation(status, participation) {
       const oldStatus = participation.status
       const body = { status, user: this.currentUser._id }
       try {
         await ApiParticipations.patch(participation._id, body)
         participation.status = status
         this.updateEventParticipation(participation)
-        if (oldStatus === 'pending') this.removeNotification({ key:'pendingParticipations', id: participation._id })
+        if (oldStatus === 'pending')
+          this.removeNotification({
+            key: 'pendingParticipations',
+            id: participation._id
+          })
       } catch (err) {
         this.impossibleActionNotify(err)
         this.isLoading = false
@@ -177,7 +196,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .card {
   @include card();
   padding: 30px 0 0 0;
@@ -190,7 +208,7 @@ export default {
     position: absolute;
     left: 50px;
     top: 0;
-    .calendar-date {
+    .calendar {
       @include calendar-date();
     }
   }
@@ -210,14 +228,16 @@ export default {
     color: $grey-dark;
     font-weight: 200;
     font-size: 22px;
-    display:flex;
+    display: flex;
     align-items: center;
     text-transform: capitalize;
     .icon-edit {
       margin-left: 8px;
-      color:  $text-grey-blue;
+      color: $text-grey-blue;
       cursor: pointer;
-      i { font-size: 17px;}
+      i {
+        font-size: 17px;
+      }
     }
   }
 }
@@ -230,7 +250,7 @@ export default {
     border-bottom: 1px solid $grey;
     @include emoji-text-wrapper();
     .emoji span:first {
-      font-size: 15px
+      font-size: 15px;
     }
   }
   .event-participations i {
@@ -238,9 +258,16 @@ export default {
     font-size: 15px;
   }
   .text-item-opponent {
-     font-size: 15px;
-     i { color: $blue-dark-medium; font-size: 18px; margin-right: 10px}
-     i.material-icons { font-size: 20px; margin: 0 10px 1px -2px;}
+    font-size: 15px;
+    i {
+      color: $blue-dark-medium;
+      font-size: 18px;
+      margin-right: 10px;
+    }
+    i.material-icons {
+      font-size: 20px;
+      margin: 0 10px 1px -2px;
+    }
   }
   .text-item-participations {
     margin-right: 10px;
@@ -252,7 +279,9 @@ export default {
   .card-btn-invite {
     @include flex-center();
     margin-bottom: 20px;
-    i { font-size: 12px }
+    i {
+      font-size: 12px;
+    }
   }
 }
 
@@ -271,7 +300,7 @@ export default {
     cursor: pointer;
     margin: 10px;
     opacity: 0.7;
-    transition: all .3s ease;
+    transition: all 0.3s ease;
     display: inline-block;
     &:hover {
       opacity: 1;
@@ -280,28 +309,54 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .card-body { padding: 20px 15px; font-size: 12px; .step-item { display: none } }
-  .card-header { 
-    padding: 0 15px 0 65px;
-    h5 { font-size: 13px; }
-    .time { 
-      font-size: 16px; 
-      .icon-edit i { font-size: 14px;}
+  .card-body {
+    padding: 20px 15px;
+    font-size: 12px;
+    .step-item {
+      display: none;
     }
-    .card-right { display: none; }
-    .card-left { left: 15px; .calendar-date { @include calendar-date-xs } }
   }
-  .card-actions-wrapper { font-size: 12px; }
-  .card-participation-response span { @include tag-flat-s() }
+  .card-header {
+    padding: 0 15px 0 65px;
+    h5 {
+      font-size: 13px;
+    }
+    .time {
+      font-size: 16px;
+      .icon-edit i {
+        font-size: 14px;
+      }
+    }
+    .card-right {
+      display: none;
+    }
+    .card-left {
+      left: 15px;
+      .calendar {
+        @include calendar-date-xs;
+      }
+    }
+  }
+  .card-actions-wrapper {
+    font-size: 12px;
+  }
+  .card-participation-response span {
+    @include tag-flat-s();
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .card-body { padding: 20px 60px; }
-  .card-header { 
-    padding: 0 105px; 
-    .card-left { left: 35px; } 
-    .card-right { right: 35px; } 
+  .card-body {
+    padding: 20px 60px;
+  }
+  .card-header {
+    padding: 0 105px;
+    .card-left {
+      left: 35px;
+    }
+    .card-right {
+      right: 35px;
+    }
   }
 }
-
 </style>

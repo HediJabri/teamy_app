@@ -6,18 +6,17 @@
 </template>
 
 <script>
-
 export default {
   name: 'TagPosition',
   props: ['position'],
   methods: {
-    classPositionTag (position) {
+    classPositionTag(position) {
       return {
         'tag-blue': position !== 'Gardien',
         'tag-green': position === 'Gardien'
       }
     },
-    formatPositionTag (position) {
+    formatPositionTag(position) {
       if (position === 'Attaquant') return 'AT'
       if (position === 'Milieu de Terrain') return 'ML'
       if (position === 'Défenseur') return 'DF'
@@ -29,7 +28,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .tag-position {
   @include tag();
   @include tag-blue();

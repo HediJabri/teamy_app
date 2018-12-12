@@ -7,7 +7,7 @@
     </div>
     <div class="right-container">
       <card-stats-top-players
-        v-for="(statsItem, index) in currentTeamSport().topStatsList" 
+        v-for="(statsItem, index) in topStatsList" 
         :statsItem="statsItem" :key="index"/>
     </div>
   </div>
@@ -24,14 +24,22 @@ import CardStatsTopPlayers from '@/components/cards/stats/CardStatsTopPlayers'
 export default {
   name: 'CardStatsTeam',
   mixins: [utilities],
-  components: { CardStatsTeamResults, CardStatsTeamMatchs, CardStatsTeamScores, CardStatsTopPlayers },
-  data () {
+  components: {
+    CardStatsTeamResults,
+    CardStatsTeamMatchs,
+    CardStatsTeamScores,
+    CardStatsTopPlayers
+  },
+  data() {
     return {
-      events: null,
+      events: null
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'sports']),
+    topStatsList() {
+      return this.currentTeamSport().topStatsList
+    }
   }
 }
 </script>
@@ -62,8 +70,14 @@ export default {
 }
 
 @media only screen and (max-width: 960px) {
-  .wrapper-container { flex-direction: column;}
-  .left-container { width: 100% }
-  .right-container { width: 100% }
+  .wrapper-container {
+    flex-direction: column;
+  }
+  .left-container {
+    width: 100%;
+  }
+  .right-container {
+    width: 100%;
+  }
 }
 </style>

@@ -11,58 +11,58 @@ export default {
     return Api().post('/users/oauth/facebook', body)
   },
   // Login Actions
-  login (creds) {
+  login(creds) {
     return Api().post('/users/signin', creds)
   },
   loginWithFb(creds) {
     return Api().post('/users/oauth/facebook', creds)
   },
-  logout () {
+  logout() {
     this.destroyToken()
     this.destroyUser()
     this.destroyTeam()
     store.dispatch('resetNotifications')
     store.dispatch('resetUser')
     store.dispatch('resetTeam')
-    router.push('/login')
+    router.push(`/login`)
   },
-  loggedIn () {
+  loggedIn() {
     return this.getToken()
   },
   // localStorage Token Actions
-  setToken (token) {
-    localStorage.setItem('authToken', token);
+  setToken(token) {
+    localStorage.setItem('authToken', token)
   },
-  destroyToken () {
-    localStorage.removeItem('authToken');
+  destroyToken() {
+    localStorage.removeItem('authToken')
   },
-  getToken () {
-    let token = localStorage.getItem('authToken');
-    token ? token : token = null
-    return token;
+  getToken() {
+    let token = localStorage.getItem('authToken')
+    token ? token : (token = null)
+    return token
   },
   // localStorage User Actions
-  setUser (user) {
+  setUser(user) {
     localStorage.setItem('user', JSON.stringify(user))
   },
-  destroyUser () {
-    localStorage.removeItem('user');
+  destroyUser() {
+    localStorage.removeItem('user')
   },
-  getUserId () {
-    let user = JSON.parse(localStorage.getItem('user')).id;
-    user ? user : user = null
-    return user;
+  getUserId() {
+    let user = JSON.parse(localStorage.getItem('user')).id
+    user ? user : (user = null)
+    return user
   },
   // localStorage Team Token
-  setTeam (team) {
+  setTeam(team) {
     localStorage.setItem('team', JSON.stringify(team))
   },
-  destroyTeam () {
-    localStorage.removeItem('team');
+  destroyTeam() {
+    localStorage.removeItem('team')
   },
-  getTeam () {
-    let team = JSON.parse(localStorage.getItem('team'));
-    team ? team : team = null
-    return team;
-  },
+  getTeam() {
+    let team = JSON.parse(localStorage.getItem('team'))
+    team ? team : (team = null)
+    return team
+  }
 }
