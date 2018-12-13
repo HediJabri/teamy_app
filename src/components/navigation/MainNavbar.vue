@@ -97,7 +97,7 @@
                 </span>
               </el-dropdown-item>
             </router-link>
-            <router-link v-if="!currentTeam" class="dropdown-link" to="/home/user-edit">
+            <router-link class="dropdown-link" to="/home/user-edit">
               <el-dropdown-item>
                 <span class="dropdown-text">
                   <i class="material-icons">settings</i>

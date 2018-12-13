@@ -2,7 +2,7 @@
   <div class="card" v-if="statsEvents">
     <div class="card-title">
       <div class="card-title-text">
-        <h5>saison {{ statsSeasonFilter.name }}</h5>
+        <h5>{{$t('season')}} {{ statsSeasonFilter.name }}</h5>
         <span v-if="statsCompetitionFilter">{{ statsCompetitionFilter.name }}</span>
         <span v-else>{{ $tc(statsCategoryFilter.title, 2) }}</span>
       </div>
