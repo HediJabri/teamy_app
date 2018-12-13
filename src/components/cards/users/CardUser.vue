@@ -11,12 +11,9 @@
           {{ user.lastName }}
         </h4>
       </div>
-      <div class="card-user-role" 
+      <div class="card-user-tag" 
         v-if="currentTeam && currentUserMembership(user, currentTeam).position">
         <span>{{ currentUserMembership(user, currentTeam).position }}</span>
-      </div>
-      <div v-if="user.birthdate" class="card-user-tag">
-        <span >{{ userAge }} {{$t('yearsOld')}}</span>
       </div>
       <div v-if="isUserShowView && !isCurrentUser(user._id)" class="card-user-btn">
         <el-button type="default" @click="openDialogContactUser">
@@ -115,8 +112,8 @@ export default {
 .card-user-btn {
   margin-top: 20px;
 }
-.card-user-role {
-  height: 18px;
+.card-user-age {
+  height: 14px;
   margin-top: 5px;
   display: flex;
   justify-content: center;
