@@ -37,19 +37,19 @@ export default {
   name: 'CardUserMemberships',
   mixins: [utilities],
   props: ['memberships'],
-  data() {
+  data () {
     return {
       activeMembership: 0
     }
   },
   computed: {
     ...mapGetters(['currentUser']),
-    validatedMemberships() {
+    validatedMemberships () {
       return this.memberships.filter(m => m.status === 'validated')
     }
   },
   methods: {
-    showMembership(membership, index) {
+    showMembership (membership, index) {
       this.activeMembership = index
       this.$emit('showMembership', membership)
     }
@@ -86,6 +86,8 @@ export default {
 }
 .card-body {
   margin-top: 22px;
+  max-height: 170px;
+  overflow-y: scroll;
 }
 .card-list-item {
   @include list-item-m();

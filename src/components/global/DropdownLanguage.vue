@@ -70,7 +70,7 @@ export default {
 <style lang="scss" scoped>
 .icon-lang {
   font-size: 22px;
-  margin: 3px 10px;
+  margin: 5px 10px;
 }
 .icon-lang.white {
   color: $white-light;

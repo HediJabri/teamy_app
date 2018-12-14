@@ -15,6 +15,54 @@
       </div>
       <!-- Right Navigation -->
       <div class="main-navbar-right">        
+        <dropdown-language v-if="currentUser"/>
+        <el-dropdown v-if="currentUser" trigger="click">
+          <span class="el-dropdown-link">
+            <div class="dropdown-avatar">
+              <img v-if="currentUser.avatar" :src="currentUser.avatar">
+              <img v-else src="../../assets/img/user.png">
+            </div>
+            <span class="dropdown-avatar-name">
+              {{ currentUser.firstName }}
+              <i class="el-icon-caret-bottom"></i>
+            </span>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <router-link v-if="currentTeam" class="dropdown-link" to="/home/dashboard">
+              <el-dropdown-item>
+                <span class="dropdown-text">
+                  <i class="material-icons">home</i>
+                  <span>{{$t('home')}}</span>
+                </span>
+              </el-dropdown-item>
+            </router-link>
+            <router-link v-if="!currentTeam" class="dropdown-link" 
+              :to="`/home/user-show/${currentUser._id}`">
+              <el-dropdown-item>
+                <span class="dropdown-text">
+                  <i class="material-icons">account_circle</i>
+                  <span>{{$t('myProfile')}}</span>
+                </span>
+              </el-dropdown-item>
+            </router-link>
+            <router-link class="dropdown-link" to="/home/user-edit">
+              <el-dropdown-item>
+                <span class="dropdown-text">
+                  <i class="material-icons">settings</i>
+                  <span>{{$t('myAccount')}} </span>
+                </span>
+              </el-dropdown-item>
+            </router-link>
+            <div class="dropdown-link" @click="logout">
+              <el-dropdown-item>
+                <span class="dropdown-text">
+                  <i class="fa fa-sign-out"></i>
+                  <span>{{$t('logOut')}}</span>
+                </span>
+              </el-dropdown-item>
+            </div>
+          </el-dropdown-menu>
+        </el-dropdown>
         <el-dropdown class="dropdown-menu-mobile" v-if="currentUser && currentTeam" trigger="click">
           <span class="el-dropdown-link">
             <i class="material-icons">menu</i>
@@ -62,60 +110,6 @@
             </router-link>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-dropdown v-if="currentUser" trigger="click">
-          <span class="el-dropdown-link">
-            <div class="dropdown-avatar">
-              <img v-if="currentUser.avatar" :src="currentUser.avatar">
-              <img v-else src="../../assets/img/user.png">
-            </div>
-            <span class="dropdown-avatar-name">{{ currentUser.firstName }}</span>
-            <i class="el-icon-caret-bottom el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <router-link v-if="currentTeam" class="dropdown-link" to="/home/dashboard">
-              <el-dropdown-item>
-                <span class="dropdown-text">
-                  <i class="material-icons">home</i>
-                  <span>{{$t('home')}}</span>
-                </span>
-              </el-dropdown-item>
-            </router-link>
-            <router-link v-if="currentTeam" class="dropdown-link" to="/home/community" >
-              <el-dropdown-item>
-                <span class="dropdown-text">
-                  <i class="material-icons icon-margin-bottom">public</i>
-                  <span>{{$t('community')}}</span>
-                </span>
-              </el-dropdown-item>
-            </router-link>
-            <router-link v-if="!currentTeam" class="dropdown-link" 
-              :to="`/home/user-show/${currentUser._id}`">
-              <el-dropdown-item>
-                <span class="dropdown-text">
-                  <i class="material-icons">account_circle</i>
-                  <span>{{$t('myProfile')}}</span>
-                </span>
-              </el-dropdown-item>
-            </router-link>
-            <router-link class="dropdown-link" to="/home/user-edit">
-              <el-dropdown-item>
-                <span class="dropdown-text">
-                  <i class="material-icons">settings</i>
-                  <span>{{$t('myAccount')}} </span>
-                </span>
-              </el-dropdown-item>
-            </router-link>
-            <div class="dropdown-link" @click="logout">
-              <el-dropdown-item>
-                <span class="dropdown-text">
-                  <i class="fa fa-sign-out"></i>
-                  <span>{{$t('logOut')}}</span>
-                </span>
-              </el-dropdown-item>
-            </div>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <dropdown-language v-if="currentUser"/>
       </div>
     </div>
   </div>

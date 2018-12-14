@@ -3,7 +3,9 @@
     <div class="card-item" @click="routeUrl(`/home/user-show/${currentUser._id}`)">
       <div class="card-item-img">
         <div class="logo-wrapper">
-          <img class="main-navbar-logo" src="../../../assets/img/logo-circle.png">
+          <!-- <img class="main-navbar-logo" src="../../../assets/img/logo-circle.png"> -->
+          <img v-if="currentUser.avatar" :src="currentUser.avatar">
+          <img v-else src="../../../assets/img/user.png">
         </div>
       </div>
       <div class="card-item-body">
@@ -56,7 +58,10 @@ export default {
   .card-item-img {
     width: 44px;
     height: 42px;
-    margin-right: 5px;
+    margin-right: 8px;
+    img {
+      @include avatar-m;
+    }
   }
   .card-item-body {
     display: flex;
