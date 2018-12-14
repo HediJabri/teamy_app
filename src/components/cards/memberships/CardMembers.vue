@@ -42,7 +42,7 @@
             </p>
           </div>
         </div>
-        <el-button class="btn-m" type="primary"
+        <el-button class="list-item-btn btn-m" type="primary"
           v-if="isCurrentUser(membership.user, team) && !membership.position && !isTeamOverwiew" 
           @click="openDialogEditMembership()" >
           <span>{{$t('addMyRole')}}<i class="fa fa-plus-circle margin-left"></i></span>
@@ -166,6 +166,15 @@ export default {
   }
   .list-item-content {
     cursor: pointer;
+  }
+}
+
+@media only screen and (max-width: 479px) {
+  .list-item-tag {
+    display: none;
+  }
+  .list-item-btn {
+    display: none;
   }
 }
 </style>
