@@ -86,11 +86,13 @@
             <div class="calendar-item">
               <div v-for="(date, index) in [activity.dateStart, activity.dateEnd]" 
                  :class="{'calendar-item-wrapper': index === 0}" :key="index">
-                <div class="calendar-date">
-                  <div class="month">
-                    {{ formatEventMonth(date) }}.
+                <div class="calendar">
+                  <div class="calendar-date">
+                    <div class="month">
+                      {{ formatEventMonth(date) }}.
+                    </div>
+                    <h4 class="day">{{ formatEventDay(date) }}</h4>
                   </div>
-                  <h4 class="day">{{ formatEventDay(date) }}</h4>
                 </div>
                 <span v-if="index === 0"><i class="fa fa-arrow-right blue"></i></span>
               </div>
@@ -174,7 +176,7 @@ export default {
   components: { EventResultInfo, EventParticipationInfo, EventCategoryIcon },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    formatActivityCategory() {
+    formatActivityCategory () {
       if (this.activity.category === 'new_membership')
         return this.$t('newMember')
       if (this.activity.category === 'remove_membership')
@@ -189,7 +191,7 @@ export default {
     }
   },
   methods: {
-    routeToActivity() {
+    routeToActivity () {
       let url
       if (this.activity.category === 'new_membership')
         url = `/team/${this.currentTeam._id}/show`
@@ -200,10 +202,10 @@ export default {
       if (this.activity.category === 'new_competition')
         url = `/team/${this.currentTeam._id}/competition/${
           this.activity.competition._id
-        }`
+          }`
       this.$router.push(url)
     },
-    formatDay(day) {
+    formatDay (day) {
       return formData.recurrenceDaysList.find(d => d.value === day)[
         this.$i18n.locale
       ]

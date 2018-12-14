@@ -12,20 +12,19 @@
           @click="showTeam">
           <div class="card-team-intro-logo">
             <div class="logo-wrapper">
-              <img v-if="team.logo" :src="team.logo">
-              <span v-else ><i class="fa fa-shield blue-grey"></i></span>
+              <span><i class="fa fa-shield blue-grey"></i></span>
             </div>
           </div>
           <div class="list-item-body">
             <p class="list-item-body-top">{{ team.name }}</p>
-            <p v-if="team.section" class="list-item-body-bottom">
-              <span>{{ team.section }}</span>
+            <p v-if="team.sport" class="list-item-body-bottom">
+              <span>{{ $t(team.sport) }}</span>
             </p>
           </div>
         </div>
       </div>
     </div>
-    <div class="card-team-home" v-if="team">
+    <div class="card-team-home" v-if="formatTeamLocation(team)">
       <div class="card-team-home-title">
         <div class="card-team-home-title-text">
           <h5>{{$t('mainHome')}}</h5>
@@ -38,8 +37,7 @@
         </router-link>
       </div>
       <div class="card-team-home-body">
-        <p class="card-team-home-text"
-          v-if="formatTeamLocation(team)">
+        <p class="card-team-home-text">
           <i class="material-icons">location_on</i>
           <span>{{ formatTeamLocation(team).name }}</span>
         </p>

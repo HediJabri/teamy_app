@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="card" v-if="team">
+  <div class="card" v-if="currentTeamLocation">
     <div class="card-title">
       <div class="card-title-text">
         <h5>{{$t('mainHome')}}</h5>
@@ -90,7 +90,8 @@ export default {
     }
   },
   created() {
-    this.form.location = this.currentTeamLocation._id
+    if (this.currentTeamLocation)
+      this.form.location = this.currentTeamLocation._id
   }
 }
 </script>
