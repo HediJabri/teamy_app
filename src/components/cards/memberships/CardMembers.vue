@@ -1,10 +1,10 @@
 <template lang="html">
-  <div class="card-members" v-if="team">
-    <div class="card-members-title">
-      <div class="card-members-title-text">
+  <div class="card" v-if="team">
+    <div class="card-title">
+      <div class="card-title-text">
         <h5>{{$t('members')}}</h5>
       </div>
-      <div class="card-members-title-button" v-if="isTeamOverwiew">
+      <div class="card-title-button" v-if="isTeamOverwiew">
         <el-button type="primary" class="btn-m"
           v-if="isPendingMember(team._id)"
           :loading="isLoading"
@@ -20,8 +20,8 @@
         </el-button>
       </div>
     </div>
-    <div class="card-members-body" v-if="teamMembershipsValidated">
-      <div class="card-members-list-item" :key="index"
+    <div class="card-body" v-if="teamMembershipsValidated">
+      <div class="card-list-item" :key="index"
         :class="{'active': activeMember === index}"
         v-for="(membership, index) in teamMembershipsValidated">
         <div class="list-item-content" @click="showMember(membership, index)">
@@ -138,27 +138,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-members {
+.card {
   @include card();
   padding: 30px 0 10px 0;
   font-size: 13px;
 }
-.card-members-title {
+.card-title {
   @include title-card();
-  .card-members-title-text {
+  .card-title-text {
     @include flex-start();
     text-transform: uppercase;
   }
-  .card-members-title-button {
+  .card-title-button {
     position: absolute;
     right: 20px;
     top: 12px;
   }
 }
-.card-members-body {
+.card-body {
   margin-top: 22px;
+  // margin-bottom: 5px;
+  // max-height: 350px;
+  // overflow: scroll;
 }
-.card-members-list-item {
+.card-list-item {
   @include list-item-s();
   .list-item-tag {
     @include tag-flat-s();

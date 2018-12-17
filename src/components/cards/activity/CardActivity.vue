@@ -15,8 +15,10 @@
               <img v-if="activity.member.avatar" :src="activity.member.avatar">
               <img v-else src="../../../assets/img/user.png">
             </div>
-            {{ activity.member.firstName }} {{ activity.member.lastName }}
-            <span> {{$t('isTeamMember')}} </span>
+            <div class="card-body-text">
+              {{ activity.member.firstName }} {{ activity.member.lastName }}
+              <span> {{$t('isTeamMember')}}</span>
+            </div>
           </div>
           <div v-else>🚫 {{$t('accountDeleted')}}</div>
         </div>
@@ -176,7 +178,7 @@ export default {
   components: { EventResultInfo, EventParticipationInfo, EventCategoryIcon },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    formatActivityCategory () {
+    formatActivityCategory() {
       if (this.activity.category === 'new_membership')
         return this.$t('newMember')
       if (this.activity.category === 'remove_membership')
@@ -191,7 +193,7 @@ export default {
     }
   },
   methods: {
-    routeToActivity () {
+    routeToActivity() {
       let url
       if (this.activity.category === 'new_membership')
         url = `/team/${this.currentTeam._id}/show`
@@ -202,10 +204,10 @@ export default {
       if (this.activity.category === 'new_competition')
         url = `/team/${this.currentTeam._id}/competition/${
           this.activity.competition._id
-          }`
+        }`
       this.$router.push(url)
     },
-    formatDay (day) {
+    formatDay(day) {
       return formData.recurrenceDaysList.find(d => d.value === day)[
         this.$i18n.locale
       ]
@@ -260,14 +262,17 @@ export default {
   padding: 10px 10px 10px 30px;
 }
 .card-body-item {
-  display: inline-block;
-  span {
-    color: $text-grey-blue;
-  }
+  @include flex-start();
   .avatar {
     @include avatar();
     display: inline-block;
-    margin-right: 6px;
+    margin-right: 10px;
+    flex: 0 0 30px;
+  }
+  .card-body-text {
+    span {
+      color: $text-grey-blue;
+    }
   }
 }
 .card-body-item-wrapper {
@@ -279,7 +284,7 @@ export default {
 .calendar-item {
   @include flex-space-between();
   .calendar-item-wrapper {
-    margin-right: 30px;
+    margin-right: 20px;
     position: relative;
     span {
       position: absolute;
