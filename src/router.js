@@ -4,12 +4,12 @@ import SmoothScroll from 'smooth-scroll'
 import { utilities } from '@/mixins/utilities.js'
 import Auth from '@/services/Auth.js'
 import i18n from '@/plugins/i18n'
-// Auth
+// Auth Layout
 import AuthLayout from '@/views/auth/AuthLayout'
 import Register from '@/views/auth/Register'
 import Login from '@/views/auth/Login'
 import Contact from '@/views/auth/Contact'
-// Dash
+// Dash Layout
 import Dash from '@/views/dash/Dash'
 // Home
 import Home from '@/views/dash/home/Home'
