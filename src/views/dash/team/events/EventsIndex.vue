@@ -2,12 +2,12 @@
   <div class="page-events-index">
     <div class="page-wrapper">
       <div class="page-left-container">
-        <card-events-filter v-on:filterChange="changeFilter($event)" />
+        <card-events-filter v-on:filterChange="changeFilter($event)" :events="events"/>
       </div>
       <div class="page-center-container">
         <transition name="fade" mode="out-in">
           <card-events-list v-if="events" :events="events" :filter="filterDate" 
-            :eventFrom="eventFrom" :page="page" v-on:goToNextPage="goToNextPage()" />
+           :page="page" v-on:goToNextPage="goToNextPage()" />
           <teamy-spinner v-else />
         </transition>
       </div>
@@ -34,7 +34,6 @@ export default {
   data() {
     return {
       events: null,
-      eventFrom: null,
       filterDate: 'future',
       page: {
         next: 0,

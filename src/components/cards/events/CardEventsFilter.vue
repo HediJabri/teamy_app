@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="card-btn-add"
-      v-if="isAdmin(currentUser, currentTeam)">
+      v-if="isAdmin(currentUser, currentTeam) && events && events.length">
       <el-button type="primary"
         @click="routeUrl(`/team/${currentTeam._id}/event-new-select`)">
         {{ $t('addEvent')}}
@@ -37,6 +37,7 @@ import { utilities } from '@/mixins/utilities.js'
 
 export default {
   name: 'CardEventsFilter',
+  props: ['events'],
   mixins: [utilities],
   data() {
     return {

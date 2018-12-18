@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="card-filter-btn-add"
-      v-if="isAdmin(currentUser, currentTeam)">
+      v-if="isAdmin(currentUser, currentTeam) && competitions && competitions.length">
       <el-button type="primary"
       @click="routeUrl(`/team/${currentTeam._id}/competition-new`)">
        {{$t('addCompetition')}}
@@ -36,9 +36,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
+
 export default {
   name: 'CardCompetitionsFilter',
   mixins: [utilities],
+  props: ['competitions'],
   data() {
     return {
       filters: [

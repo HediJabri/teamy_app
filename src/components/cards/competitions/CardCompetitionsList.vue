@@ -40,11 +40,16 @@
     </div>
     <div v-else class="card-list-empty">
       <div class="card-list-empty-wrapper">
+        <span class="tag">
+          <i class="fa fa-trophy"></i>
+        </span>
         <p>{{$tc('competition', 0)}}</p>
-        <el-button type="primary" @click="routeUrl(`/team/${currentTeam._id}/competition-new`)"
-          v-if="isAdmin(currentUser, currentTeam) && $route.name === 'events-new-select' || filter">
-          {{ $t('add')}}<i class="fa fa-plus-circle margin-left"></i>
-        </el-button>
+        <div class="card-btn-add" v-if="displayAddButton" >
+          <el-button type="primary" 
+            @click="routeUrl(`/team/${currentTeam._id}/competition-new`)">
+            {{ $t('add')}}<i class="fa fa-plus-circle margin-left"></i>
+          </el-button>
+        </div>
       </div>
     </div>
   </transition>
@@ -59,7 +64,13 @@ export default {
   mixins: [utilities],
   props: ['competitions', 'page', 'filter', 'from'],
   computed: {
-    ...mapGetters(['currentUser', 'currentTeam'])
+    ...mapGetters(['currentUser', 'currentTeam']),
+    displayAddButton () {
+      return (
+        this.isAdmin(this.currentUser, this.currentTeam) &&
+        !this.competitions.length
+      )
+    }
   },
   methods: {
     goToNextPage () {
@@ -129,11 +140,8 @@ export default {
     height: 40px;
   }
 }
-// .card-item-body-bordered {
-//   border-top: 1px solid $grey;
-// }
 .card-list-empty {
-  height: 200px;
+  height: 270px;
   @include flex-center();
 }
 
@@ -143,7 +151,17 @@ export default {
   margin-bottom: 20px;
 }
 .card-list-empty-wrapper {
-  text-align: center;
+  color: $blue-grey;
+  p {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .tag {
+    @include tag-flat-icon;
+  }
+  .card-btn-add {
+    @include flex-center();
+  }
 }
 
 @media only screen and (max-width: 479px) {

@@ -238,6 +238,19 @@
   border-radius: 16px;
 }
 
+@mixin tag-flat-icon() {
+  font-size: 13px;
+  text-align: center;
+  margin: 5px auto;
+  font-weight: 500;
+  background: $solitude;
+  padding: 7px 10px;
+  border-radius: 16px;
+  width: 35px;
+  height: 30px;
+  @include flex-center();
+}
+
 //Icon
 @mixin icon-button-default() {
   i {
