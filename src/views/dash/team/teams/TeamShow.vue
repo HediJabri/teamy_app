@@ -1,9 +1,18 @@
-<template lang="html">
+<template>
   <div class="page-team-show">
     <transition name="fade" mode="out-in">
       <div v-if="team" class="page-wrapper">
         <div class="page-left-container">
           <card-team-infos :team="team" v-on:showTeam="showTeam()" />
+          <card-list>
+            <h5 slot="listTitle">{{$t('members')}}</h5>
+            <list-items slot="listItems" slot-scope="{}" :items="teamMembershipsValidated">
+              <span class="list-item-tag" slot="itemTag" slot-scope="{item}">
+                {{ item.position }}
+              </span>
+              <i class="fa fa-plus-circle margin-left" slot="itemButton" slot-scope="{}"></i>
+            </list-items>
+          </card-list>
         </div>
         <div class="page-center-container">
           <card-members-pending
@@ -43,6 +52,10 @@ import CardMembers from '@/components/cards/memberships/CardMembers'
 import CardMembersPending from '@/components/cards/memberships/CardMembersPending'
 import DialogShareInvitation from '@/components/dialogs/DialogShareInvitation'
 
+import CardList from '@/components/cards/list/CardList'
+import ListItems from '@/components/cards/list/ListItems'
+// import ListItem from '@/components/cards/list/ListItem'
+
 export default {
   name: 'TeamShow',
   mixins: [utilities],
@@ -54,7 +67,11 @@ export default {
     CardMembers,
     CardUserLarge,
     CardMembersPending,
-    DialogShareInvitation
+    DialogShareInvitation,
+    CardList,
+    ListItems
+    // ListItem,
+    // ListClickable
   },
   data() {
     return {
@@ -69,6 +86,11 @@ export default {
     ...mapGetters(['currentTeam', 'currentUser']),
     teamMembershipsPending() {
       return this.team.memberships.filter(m => m.status === 'pending')
+    },
+    teamMembershipsValidated() {
+      return this.team.memberships.filter(
+        m => m.user && m.status === 'validated'
+      )
     }
   },
   methods: {
