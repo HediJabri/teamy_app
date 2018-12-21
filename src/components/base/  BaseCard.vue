@@ -2,11 +2,11 @@
   <div class="card">
     <div class="card-title">
       <div class="card-title-text">
-        <slot name="listTitle"></slot>
+        <slot name="cardTitle"></slot>
       </div>
     </div>
     <div class="card-body">
-      <slot name="listItems"></slot>
+      <slot name="cardBody"></slot>
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@
 import { utilities } from '@/mixins/utilities.js'
 
 export default {
-  name: 'CardList',
+  name: 'BaseCard',
   mixins: [utilities]
 }
 </script>

@@ -4,7 +4,7 @@
       <div class="list-item-content">
         <div class="list-item-img avatar">
           <img v-if="item.user.avatar" :src="item.user.avatar">
-          <img v-else src="../../../assets/img/user.png">
+          <img v-else src="../../assets/img/user.png">
         </div>
         <div class="list-item-body">
           <p class="list-item-body-top">
