@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="page-stats-team">
     <div class="page-wrapper" v-if="competitions && currentTeamSeason"
       :class="{'page-table': filterName === 'players'}">

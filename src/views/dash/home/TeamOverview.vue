@@ -1,5 +1,5 @@
-<template lang="html">
-  <div class="page-team-show">
+<template>
+  <div class="page-team-overview">
     <transition name="fade" mode="out-in">
       <div v-if="teamLoaded" class="page-wrapper">
         <div class="page-left-container">

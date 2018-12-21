@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="page-events-index">
     <div class="page-wrapper">
       <div class="page-left-container">

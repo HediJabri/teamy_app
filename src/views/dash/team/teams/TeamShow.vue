@@ -1,32 +1,30 @@
 <template>
-  <div class="page-team-show">
-    <transition name="fade" mode="out-in">
-      <div v-if="team" class="page-wrapper">
-        <div class="page-left-container">
-          <card-team-infos :team="team" v-on:showTeam="showTeam()" />
-        </div>
-        <div class="page-center-container">
-          <card-members-pending
-            v-if="teamMembershipsPending.length && isAdmin(currentUser, team)" 
-            :team="team" />
-          <card-members :team="team" v-on:showMember="showMember($event)"/>
-        </div>
-        <div class="page-right-container">
-          <transition name="fade" mode="out-in">
-            <card-user-large v-if="memberShowed" :membership="memberShowed" :team="team" 
-              v-on:showTeam="showTeam()"/>
-            <div v-else>
-              <card-team-link :team="team" v-on:openDialogShare="openDialogShareInvitation()"/>
-              <card-team-large :team="team" />
-            </div>
-          </transition>
-        </div>
-        <dialog-share-invitation v-if="dialogShareInvitation" :team="team"
-          v-on:closeDialog="dialogShareInvitation = false" />
+  <transition name="fade" mode="out-in">
+    <div v-if="team" class="page-wrapper">
+      <div class="page-left-container">
+        <card-team-infos :team="team" v-on:showTeam="showTeam()" />
       </div>
-      <teamy-spinner v-else :logo="true" />
-    </transition>
-  </div>
+      <div class="page-center-container">
+        <card-members-pending
+          v-if="teamMembershipsPending.length && isAdmin(currentUser, team)" 
+          :team="team" />
+        <card-members :team="team" v-on:showMember="showMember($event)"/>
+      </div>
+      <div class="page-right-container">
+        <transition name="fade" mode="out-in">
+          <card-user-large v-if="memberShowed" :membership="memberShowed" :team="team" 
+            v-on:showTeam="showTeam()"/>
+          <div v-else>
+            <card-team-link :team="team" v-on:openDialogShare="openDialogShareInvitation()"/>
+            <card-team-large :team="team" />
+          </div>
+        </transition>
+      </div>
+      <dialog-share-invitation v-if="dialogShareInvitation" :team="team"
+        v-on:closeDialog="dialogShareInvitation = false" />
+    </div>
+    <teamy-spinner v-else :logo="true" />
+  </transition>
 </template>
 
 <script>

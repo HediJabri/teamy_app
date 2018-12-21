@@ -1,9 +1,9 @@
-<template lang="html">
+<template>
   <div>
     <div class="card">
       <div class="card-team" v-if="team">
         <h5>{{ team.name }}</h5>
-          <div class="card-team-info" v-if="teamMembershipsIsFull(team)">
+        <div class="card-team-info" v-if="teamMembershipsIsFull(team)">
           <span>{{ $t(teamMembershipsIsFull) }}</span>
         </div>
         <div v-else class="card-team-info">
@@ -14,7 +14,7 @@
           <span>{{ team.mainAdmin.firstName }} {{ $t('inviteYouToJoinHisTeam') }} </span>
         </div>
       </div>
-      <div class="header-social-auth">
+      <div class="header">
         <button-fb-auth v-on:AuthWithFb="registerWithFb($event)" :text="$t('signUp')"/>
         <div class="header-separator">
           <span class="header-separator-line"></span>
@@ -48,7 +48,7 @@
         </el-form-item>
         <div class="text-center">
           <el-button type="success"
-          class="btn-register"
+          class="form-btn"
           :loading="isLoading"
           @click="submitForm('registerForm')">
             {{$t('signUp')}}
@@ -59,7 +59,7 @@
         <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
       </div>
     </div>
-    <div class="banner-footer">
+    <div class="footer">
       <span>{{ $t('alreadyAnAccount') }}</span>
       <router-link to="/login" class="link">
         {{$t('login')}}
@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import Auth from '@/services/Auth.js'
 import ButtonFbAuth from '@/components/buttons/ButtonFbAuth'
@@ -89,7 +88,7 @@ export default {
     }
     var validatePassLength = (rule, value, callback) => {
       if (value.length < 8) {
-        callback(new Error('8 charactères minimum'))
+        callback(new Error(this.$t('minCharacters')))
       } else {
         callback()
       }
@@ -100,7 +99,7 @@ export default {
         return re.test(email)
       }
       if (!validateEmail(value)) {
-        callback(new Error('Email invalide'))
+        callback(new Error(this.$t('invalidEmail')))
       } else {
         callback()
       }
@@ -137,13 +136,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['initUser']),
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.register()
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -156,7 +153,7 @@ export default {
         const res = await Auth.register(this.registerForm)
         this.authUser(res.data)
       } catch (err) {
-        this.errors.push('Email ou mot de passe invalide')
+        this.errors.push(this.$t('invalidEmailOrPassword'))
         this.isLoading = false
       }
     },
@@ -167,7 +164,7 @@ export default {
         const res = await Auth.registerWithFb({ access_token: token })
         this.authUser(res.data)
       } catch (err) {
-        this.errors.push('Inscription Impossible')
+        this.errors.push(this.$t('impossibleToRegister'))
         this.isLoading = false
       }
     },
@@ -197,41 +194,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.banner {
-  background-image: linear-gradient(to bottom, #1f69bd, $blue);
-  min-height: 100vh;
-  @include flex-center();
-}
-
-.banner-logo-wrapper {
-  @include flex-center();
-  margin: 20px;
-  a {
-    cursor: pointer;
-    position: relative;
-  }
-  .logo {
-    height: 40px;
-  }
-  .logo-tag {
-    color: white;
-    position: absolute;
-    top: 0px;
-    right: -28px;
-  }
-}
-
-.banner-footer {
-  padding: 15px 0;
-  color: $ghost-white;
-  @include flex-center();
-  .link {
-    font-weight: 600;
-    margin-left: 10px;
-    color: $ghost-white;
-  }
-}
-
 .card {
   width: 425px;
   background: white;
@@ -283,7 +245,7 @@ export default {
   }
 }
 
-.header-social-auth {
+.header {
   padding-bottom: 15px;
   margin-bottom: 5px;
   text-align: center;
@@ -304,7 +266,18 @@ export default {
   }
 }
 
-.btn-register {
+.footer {
+  padding: 15px 0;
+  color: $ghost-white;
+  @include flex-center();
+  .link {
+    font-weight: 600;
+    margin-left: 10px;
+    color: $ghost-white;
+  }
+}
+
+.form-btn {
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 1px;
@@ -323,7 +296,7 @@ export default {
     width: 260px;
     padding: 25px;
     margin: 0 auto;
-    .btn-register {
+    .form-btn {
       font-size: 13px;
       padding: 7px 20px;
     }

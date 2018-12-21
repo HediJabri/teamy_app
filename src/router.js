@@ -4,24 +4,29 @@ import SmoothScroll from 'smooth-scroll'
 import { utilities } from '@/mixins/utilities.js'
 import Auth from '@/services/Auth.js'
 import i18n from '@/plugins/i18n'
+
 // Auth Layout
 import AuthLayout from '@/views/auth/AuthLayout'
 import Register from '@/views/auth/Register'
 import Login from '@/views/auth/Login'
 import Contact from '@/views/auth/Contact'
 // Dash Layout
-import Dash from '@/views/dash/Dash'
-// Home
-import Home from '@/views/dash/home/Home'
+import DashLayout from '@/views/dash/DashLayout'
+
+// Home Layout
+import HomeLayout from '@/views/dash/home/HomeLayout'
+// Home Views
 import HomeDashboard from '@/views/dash/home/HomeDashboard'
 import Community from '@/views/dash/home/Community'
 import TeamCreate from '@/views/dash/home/TeamCreate'
 import TeamOverview from '@/views/dash/home/TeamOverview'
 import UserShow from '@/views/dash/home/UserShow'
 import UserEdit from '@/views/dash/home/UserEdit'
-// Team
-import Team from '@/views/dash/team/Team'
-import TeamDashboard from '@/views/dash/team/TeamDashboard'
+
+// Team Layout
+import TeamLayout from '@/views/dash/team/TeamLayout'
+// Team Views
+import TeamDashboard from '@/views/dash/team/teams/TeamDashboard'
 import TeamEdit from '@/views/dash/team/teams/TeamEdit'
 import TeamShow from '@/views/dash/team/teams/TeamShow'
 import TeamMemberShow from '@/views/dash/team/teams/TeamMemberShow'
@@ -66,14 +71,14 @@ var router = new Router({
     },
     {
       path: '/',
-      component: Dash,
+      component: DashLayout,
       redirect: '/home',
       meta: { requiresAuth: true },
       children: [
         {
           path: '/home',
           name: 'home',
-          component: Home,
+          component: HomeLayout,
           redirect: '/home/dashboard',
           meta: { requiresAuth: true },
           children: [
@@ -112,7 +117,7 @@ var router = new Router({
         {
           path: '/team',
           name: 'team',
-          component: Team,
+          component: TeamLayout,
           redirect: '/:teamId/dashboard',
           meta: { requiresAuth: true },
           children: [

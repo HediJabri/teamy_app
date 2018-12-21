@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="page-dashboard">
     <div class="page-wrapper" v-if="teamDataLoaded">
       <div class="page-left-container">

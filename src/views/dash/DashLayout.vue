@@ -26,7 +26,7 @@ import SecondNavbar from '@/components/navigation/SecondNavbar.vue'
 import ButtonContact from '@/components/buttons/ButtonContact'
 
 export default {
-  name: 'Dash',
+  name: 'DashLayout',
   mixins: [utilities],
   components: {
     MainNavbar,

@@ -1,6 +1,6 @@
-<template lang="html">
+<template>
   <div class="page-event-show">
-      <div class="page-wrapper">
+    <div class="page-wrapper">
       <div class="page-center-container-l">
         <transition name="fade" mode="out-in">
           <teamy-spinner v-if="loadingEvent" />

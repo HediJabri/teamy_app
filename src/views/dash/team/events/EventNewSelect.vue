@@ -1,45 +1,43 @@
-<template lang="html">
-  <div class="page-event-new-select">
-    <transition name="fade" mode="out-in">
-      <teamy-spinner :logo="true" v-if="!currentTeam"/>
-      <div v-else class="page-wrapper">
-        <div class="page-center-container-l">
-          <transition name="fade" mode="out-in">
-            <div v-if="selectDisplay" class="page-event">
-              <div class="page-event-header">
-                <h5>{{ $t('addEvent')}}</h5>
-              </div>
-              <div class="page-event-body">
-                <div class="row">
-                  <div class="col-xs-12 col-sm-6" 
-                    v-for="(item, index) in eventCategoryList" :key="index">
-                    <div class="page-card" @click="routeSelect(item.category)">
-                      <div class="page-card-logo">
-                        <event-category-icon :category="item.category" :size="'s'" />
-                      </div>
-                      <h6>{{ $tc(item.title, 1) }}</h6>
+<template>
+  <transition name="fade" mode="out-in">
+    <teamy-spinner :logo="true" v-if="!currentTeam"/>
+    <div v-else class="page-wrapper">
+      <div class="page-center-container-l">
+        <transition name="fade" mode="out-in">
+          <div v-if="selectDisplay" class="page-event">
+            <div class="page-event-header">
+              <h5>{{ $t('addEvent')}}</h5>
+            </div>
+            <div class="page-event-body">
+              <div class="row">
+                <div class="col-xs-12 col-sm-6" 
+                  v-for="(item, index) in eventCategoryList" :key="index">
+                  <div class="page-card" @click="routeSelect(item.category)">
+                    <div class="page-card-logo">
+                      <event-category-icon :category="item.category" :size="'s'" />
                     </div>
+                    <h6>{{ $tc(item.title, 1) }}</h6>
                   </div>
                 </div>
               </div>
             </div>
-            <div v-else-if="competitions" class="page-competition">
-              <div class="page-competition-header">
-                <h5>{{$t('selectYourCompetition')}}</h5>
-              </div>
-              <card-competitions-list
-                :competitions="competitions" :filter="filterName"
-                :page="page" :from="'event-new'" v-on:goToNextPage="goToNextPage"/>
+          </div>
+          <div v-else-if="competitions" class="page-competition">
+            <div class="page-competition-header">
+              <h5>{{$t('selectYourCompetition')}}</h5>
             </div>
-            <teamy-spinner v-else />
-          </transition>
-        </div>
-        <div class="page-right-container">
-          <card-team :team="currentTeam" />
-        </div>
+            <card-competitions-list
+              :competitions="competitions" :filter="filterName"
+              :page="page" :from="'event-new'" v-on:goToNextPage="goToNextPage"/>
+          </div>
+          <teamy-spinner v-else />
+        </transition>
       </div>
-    </transition>
-  </div>
+      <div class="page-right-container">
+        <card-team :team="currentTeam" />
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>

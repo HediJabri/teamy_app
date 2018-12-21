@@ -1,7 +1,7 @@
-<template lang="html">
+<template>
   <div>
     <div class="card">
-      <div class="header-social-auth">
+      <div class="header">
         <button-fb-auth v-on:AuthWithFb="loginWithFb($event)" :text="$t('login')"/>
         <div class="header-separator">
           <span class="header-separator-line"></span>
@@ -22,7 +22,7 @@
         </el-form-item>
         <el-form-item class="text-center">
           <el-button type="success"
-            class="btn-login"
+            class="form-btn"
             :loading="isLoading"
             @click="submitForm('form')">
             {{$t('login')}}
@@ -33,7 +33,7 @@
         <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
       </div>
     </div>
-    <div class="banner-footer">
+    <div class="footer">
       <span>{{ $t('noAccountYet') }}</span>
       <router-link to="/register" class="link">
         {{ $t('signUp') }}
@@ -121,49 +121,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card.wip {
-  text-align: center;
-  p {
-    text-align: center;
-    font-size: 15px;
-  }
-}
-
-.banner {
-  background-image: linear-gradient(to bottom, #1f69bd, $blue);
-  min-height: 100vh;
-  @include flex-center();
-}
-
-.banner-logo-wrapper {
-  @include flex-center();
-  margin-bottom: 30px;
-  a {
-    cursor: pointer;
-    position: relative;
-  }
-  .logo {
-    height: 40px;
-  }
-  .logo-tag {
-    color: white;
-    position: absolute;
-    top: 0px;
-    right: -28px;
-  }
-}
-
-.banner-footer {
-  padding: 15px 0;
-  color: $ghost-white;
-  @include flex-center();
-  .link {
-    font-weight: 600;
-    margin-left: 10px;
-    color: $ghost-white;
-  }
-}
-
 .card {
   width: 425px;
   background: white;
@@ -172,15 +129,7 @@ export default {
   @include box-shadow();
 }
 
-.btn-login {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  padding: 8px 25px;
-  line-height: 20px;
-}
-
-.header-social-auth {
+.header {
   padding-bottom: 15px;
   margin-bottom: 5px;
   text-align: center;
@@ -201,6 +150,25 @@ export default {
   }
 }
 
+.form-btn {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 8px 25px;
+  line-height: 20px;
+}
+
+.footer {
+  padding: 15px 0;
+  color: $ghost-white;
+  @include flex-center();
+  .link {
+    font-weight: 600;
+    margin-left: 10px;
+    color: $ghost-white;
+  }
+}
+
 .error-message {
   text-align: center;
   color: $red;
@@ -211,7 +179,7 @@ export default {
     width: 260px;
     padding: 25px 25px 15px 25px;
     margin: 0 auto;
-    .btn-login {
+    .form-btn {
       font-size: 13px;
       padding: 7px 20px;
     }
