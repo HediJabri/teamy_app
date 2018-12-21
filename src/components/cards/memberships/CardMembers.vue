@@ -1,19 +1,16 @@
-<template lang="html">
+<template>
   <div class="card" v-if="team">
     <div class="card-title">
       <div class="card-title-text">
         <h5>{{$t('members')}}</h5>
       </div>
       <div class="card-title-button" v-if="isTeamOverwiew">
-        <el-button type="primary" class="btn-m"
-          v-if="isPendingMember(team._id)"
-          :loading="isLoading"
-          @click="desactivateMembership">
+        <el-button type="primary" class="btn-m" 
+          v-if="isPendingMember(team._id)" :loading="isLoading" @click="desactivateMembership">
           {{$t('cancelRequest')}}
           <i class="fa fa-times margin-left"></i>
         </el-button>
-        <el-button type="primary" class="btn-m"
-          v-else-if="!isMember(currentUser, team)"
+        <el-button type="primary" class="btn-m" v-else-if="!isMember(currentUser, team)"
           @click="openDialogMembershipRequest">
           {{$t('join')}}
           <i class="fa fa-share margin-left"></i>
@@ -21,43 +18,45 @@
       </div>
     </div>
     <div class="card-body" v-if="teamMembershipsValidated">
-      <div class="card-list-item" :key="index"
+      <div class="card-list-item"
         :class="{'active': activeMember === index}"
-        v-for="(membership, index) in teamMembershipsValidated">
+        v-for="(membership, index) in teamMembershipsValidated" :key="index">
         <div class="list-item-content" @click="showMember(membership, index)">
           <div class="list-item-img avatar">
             <img v-if="membership.user.avatar" :src="membership.user.avatar">
-            <img v-else src="../../../assets/img/user.png">
+            <img v-else src="../../../assets/img/user.png" >
           </div>
           <span v-if="isMainAdmin(membership.user, team)" class="list-item-badge">
             <i class="material-icons">stars</i>
           </span>
           <div class="list-item-body">
             <p class="list-item-body-top">
-              {{ membership.user.firstName }}
-              {{ membership.user.lastName }}
+              {{ membership.user.firstName }} {{ membership.user.lastName }}
               <span v-if=" membership.position" class="list-item-tag">
                 {{ membership.position }}
               </span>
             </p>
           </div>
         </div>
-        <el-button class="list-item-btn btn-m" type="primary"
-          v-if="isCurrentUser(membership.user, team) && !membership.position && !isTeamOverwiew" 
-          @click="openDialogEditMembership()" >
+        <el-button class="list-item-btn btn-m" type="primary" @click="openDialogEditMembership()"
+        v-if="isCurrentUser(membership.user, team) && !membership.position && !isTeamOverwiew">
           <span>{{$t('addMyRole')}}<i class="fa fa-plus-circle margin-left"></i></span>
         </el-button>
       </div>
     </div>
     <dialog-edit-membership
-      v-show="currentUserMembership(currentUser, team)" 
-      :membership="currentUserMembership(currentUser, team)" :team="team"
+      v-show="currentUserMembership(currentUser, team)"
+      :membership="currentUserMembership(currentUser, team)"
+      :team="team"
       :openDialog="dialogEditMembership"
-      @closeDialog="dialogEditMembership = false" />
+      @closeDialog="dialogEditMembership = false"
+    />
     <dialog-membership-request
-      v-show="team" :team="team"
+      v-show="team"
+      :team="team"
       :openDialog="dialogMembershipRequest"
-      @closeDialog="dialogMembershipRequest = false" />
+      @closeDialog="dialogMembershipRequest = false"
+    />
   </div>
 </template>
 
@@ -157,9 +156,6 @@ export default {
 }
 .card-body {
   margin-top: 22px;
-  // margin-bottom: 5px;
-  // max-height: 350px;
-  // overflow: scroll;
 }
 .card-list-item {
   @include list-item-s();

@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="page-team-show">
     <transition name="fade" mode="out-in">
       <div v-if="team" class="page-wrapper">
@@ -62,13 +62,19 @@ export default {
       team: null,
       competitions: null,
       memberShowed: null,
-      dialogShareInvitation: false
+      dialogShareInvitation: false,
+      selectedItem: null
     }
   },
   computed: {
     ...mapGetters(['currentTeam', 'currentUser']),
     teamMembershipsPending() {
       return this.team.memberships.filter(m => m.status === 'pending')
+    },
+    teamMembershipsValidated() {
+      return this.team.memberships.filter(
+        m => m.user && m.status === 'validated'
+      )
     }
   },
   methods: {

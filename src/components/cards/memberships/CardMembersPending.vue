@@ -1,13 +1,13 @@
-<template lang="html">
-  <div class="card-member"
+<template>
+  <div class="card"
     v-if="team && teamMembershipsPending.length">
-    <div class="card-member-title">
-      <div class="card-member-title-text">
+    <div class="card-title">
+      <div class="card-title-text">
         <h5>{{$t('pendingRequests')}}</h5>
       </div>
     </div>
-    <div class="card-member-body">
-      <div class="card-member-list-item" v-for="membership in teamMembershipsPending" :key="membership._id">
+    <div class="card-body">
+      <div class="card-list-item" v-for="membership in teamMembershipsPending" :key="membership._id">
         <div class="list-item-content">
           <div class="list-item-img avatar">
             <img v-if="membership.user.avatar" :src="membership.user.avatar">
@@ -89,15 +89,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// Card Team Intro
-.card-member {
+.card {
   @include card();
   padding: 30px 0 10px 0;
   font-size: 13px;
 }
-.card-member-title {
+.card-title {
   @include title-card();
-  .card-member-title-text {
+  .card-title-text {
     @include flex-start();
     text-transform: uppercase;
     i {
@@ -107,10 +106,10 @@ export default {
     }
   }
 }
-.card-member-body {
+.card-body {
   margin-top: 22px;
 }
-.card-member-list-item {
+.card-list-item {
   @include list-item-s();
   cursor: default;
 }
