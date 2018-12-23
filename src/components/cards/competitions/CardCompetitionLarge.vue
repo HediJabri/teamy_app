@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
 <div>
   <div v-if="competition" class="card">
     <div class="card-title">
@@ -19,30 +19,24 @@
       <p class="season">{{ competition.season.name }}</p>
     </div>
     <div class="card-body">
-      <div class="card-buttons" v-if="isAdmin(currentUser, competition.team)">
-        <el-button type="default"
-          v-if="!competition.clotured"
-          @click="openDialogCloseCompetition()">
-          {{ $t('closeCompetition')}}
-          <i class="fa fa-ban red margin-left"></i>
-        </el-button>
-        <p class="" v-else><i class="fa fa-ban red margin-left"></i> Compétition clôturée</p>
-        <el-button type="primary"
-          v-if="!competition.clotured"
-          class="card-activity-dash-title-btn"
-          @click="(routeUrl(`/team/${currentTeam._id}/event-new/competition/${competition._id}`))">
-         {{ $t('addEvent')}}
-        <i class="fa fa-plus-circle margin-left"></i>
-        </el-button>
+      <div v-if="isAdmin(currentUser, competition.team)">
+        <p v-if="competition.clotured">
+          <i class="fa fa-ban red margin-left"></i> Compétition clôturée
+        </p>
+        <div class="card-buttons" v-else>
+          <button-close-competition :competition="competition">
+            {{ $t('closeCompetition')}}
+            <i class="fa fa-ban red margin-left"></i>
+          </button-close-competition>
+          <el-button type="primary" @click="(routeUrl(competitionUrl))">
+            {{ $t('addEvent')}}
+            <i class="fa fa-plus-circle margin-left"></i>
+          </el-button>
+        </div>
       </div>
     </div>
   </div>
   <card-events-table :events="competition.events"/>
-  <dialog-close-competition
-    v-show="competition"
-    :competition="competition"
-    :openDialog="dialogCloseCompetition"
-    @closeDialog="dialogCloseCompetition = false" />
 </div>
   
 </template>
@@ -51,26 +45,26 @@
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import CardEventsTable from '@/components/cards/events/CardEventsTable'
-import DialogCloseCompetition from '@/components/dialogs/DialogCloseCompetition'
+import ButtonCloseCompetition from '@/components/buttons/ButtonCloseCompetition'
 
 export default {
   name: 'CardCompetitionLarge',
   mixins: [utilities],
   props: ['competition'],
-  components: { CardEventsTable, DialogCloseCompetition },
-  data () {
-    return {
-      dialogCloseCompetition: false
-    }
+  components: {
+    CardEventsTable,
+    ButtonCloseCompetition
   },
   computed: {
-    ...mapGetters(['currentUser', 'currentTeam'])
+    ...mapGetters(['currentUser', 'currentTeam']),
+    competitionUrl() {
+      return `/team/${this.currentTeam._id}/event-new/competition/${
+        this.competition._id
+      }`
+    }
   },
   methods: {
-    openDialogCloseCompetition () {
-      this.dialogCloseCompetition = true
-    },
-    toggleForm (brand) {
+    toggleForm(brand) {
       this.$emit('toggleForm', brand)
     }
   }
@@ -133,13 +127,18 @@ export default {
 .card-body {
   padding: 8px 160px;
   font-size: 13px;
+  p {
+    margin: 30px auto;
+    color: $grey-medium;
+    font-size: 14px;
+    text-align: center;
+  }
 }
 .card-buttons {
   margin: 30px 0;
   @include flex-center();
-  p {
-    color: $grey-medium;
-    font-size: 14px;
+  button {
+    margin: 0 10px;
   }
 }
 

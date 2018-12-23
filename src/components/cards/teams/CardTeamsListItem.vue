@@ -24,7 +24,6 @@
     </router-link>
   </div>
   <dialog-show-team
-    v-show="team"
     :teamId="team._id"
     :openDialog="dialogShowTeam"
     @closeDialog="dialogShowTeam = false" />

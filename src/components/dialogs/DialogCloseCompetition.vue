@@ -1,23 +1,21 @@
-<template lang="html">
-  <div v-if="competition">
-    <el-dialog title="" :visible.sync="dialogVisible" :fullscreen="smallDevice()">
-      <div class="dialog-body">
-        <h4 class="dialog-title">
-         {{$t('closeCompetition')}}
-        </h4>
-        <br>
-        <p>{{$t('confirmCloseCompetition')}}: <strong> {{ competition.name }} </strong> ?</p>
-      </div>
-      <span class="dialog-footer" slot="footer">
-        <el-button class="dialog-btn" type="default" @click="dialogVisible = false">
-          {{$t('cancel')}}
-        </el-button>
-        <el-button class="dialog-btn" type="danger" @click="deleteCompetition" :loading="isLoading">
-          {{$t('toClose')}}
-        </el-button>
-      </span>
-    </el-dialog>
-  </div>
+<template>
+  <el-dialog title="" :visible.sync="dialogVisible" :fullscreen="smallDevice()">
+    <div class="dialog-body">
+      <h4 class="dialog-title">
+        {{$t('closeCompetition')}}
+      </h4>
+      <br>
+      <p>{{$t('confirmCloseCompetition')}}: <strong> {{ competition.name }} </strong> ?</p>
+    </div>
+    <span class="dialog-footer" slot="footer">
+      <el-button class="dialog-btn" type="default" @click="dialogVisible = false">
+        {{$t('cancel')}}
+      </el-button>
+      <el-button class="dialog-btn" type="danger" @click="deleteCompetition" :loading="isLoading">
+        {{$t('toClose')}}
+      </el-button>
+    </span>
+  </el-dialog>
 </template>
 
 <script>
