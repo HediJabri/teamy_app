@@ -61,11 +61,11 @@
     </div>
     <div v-if="!eventIsPassed(event)" class="card-actions-wrapper">
       <div class="card-btn-invite">
-        <el-button type="primary"
-          v-if="isAdmin(currentUser, event.team)"
-          @click="openDialogInviteEvent">
-          {{$t('inviteMembers')}} <i class="fa fa-envelope margin-left"></i>
-        </el-button>
+        <button-invite-users v-if="isAdmin(currentUser, event.team)" :team="event.team">
+          <el-button type="primary">
+            {{$t('inviteMembers')}} <i class="fa fa-envelope margin-left"></i>
+          </el-button>
+        </button-invite-users>
       </div>
       <transition name="fade" mode="out-in">
         <div v-if="userParticipation && userParticipation.status === 'pending'"
@@ -97,11 +97,6 @@
     <div class="card-footer">
       <tabs-event />
     </div>
-    <dialog-create-participations
-      v-show="event"
-      :team="event.team"
-      :openDialog="dialogInviteEvent"
-      @closeDialog="dialogInviteEvent = false" />
     <dialog-add-event-result
       v-show="event"
       :event="event" :mode="dialogEventResultMode"
@@ -114,7 +109,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import ApiParticipations from '@/services/ApiParticipations'
-import DialogCreateParticipations from '@/components/dialogs/DialogCreateParticipations'
+import ButtonInviteUsers from '@/components/buttons/users/ButtonInviteUsers'
 import DialogAddEventResult from '@/components/dialogs/DialogAddEventResult'
 import EventResultInfo from '@/components/global/events/EventResultInfo'
 import EventCategoryIcon from '@/components/global/events/EventCategoryIcon'
@@ -124,7 +119,7 @@ export default {
   name: 'CardEventLarge',
   mixins: [utilities],
   components: {
-    DialogCreateParticipations,
+    ButtonInviteUsers,
     DialogAddEventResult,
     EventResultInfo,
     EventCategoryIcon,
@@ -132,7 +127,6 @@ export default {
   },
   data() {
     return {
-      dialogInviteEvent: false,
       dialogAddEventResult: false,
       dialogEventResultMode: 'add'
     }
@@ -164,9 +158,6 @@ export default {
     ...mapActions(['updateEventParticipation', 'removeNotification']),
     toggleForm() {
       this.$emit('toggleForm')
-    },
-    openDialogInviteEvent() {
-      this.dialogInviteEvent = true
     },
     openDialogAddEventResult(mode) {
       mode === 'add'

@@ -313,9 +313,9 @@
   font-weight: 500;
   background: $solitude;
   padding: 7px 10px;
-  border-radius: 16px;
+  border-radius: 50%;
   width: 35px;
-  height: 30px;
+  height: 35px;
   @include flex-center();
 }
 

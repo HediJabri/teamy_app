@@ -38,19 +38,12 @@
             </p>
           </div>
         </div>
-        <el-button class="list-item-btn btn-m" type="primary" @click="openDialogEditMembership()"
-        v-if="isCurrentUser(membership.user, team) && !membership.position && !isTeamOverwiew">
-          <span>{{$t('addMyRole')}}<i class="fa fa-plus-circle margin-left"></i></span>
-        </el-button>
+        <button-add-role class="list-item-btn"
+          v-if="displayAddRoleButton(membership)"
+          :membership="currentUserMembership(currentUser, team)" :team="team">
+        </button-add-role>
       </div>
     </div>
-    <dialog-edit-membership
-      v-show="currentUserMembership(currentUser, team)"
-      :membership="currentUserMembership(currentUser, team)"
-      :team="team"
-      :openDialog="dialogEditMembership"
-      @closeDialog="dialogEditMembership = false"
-    />
     <dialog-membership-request
       v-show="team"
       :team="team"
@@ -66,18 +59,17 @@ import { utilities } from '@/mixins/utilities.js'
 import { eventBus } from '@/main'
 import ApiMemberships from '@/services/ApiMemberships.js'
 import DialogMembershipRequest from '@/components/dialogs/DialogMembershipRequest'
-import DialogEditMembership from '@/components/dialogs/DialogEditMembership'
+import ButtonAddRole from '@/components/buttons/memberships/ButtonAddRole'
 
 export default {
   name: 'CardMembers',
   mixins: [utilities],
   props: ['team'],
-  components: { DialogMembershipRequest, DialogEditMembership },
+  components: { DialogMembershipRequest, ButtonAddRole },
   data() {
     return {
       activeMember: null,
       dialogMembershipRequest: false,
-      dialogEditMembership: false,
       isLoading: false
     }
   },
@@ -97,8 +89,12 @@ export default {
     openDialogMembershipRequest() {
       this.dialogMembershipRequest = true
     },
-    openDialogEditMembership() {
-      this.dialogEditMembership = true
+    displayAddRoleButton(membership) {
+      return (
+        this.isCurrentUser(membership.user, this.team) &&
+        !membership.position &&
+        !this.isTeamOverwiew
+      )
     },
     showMembershipDialog(membership, index) {
       membership.openDialog = true

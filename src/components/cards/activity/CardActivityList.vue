@@ -1,27 +1,11 @@
 <template>
-  <transition
-    name="fade"
-    mode="out-in"
-  >
-    <div
-      class="card-list"
-      v-if="activities && activities.length"
-    >
-      <div
-        v-for="activity in activities"
-        :key="activity._id"
-      >
+  <transition name="fade" mode="out-in">
+    <div class="card-list" v-if="activities && activities.length">
+      <div v-for="activity in activities" :key="activity._id">
         <card-activity :activity="activity" />
       </div>
-      <div
-        class="btn-next-page"
-        v-if="page.next >= 0 && !page.allRecordsFetched"
-      >
-        <el-button
-          type="primary"
-          :loading="page.loadingNext"
-          @click="goToNextPage()"
-        >
+      <div class="btn-next-page" v-if="page.next >= 0 && !page.allRecordsFetched">
+        <el-button type="primary" :loading="page.loadingNext" @click="goToNextPage()">
           {{$t('seeMore')}}
         </el-button>
       </div>

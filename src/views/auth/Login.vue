@@ -45,7 +45,7 @@
 <script>
 import { mapActions } from 'vuex'
 import Auth from '@/services/Auth.js'
-import ButtonFbAuth from '@/components/buttons/ButtonFbAuth'
+import ButtonFbAuth from '@/components/buttons/users/ButtonFbAuth'
 
 export default {
   name: 'Login',

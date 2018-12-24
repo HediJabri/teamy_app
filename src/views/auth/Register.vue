@@ -71,7 +71,7 @@
 <script>
 import { utilities } from '@/mixins/utilities.js'
 import Auth from '@/services/Auth.js'
-import ButtonFbAuth from '@/components/buttons/ButtonFbAuth'
+import ButtonFbAuth from '@/components/buttons/users/ButtonFbAuth'
 import ApiTeams from '@/services/ApiTeams.js'
 
 export default {

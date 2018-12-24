@@ -25,10 +25,12 @@
         </p>
         <div class="card-buttons" v-else>
           <button-close-competition :competition="competition">
-            {{ $t('closeCompetition')}}
-            <i class="fa fa-ban red margin-left"></i>
+            <el-button type="default"> 
+              {{ $t('closeCompetition')}}
+              <i class="fa fa-ban red margin-left"></i>
+            </el-button> 
           </button-close-competition>
-          <el-button type="primary" @click="(routeUrl(competitionUrl))">
+          <el-button type="primary" @click="(routeUrl(newEventUrl))">
             {{ $t('addEvent')}}
             <i class="fa fa-plus-circle margin-left"></i>
           </el-button>
@@ -45,7 +47,7 @@
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import CardEventsTable from '@/components/cards/events/CardEventsTable'
-import ButtonCloseCompetition from '@/components/buttons/ButtonCloseCompetition'
+import ButtonCloseCompetition from '@/components/buttons/competitions/ButtonCloseCompetition'
 
 export default {
   name: 'CardCompetitionLarge',
@@ -57,7 +59,7 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
-    competitionUrl() {
+    newEventUrl() {
       return `/team/${this.currentTeam._id}/event-new/competition/${
         this.competition._id
       }`

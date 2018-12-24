@@ -1,10 +1,11 @@
 <template>
   <div>
-    <el-button type="default" @click="dialogOpen = true"> 
+    <div @click="dialogOpen = true"> 
       <slot></slot>
-    </el-button>     
+    </div>  
     <dialog-close-competition :competition="competition"
-      :openDialog="dialogOpen" @closeDialog="dialogOpen = false" />
+      :openDialog="dialogOpen" 
+      @closeDialog="dialogOpen = false" />
   </div>
 </template>
 
@@ -26,6 +27,5 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
 </style>
