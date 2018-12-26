@@ -5,16 +5,7 @@
         <h5>{{$t('members')}}</h5>
       </div>
       <div class="card-title-button" v-if="isTeamOverwiew">
-        <el-button type="primary" class="btn-m" 
-          v-if="isPendingMember(team._id)" :loading="isLoading" @click="desactivateMembership">
-          {{$t('cancelRequest')}}
-          <i class="fa fa-times margin-left"></i>
-        </el-button>
-        <el-button type="primary" class="btn-m" v-else-if="!isMember(currentUser, team)"
-          @click="openDialogMembershipRequest">
-          {{$t('join')}}
-          <i class="fa fa-share margin-left"></i>
-        </el-button>
+        <buttons-membership-request :team="team" :mode="'openDialog'" />
       </div>
     </div>
     <div class="card-body" v-if="teamMembershipsValidated">
@@ -44,12 +35,6 @@
         </button-add-role>
       </div>
     </div>
-    <dialog-membership-request
-      v-show="team"
-      :team="team"
-      :openDialog="dialogMembershipRequest"
-      @closeDialog="dialogMembershipRequest = false"
-    />
   </div>
 </template>
 
@@ -57,20 +42,18 @@
 import { mapGetters, mapActions } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import { eventBus } from '@/main'
-import ApiMemberships from '@/services/ApiMemberships.js'
-import DialogMembershipRequest from '@/components/dialogs/DialogMembershipRequest'
+import ButtonsMembershipRequest from '@/components/buttons/memberships/ButtonsMembershipRequest'
 import ButtonAddRole from '@/components/buttons/memberships/ButtonAddRole'
 
 export default {
   name: 'CardMembers',
   mixins: [utilities],
   props: ['team'],
-  components: { DialogMembershipRequest, ButtonAddRole },
+  components: { ButtonsMembershipRequest, ButtonAddRole },
   data() {
     return {
       activeMember: null,
-      dialogMembershipRequest: false,
-      isLoading: false
+      dialogMembershipRequest: false
     }
   },
   computed: {
@@ -86,9 +69,6 @@ export default {
   },
   methods: {
     ...mapActions(['updateUserMembership']),
-    openDialogMembershipRequest() {
-      this.dialogMembershipRequest = true
-    },
     displayAddRoleButton(membership) {
       return (
         this.isCurrentUser(membership.user, this.team) &&
@@ -103,25 +83,6 @@ export default {
     showMember(membership, index) {
       this.activeMember = index
       this.$emit('showMember', membership)
-    },
-    async desactivateMembership() {
-      const params = 'removeRequest'
-      const membership = this.currentUser.memberships.find(
-        m => m.team && m.team._id === this.team._id
-      )
-      try {
-        await ApiMemberships.desactivate(membership._id, params)
-        membership.status = 'desactivated'
-        this.updateUserMembership(membership)
-        this.dialogVisible = false
-        this.$notify({
-          title: this.$t('success'),
-          message: this.$t('requestCanceled'),
-          type: 'success'
-        })
-      } catch (err) {
-        this.errorNotify(err)
-      }
     }
   },
   created() {
