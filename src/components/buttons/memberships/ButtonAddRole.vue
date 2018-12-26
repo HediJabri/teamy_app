@@ -12,14 +12,14 @@
 
 <script>
 import { utilities } from '@/mixins/utilities.js'
-// import DialogEditMembership from '@/components/dialogs/DialogEditMembership'
+import DialogEditMembership from '@/components/dialogs/DialogEditMembership'
 
 export default {
   name: 'ButtonDeleteEvent',
   mixins: [utilities],
   props: ['membership', 'team'],
   components: {
-    // DialogEditMembership
+    DialogEditMembership
   },
   data() {
     return {

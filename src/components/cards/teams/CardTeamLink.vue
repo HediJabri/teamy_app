@@ -5,10 +5,11 @@
       <div class="card-team-link-title">
         <div class="card-team-link-title-text">
           <h5>{{$t('invitationLink')}}</h5>
-          <el-button type="primary"
-            class="btn-s" @click="openDialogShareInvitation()">
-            <span>{{$t('see')}} <i class="fa fa-plus-circle margin-left"></i></span>
-          </el-button>
+          <button-team-link :team="team">
+            <el-button type="primary" class="btn-s">
+              <span>{{$t('see')}} <i class="fa fa-plus-circle margin-left"></i></span>
+            </el-button>
+          </button-team-link>
         </div>
       </div>
     </div>
@@ -17,11 +18,15 @@
 
 <script>
 import { utilities } from '@/mixins/utilities.js'
+import ButtonTeamLink from '@/components/buttons/teams/ButtonTeamLink'
 
 export default {
   name: 'CardTeamLink',
   mixins: [utilities],
   props: ['team'],
+  components: {
+    ButtonTeamLink
+  },
   data() {
     return {
       activeTab: true
@@ -39,9 +44,6 @@ export default {
     copyLink() {
       this.$copyText(this.linkTeam)
       this.$message({ message: 'Copié !', center: true, duration: 1000 })
-    },
-    openDialogShareInvitation() {
-      this.$emit('openDialogShare')
     }
   }
 }
@@ -58,7 +60,9 @@ export default {
   border-bottom: none;
   .card-team-link-title-text {
     @include flex-space-between();
-    text-transform: uppercase;
+    h5 {
+      text-transform: uppercase;
+    }
   }
 }
 .card-team-link-body {

@@ -3,22 +3,23 @@
     <div @click="dialogOpen = true">
       <slot></slot>
     </div>
-    <dialog-invite-users :team="team"
+    <dialog-add-event-result
+      :event="event" :mode="mode"
       :openDialog="dialogOpen"
-      @closeDialog="dialogOpen = false" />
+      @closeDialog="dialogOpen = false" /> 
   </div>
 </template>
 
 <script>
 import { utilities } from '@/mixins/utilities.js'
-import DialogInviteUsers from '@/components/dialogs/DialogInviteUsers'
+import DialogAddEventResult from '@/components/dialogs/DialogAddEventResult'
 
 export default {
-  name: 'ButtonInviteUsers',
+  name: 'ButtonAddResult',
   mixins: [utilities],
-  props: ['team'],
+  props: ['mode', 'event'],
   components: {
-    DialogInviteUsers
+    DialogAddEventResult
   },
   data() {
     return {
@@ -27,3 +28,5 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+</style>

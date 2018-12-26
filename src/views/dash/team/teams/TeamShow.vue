@@ -15,20 +15,18 @@
           <card-user-large v-if="memberShowed" :membership="memberShowed" :team="team" 
             v-on:showTeam="showTeam()"/>
           <div v-else>
-            <card-team-link :team="team" v-on:openDialogShare="openDialogShareInvitation()"/>
+            <card-team-link :team="team" />
             <card-team-large :team="team" />
           </div>
         </transition>
       </div>
-      <dialog-share-invitation v-if="dialogShareInvitation" :team="team"
-        v-on:closeDialog="dialogShareInvitation = false" />
     </div>
     <teamy-spinner v-else :logo="true" />
   </transition>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { eventBus } from '@/main'
 import { utilities } from '@/mixins/utilities.js'
 import ApiTeams from '@/services/ApiTeams.js'
@@ -39,7 +37,6 @@ import CardTeamLarge from '@/components/cards/teams/CardTeamLarge'
 import CardUserLarge from '@/components/cards/users/CardUserLarge'
 import CardMembers from '@/components/cards/memberships/CardMembers'
 import CardMembersPending from '@/components/cards/memberships/CardMembersPending'
-import DialogShareInvitation from '@/components/dialogs/DialogShareInvitation'
 
 export default {
   name: 'TeamShow',
@@ -51,8 +48,7 @@ export default {
     CardTeamLarge,
     CardMembers,
     CardUserLarge,
-    CardMembersPending,
-    DialogShareInvitation
+    CardMembersPending
   },
   data() {
     return {
@@ -60,7 +56,6 @@ export default {
       team: null,
       competitions: null,
       memberShowed: null,
-      dialogShareInvitation: false,
       selectedItem: null
     }
   },
@@ -76,6 +71,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['openDialogTeamLink']),
     async getTeam(id) {
       try {
         const team = (await ApiTeams.get(id)).data.team
@@ -96,7 +92,7 @@ export default {
             this.team.memberships.length === 1 &&
             this.isMainAdmin(this.currentUser, this.team)
           ) {
-            this.dialogShareInvitation = true
+            this.openDialogTeamLink(true)
           }
         } catch (err) {
           this.errorNotify(err)
@@ -114,9 +110,6 @@ export default {
     },
     showTeam() {
       this.memberShowed = null
-    },
-    openDialogShareInvitation() {
-      this.dialogShareInvitation = true
     }
   },
   watch: {

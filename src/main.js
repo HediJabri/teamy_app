@@ -17,14 +17,12 @@ import locale from 'element-ui/lib/locale'
 import en from 'element-ui/lib/locale/lang/en'
 import PortalVue from 'portal-vue'
 import VueClipboard from 'vue-clipboard2'
-import FlagIcon from 'vue-flag-icon'
 
 // Config
 Vue.config.productionTip = false
 Vue.use(window.VueCharts)
 Vue.use(PortalVue)
 Vue.use(VueClipboard)
-Vue.use(FlagIcon)
 locale.use(en)
 Vue.use(ElementUI)
 

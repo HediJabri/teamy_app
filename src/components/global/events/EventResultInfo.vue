@@ -1,19 +1,18 @@
 <template lang="html">
 <div v-if="event && eventIsMatchCategory(event)" class="event-result">
   <div v-if="!event.result" class="event-result-btn">
-    <el-button type="primary" v-if="resultButton && isAdmin(currentUser, event.team)"
-      @click="openDialogAddEventResult('add')">
-      {{$t('addResult')}}
-      <i class="fa fa-plus-circle margin-left"></i>
-    </el-button>
+    <button-add-result :event="event" :mode="'add'" 
+      v-if="resultButton && isAdmin(currentUser, event.team)">
+      <el-button type="primary">
+        {{$t('addResult')}} <i class="fa fa-plus-circle margin-left"></i>
+      </el-button>
+    </button-add-result>
     <div v-else class="event-result-info">
       <span class="result-info" v-if="resultButton"> {{$t('pendingResult')}}...</span>
       <span class="result-info" v-else>{{$t('pending')}}...</span>
     </div>
   </div>
-  <div v-else class="event-result-info" 
-    :class="{'cursor': isAdmin(currentUser, event.team)}"
-    @click="openDialogAddEventResult('edit')">
+  <div v-else class="event-result-info">
     <span v-if="isMatchResult" class="result-info" :class="classTagSize()">
       <i :class="classResultIcon(event.result)"></i>
       {{ formatResult(event.result) }} 
@@ -21,6 +20,10 @@
       <span v-else >{{ event.scoreOpponent }} - {{ event.scoreTeam }} </span>
     </span>
     <span v-else class="result-info">{{ event.result }}</span>
+    <button-add-result v-if="resultButton && isAdmin(currentUser, event.team)" 
+      :event="event" :mode="'edit'" class="result-icon-edit">
+      <i class="material-icons ">settings</i>
+    </button-add-result>
   </div>
 </div>
 </template>
@@ -28,11 +31,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
+import ButtonAddResult from '@/components/buttons/events/ButtonAddResult'
 
 export default {
-  name: 'EventParticipationInfo',
+  name: 'EventResultInfo',
   props: ['event', 'tagSize', 'resultButton'],
   mixins: [utilities],
+  components: {
+    ButtonAddResult
+  },
   computed: {
     ...mapGetters(['currentUser']),
     isMatchResult() {
@@ -45,10 +52,6 @@ export default {
         'tag-s': this.tagSize === 's',
         'tag-l': this.tagSize === 'l'
       }
-    },
-    openDialogAddEventResult(mode) {
-      if (this.isAdmin(this.currentUser, this.event.team))
-        this.$emit('openDialogAddEventResult', mode)
     }
   }
 }
@@ -91,6 +94,16 @@ export default {
   @include tag-flat-s();
   i {
     font-size: 12px !important;
+  }
+}
+.result-icon-edit {
+  position: absolute;
+  bottom: -4px;
+  right: -18px;
+  i {
+    font-size: 16px;
+    color: $text-grey-blue;
+    cursor: pointer;
   }
 }
 

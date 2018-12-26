@@ -3,8 +3,7 @@
     <div @click="dialogOpen = true">
       <slot></slot>
     </div>
-    <dialog-contact-user :user="user"
-      v-show="dialogOpen"
+    <dialog-invite-event :team="team"
       :openDialog="dialogOpen"
       @closeDialog="dialogOpen = false" />
   </div>
@@ -12,14 +11,14 @@
 
 <script>
 import { utilities } from '@/mixins/utilities.js'
-import DialogContactUser from '@/components/dialogs/DialogContactUser'
+import DialogInviteEvent from '@/components/dialogs/DialogInviteEvent'
 
 export default {
-  name: 'ButtonContactUser',
+  name: 'ButtonInviteEvent',
   mixins: [utilities],
-  props: ['user'],
+  props: ['team'],
   components: {
-    DialogContactUser
+    DialogInviteEvent
   },
   data() {
     return {
@@ -28,3 +27,5 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+</style>

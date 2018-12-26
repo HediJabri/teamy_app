@@ -2,14 +2,12 @@
   <div class="card">
     <div class="card-title">
       <h5>{{$t('seasons')}}</h5>
-      <el-button
-        type="primary"
-        v-if="isAdmin(currentUser, currentTeam)"
-        class="card-add-btn"
-        @click="openDialogSeasonManage('create', null)"
-      >
-        <span>{{$t('add')}} </span> <i class="fa fa-plus-circle margin-left"></i>
-      </el-button>
+      <button-season-manage v-if="isAdmin(currentUser, currentTeam)"
+        :formMode="'create'">
+        <el-button type="primary" class="card-add-btn">
+          <span>{{$t('add')}} </span> <i class="fa fa-plus-circle margin-left"></i>
+        </el-button>
+      </button-season-manage>
     </div>
     <div class="card-body">
       <div class="row">
@@ -25,45 +23,36 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="season in currentTeam.seasons"
-                :key="season._id"
-                :class="{'semi-bold': season.currentSeason }"
-              >
+              <tr :class="{'semi-bold': season.currentSeason }"
+                v-for="season in currentTeam.seasons" :key="season._id">
                 <th scope=row>{{ season.name }}</th>
                 <td>{{ formatDate(season.dateStart) }}</td>
                 <td>{{ formatDate(season.dateEnd) }}</td>
                 <td v-if="season.currentSeason">{{$t('current(season)')}}</td>
                 <td v-else>{{$t('archived')}}</td>
-                <td><i
-                    class="material-icons"
-                    @click="openDialogSeasonManage('edit', season)"
-                  >settings</i></td>
+                <td>
+                  <button-season-manage v-if="isAdmin(currentUser, currentTeam)"
+                    :formMode="'edit'" :season="season">
+                    <i class="material-icons">settings</i>
+                  </button-season-manage>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <dialog-season-manage
-      v-show="currentTeam"
-      :team="currentTeam"
-      :formMode="formMode"
-      :season="season"
-      :openDialog="dialogSeasonManage"
-      @closeDialog="dialogSeasonManage = false"
-    />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
-import DialogSeasonManage from '@/components/dialogs/DialogSeasonManage'
+import ButtonSeasonManage from '@/components/buttons/seasons/ButtonSeasonManage'
 
 export default {
   name: 'CardSeasonsList',
   mixins: [utilities],
-  components: { DialogSeasonManage },
+  components: { ButtonSeasonManage },
   data() {
     return {
       dialogSeasonManage: false,
@@ -73,13 +62,6 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam'])
-  },
-  methods: {
-    openDialogSeasonManage(formMode, season) {
-      this.season = season
-      this.formMode = formMode
-      this.dialogSeasonManage = true
-    }
   }
 }
 </script>
@@ -93,8 +75,8 @@ export default {
 .card-title {
   @include title-card();
   @include flex-center();
-  text-transform: uppercase;
   h5 {
+    text-transform: uppercase;
     font-size: 15px;
   }
   .card-add-btn {

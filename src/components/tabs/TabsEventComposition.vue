@@ -11,48 +11,27 @@
               </h5>
             </div>
           </div>
-          <div
-            class="card-right-body"
-            v-if="composition.length"
-          >
-            <div
-              class="card-right-list-item"
-              v-for="(participation, index) in composition"
-              :key="index"
-              @click="toggleParticipationDialog(participation)"
-            >
+          <div class="card-right-body" v-if="composition.length">
+            <div class="card-right-list-item"
+              v-for="(participation, index) in composition" :key="index"
+              @click="toggleParticipationDialog(participation)">
               <div class="list-item-content">
                 <div class="list-item-img avatar">
-                  <img
-                    v-if="participation.user.avatar"
-                    :src="participation.user.avatar"
-                  >
-                  <img
-                    v-else
-                    src="../../assets/img/user.png"
-                  >
+                  <img v-if="participation.user.avatar" :src="participation.user.avatar">
+                  <img v-else src="../../assets/img/user.png">
                 </div>
-                <span
-                  v-if="isMainAdmin(participation.user, event.team)"
-                  class="list-item-badge"
-                ><i class="material-icons">stars</i></span>
+                <span v-if="isMainAdmin(participation.user, event.team)" class="list-item-badge">
+                  <i class="material-icons">stars</i>
+                </span>
                 <div class="list-item-body">
                   <p class="list-item-body-top">
                     {{ participation.user.firstName }} {{ participation.user.lastName }}
                   </p>
                 </div>
               </div>
-              <tag-position
-                class="list-item-body-right"
-                v-if="participation.user.position"
-                :position="participation.user.position"
-              />
             </div>
           </div>
-          <div
-            v-else
-            class="card-right-empty-item"
-          >
+          <div v-else class="card-right-empty-item">
             {{$tc('firstTeamPlayer', 0)}}
           </div>
         </div>
@@ -65,31 +44,18 @@
               <h5 class="card-left-list-count">{{ substituteList.length }}</h5>
             </div>
           </div>
-          <div
-            class="card-left-list-body"
-            v-if="substituteList.length"
-          >
-            <div
-              class="card-left-list-list-item"
-              v-for="(participation, index) in substituteList"
-              :key="index"
-              @click="toggleParticipationDialog(participation)"
-            >
+          <div class="card-left-list-body" v-if="substituteList.length">
+            <div class="card-left-list-item"
+              v-for="(participation, index) in substituteList" :key="index"
+              @click="toggleParticipationDialog(participation)">
               <div class="list-item-content">
                 <div class="list-item-img avatar">
-                  <img
-                    v-if="participation.user.avatar"
-                    :src="participation.user.avatar"
-                  >
-                  <img
-                    v-else
-                    src="../../assets/img/user.png"
-                  >
+                  <img v-if="participation.user.avatar" :src="participation.user.avatar">
+                  <img v-else src="../../assets/img/user.png">
                 </div>
-                <span
-                  v-if="isMainAdmin(participation.user, event.team)"
-                  class="list-item-badge"
-                ><i class="material-icons">stars</i></span>
+                <span v-if="isMainAdmin(participation.user, event.team)" class="list-item-badge">
+                  <i class="material-icons">stars</i>
+                </span>
                 <div class="list-item-body">
                   <p class="list-item-body-top">
                     {{ participation.user.firstName }} {{ participation.user.lastName }}
@@ -98,10 +64,7 @@
               </div>
             </div>
           </div>
-          <div
-            v-else
-            class="card-left-list-empty-item"
-          >
+          <div v-else class="card-left-list-empty-item">
             {{$tc('substitute', 0)}}
           </div>
         </div>
@@ -112,31 +75,18 @@
               <h5 class="card-left-list-count">{{ staffList.length }}</h5>
             </div>
           </div>
-          <div
-            class="card-left-list-body"
-            v-if="staffList.length"
-          >
-            <div
-              class="card-left-list-list-item"
-              v-for="(participation, index) in staffList"
-              :key="index"
-              @click="toggleParticipationDialog(participation)"
-            >
+          <div class="card-left-list-body" v-if="staffList.length">
+            <div class="card-left-list-item"
+              v-for="(participation, index) in staffList" :key="index"
+              @click="toggleParticipationDialog(participation)">
               <div class="list-item-content">
                 <div class="list-item-img avatar">
-                  <img
-                    v-if="participation.user.avatar"
-                    :src="participation.user.avatar"
-                  >
-                  <img
-                    v-else
-                    src="../../assets/img/user.png"
-                  >
+                  <img v-if="participation.user.avatar" :src="participation.user.avatar">
+                  <img v-else src="../../assets/img/user.png" >
                 </div>
-                <span
-                  v-if="isMainAdmin(participation.user, event.team)"
-                  class="list-item-badge"
-                ><i class="material-icons">stars</i></span>
+                <span v-if="isMainAdmin(participation.user, event.team)" class="list-item-badge">
+                  <i class="material-icons">stars</i>
+                </span>
                 <div class="list-item-body">
                   <p class="list-item-body-top">
                     {{ participation.user.firstName }} {{ participation.user.lastName }}
@@ -145,10 +95,7 @@
               </div>
             </div>
           </div>
-          <div
-            v-else
-            class="card-left-list-empty-item"
-          >
+          <div v-else class="card-left-list-empty-item">
             {{$t('noStaffMembers')}}
           </div>
         </div>
@@ -240,6 +187,7 @@ export default {
   }
   .card-right-list-item {
     @include list-item-s();
+    cursor: pointer;
   }
   .card-right-empty-item {
     height: 50px;
@@ -286,9 +234,10 @@ export default {
   .card-left-list-body {
     margin-top: 22px;
   }
-  .card-left-list-list-item {
+  .card-left-list-item {
     @include list-item-s();
     background: $ghost-white;
+    cursor: pointer;
     &:hover {
       background: $ghost-white;
     }
@@ -335,7 +284,7 @@ export default {
     .card-left-list-title-text h5 {
       font-size: 13px;
     }
-    .card-left-list-list-item {
+    .card-left-list-item {
       padding: 10px;
       font-size: 12px;
     }

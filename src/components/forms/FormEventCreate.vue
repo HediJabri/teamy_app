@@ -147,9 +147,12 @@
                 <el-form-item prop="location">
                   <div class="form-label-group">
                     <p class="form-label">{{ $t('eventLocation') }}</p>
-                    <el-button class="btn-m" type="primary" @click="openDialogAddLocation()" >
-                      <span>{{ $t('addLocation') }}<i class="fa fa-plus-circle margin-left"></i></span>
-                    </el-button>
+                    <button-add-location :team="currentTeam" :category="form.locationCategory" 
+                      @created="locationCreated($event)">
+                      <el-button class="btn-m" type="primary">
+                        <span>{{ $t('addLocation') }}<i class="fa fa-plus-circle margin-left"></i></span>
+                      </el-button>
+                    </button-add-location>
                   </div>
                   <el-select v-model="form.location" filterable :placeholder="$t('selectLocation')">
                     <el-option v-for="location in teamLocations"
@@ -193,11 +196,6 @@
         </div>
       </div>
     </div>
-    <dialog-add-location
-      v-show="currentTeam" :team="currentTeam"
-      :openDialog="dialogAddLocation" :category="form.locationCategory"
-      v-on:locationCreated="locationCreated($event)"
-      @closeDialog="dialogAddLocation = false" />
   </div>
 </template>
 
@@ -206,14 +204,14 @@ import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import data from '@/data/forms.js'
 import ApiEvents from '@/services/ApiEvents.js'
-import DialogAddLocation from '@/components/dialogs/DialogAddLocation'
+import ButtonAddLocation from '@/components/buttons/events/ButtonAddLocation'
 import EventCategoryIcon from '@/components/global/events/EventCategoryIcon'
 
 export default {
   name: 'FormEventCreate',
   mixins: [utilities],
   props: ['eventCategory', 'competition'],
-  components: { DialogAddLocation, EventCategoryIcon },
+  components: { ButtonAddLocation, EventCategoryIcon },
   data() {
     return {
       errors: [],
@@ -223,7 +221,6 @@ export default {
       otherCategory: null,
       competitionEventCategories: null,
       opponent: true,
-      dialogAddLocation: false,
       recurrenceCategories: [{ title: this.$t('weekly'), value: 'weekly' }],
       recurrenceDaysList: data.recurrenceDaysList,
       form: {
@@ -311,9 +308,6 @@ export default {
     }
   },
   methods: {
-    openDialogAddLocation() {
-      this.dialogAddLocation = true
-    },
     locationCreated(location) {
       this.form.location = location._id
     },

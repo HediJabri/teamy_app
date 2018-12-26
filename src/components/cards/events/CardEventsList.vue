@@ -48,7 +48,7 @@
           <event-participation-info v-if="!eventIsPassed(event)" :event="event" />
         </div>
         <div class="card-item-result">
-          <event-result-info v-if="eventIsPassed(event)" :event="event" :resultButton="true" />
+          <event-result-info v-if="eventIsPassed(event)" :event="event" :resultButton="false" />
         </div>
       </router-link>
     </div>

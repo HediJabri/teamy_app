@@ -3,12 +3,10 @@
     <div @click="dialogOpen = true"> 
       <slot></slot>
     </div>
-    <portal to="modals">
-      <dialog-delete-membership
-        :membership="membership" :team="team"
-        :openDialog="dialogOpen"
-        @closeDialog="dialogOpen = false" />
-    </portal>
+    <dialog-delete-membership
+      :membership="membership" :team="team"
+      :openDialog="dialogOpen"
+      @closeDialog="dialogOpen = false" />
   </div>
 </template>
 

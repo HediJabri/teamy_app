@@ -3,7 +3,7 @@
     <div @click="dialogOpen = true"> 
       <slot></slot>
     </div>
-    <portal to="nav-modals">
+    <portal to="modals">
       <dialog-delete-team
         :team="team"
         :openDialog="dialogOpen"

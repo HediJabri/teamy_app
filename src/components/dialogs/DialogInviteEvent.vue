@@ -81,7 +81,7 @@ import ApiParticipations from '@/services/ApiParticipations'
 import { utilities } from '@/mixins/utilities.js'
 
 export default {
-  name: 'DialogsInviteUsers',
+  name: 'DialogsInviteEvent',
   props: ['openDialog'],
   mixins: [utilities],
   data() {

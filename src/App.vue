@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <router-view />
-    <portal-target name="modals"></portal-target>
+    <portal-target name="modals">
+    </portal-target>
   </div>
 </template>
 <script>
