@@ -5,15 +5,13 @@
         <card-team-infos :team="team" v-on:showTeam="showTeam()" />
       </div>
       <div class="page-center-container">
-        <card-members-pending
-          v-if="teamMembershipsPending.length && isAdmin(currentUser, team)" 
-          :team="team" />
-        <card-members :team="team" v-on:showMember="showMember($event)"/>
+        <card-members-pending v-if="displayPendingMembership" :team="team" />
+        <card-members :team="team" @showMember="showMember($event)"/>
       </div>
       <div class="page-right-container">
         <transition name="fade" mode="out-in">
           <card-user-large v-if="memberShowed" :membership="memberShowed" :team="team" 
-            v-on:showTeam="showTeam()"/>
+            @showTeam="showTeam()"/>
           <div v-else>
             <card-team-link :team="team" />
             <card-team-large :team="team" />
@@ -61,12 +59,13 @@ export default {
   },
   computed: {
     ...mapGetters(['currentTeam', 'currentUser']),
-    teamMembershipsPending() {
+    membershipsPending() {
       return this.team.memberships.filter(m => m.status === 'pending')
     },
-    teamMembershipsValidated() {
-      return this.team.memberships.filter(
-        m => m.user && m.status === 'validated'
+    displayPendingMembership() {
+      return (
+        this.isAdmin(this.currentUser, this.team) &&
+        this.membershipsPending.length
       )
     }
   },

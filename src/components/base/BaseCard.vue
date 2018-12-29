@@ -1,8 +1,12 @@
-<template>
-  <div class="card">
+<template functional>
+  <div class="card" :class="data.class">
     <div class="card-title">
       <div class="card-title-text">
-        <slot name="cardTitle"></slot>
+        <h5><slot name="cardTitle"></slot></h5>
+        <span><slot name="cardSubTitle"></slot></span>
+      </div>
+      <div class="card-title-button">
+        <slot name="cardTitleButton"></slot>
       </div>
     </div>
     <div class="card-body">
@@ -25,6 +29,9 @@ export default {
   padding: 30px 0 10px 0;
   font-size: 13px;
 }
+.card-fixed-l {
+  height: 230px;
+}
 .card-transparent {
   background-color: transparent;
   box-shadow: none;
@@ -33,12 +40,11 @@ export default {
   @include title-card();
   .card-title-text {
     @include flex-start();
-    text-transform: uppercase;
   }
   .card-title-button {
     position: absolute;
     right: 20px;
-    top: 12px;
+    top: 10px;
   }
 }
 .card-body {

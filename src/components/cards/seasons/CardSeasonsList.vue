@@ -1,15 +1,13 @@
 <template>
-  <div class="card">
-    <div class="card-title">
-      <h5>{{$t('seasons')}}</h5>
-      <button-season-manage v-if="isAdmin(currentUser, currentTeam)"
-        :formMode="'create'">
-        <el-button type="primary" class="card-add-btn">
-          <span>{{$t('add')}} </span> <i class="fa fa-plus-circle margin-left"></i>
-        </el-button>
-      </button-season-manage>
-    </div>
-    <div class="card-body">
+  <base-card>
+    <div class="text-center" slot="cardTitle">{{$t('seasons')}}</div>
+    <button-season-manage v-if="isAdmin(currentUser, currentTeam)" 
+      slot="cardTitleButton" :formMode="'create'">
+      <el-button type="primary">
+        <span>{{$t('add')}} </span> <i class="fa fa-plus-circle margin-left"></i>
+      </el-button>
+    </button-season-manage>
+    <div slot="cardBody">
       <div class="row">
         <div class="col-xs-12">
           <table class="table table-striped">
@@ -42,7 +40,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </base-card>
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -67,27 +65,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  @include card();
-  text-align: center;
-  padding: 30px 0 0 0;
-}
-.card-title {
-  @include title-card();
-  @include flex-center();
-  h5 {
-    text-transform: uppercase;
-    font-size: 15px;
-  }
-  .card-add-btn {
-    position: absolute;
-    right: 10px;
-    top: 9px;
-  }
-}
-.card-body {
-  padding-top: 20px;
-}
 .table {
   padding: 10px 20px;
   color: $blue-dark-transparent;
@@ -124,7 +101,7 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .card-add-btn {
+  .card-title-button {
     span {
       display: none;
     }

@@ -1,12 +1,7 @@
 <template>
-  <div class="card"
-    v-if="team && teamMembershipsPending.length">
-    <div class="card-title">
-      <div class="card-title-text">
-        <h5>{{$t('pendingRequests')}}</h5>
-      </div>
-    </div>
-    <div class="card-body">
+  <base-card>
+    <template slot="cardTitle">{{$t('pendingRequests')}}</template>
+    <div slot="cardBody">
       <div class="card-list-item" v-for="membership in teamMembershipsPending" :key="membership._id">
         <div class="list-item-content">
           <div class="list-item-img avatar">
@@ -27,7 +22,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </base-card>
 </template>
 
 <script>
@@ -89,26 +84,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  @include card();
-  padding: 30px 0 10px 0;
-  font-size: 13px;
-}
-.card-title {
-  @include title-card();
-  .card-title-text {
-    @include flex-start();
-    text-transform: uppercase;
-    i {
-      color: $blue-dark-medium;
-      margin: 0 10px 1px 0;
-      font-size: 20px;
-    }
-  }
-}
-.card-body {
-  margin-top: 22px;
-}
 .card-list-item {
   @include list-item-s();
   cursor: default;

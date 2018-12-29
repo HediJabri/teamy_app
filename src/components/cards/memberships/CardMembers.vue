@@ -1,14 +1,10 @@
 <template>
-  <div class="card" v-if="team">
-    <div class="card-title">
-      <div class="card-title-text">
-        <h5>{{$t('members')}}</h5>
-      </div>
-      <div class="card-title-button" v-if="isTeamOverwiew">
-        <buttons-membership-request :team="team" :mode="'openDialog'" />
-      </div>
-    </div>
-    <div class="card-body" v-if="teamMembershipsValidated">
+    <base-card>
+    <template slot="cardTitle">{{$t('members')}}</template>
+    <buttons-membership-request slot="cardTitleButton"
+      v-if="isTeamOverwiew" :team="team" :mode="'openDialog'" 
+    />
+    <div slot="cardBody">
       <div class="card-list-item"
         :class="{'active': activeMember === index}"
         v-for="(membership, index) in teamMembershipsValidated" :key="index">
@@ -35,7 +31,7 @@
         </button-add-role>
       </div>
     </div>
-  </div>
+  </base-card>
 </template>
 
 <script>

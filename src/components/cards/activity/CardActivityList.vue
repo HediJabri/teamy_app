@@ -52,13 +52,6 @@ export default {
   margin: 30px 15px 10px 15px;
   color: $text-grey-blue;
   font-size: 13px;
-  .card-activity-team {
-    i {
-      font-size: 14px;
-      margin-right: 5px;
-    }
-    font-size: 13px;
-  }
 }
 .btn-next-page {
   @include flex-center();

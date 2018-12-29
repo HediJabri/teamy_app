@@ -1,13 +1,13 @@
-<template lang="html">
-  <div class="card" v-if="statsEvents">
-    <div class="card-title">
-      <div class="card-title-text">
-        <h5>{{$t('season')}} {{ statsSeasonFilter.name }}</h5>
-        <span v-if="statsCompetitionFilter">{{ statsCompetitionFilter.name }}</span>
-        <span v-else>{{ $tc(statsCategoryFilter.title, 2) }}</span>
-      </div>
-    </div>
-    <div class="card-body">
+<template>
+  <base-card :class="'card-fixed-l'" v-if="statsEvents">
+    <template slot="cardTitle">
+      {{$t('season')}} {{ statsSeasonFilter.name }}
+    </template>
+    <template slot="cardSubTitle">
+      <span v-if="statsCompetitionFilter">{{ statsCompetitionFilter.name }}</span>
+      <span v-else>{{ $tc(statsCategoryFilter.title, 2) }}</span>
+    </template>
+    <div slot="cardBody" class="cart-body-wrapper">
       <div class="row">
         <div class="col-xs-7">
           <div v-if="!statsReloading">
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </base-card>
 </template>
 
 <script>
@@ -69,27 +69,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  @include card();
-  height: 230px;
-}
-.card-title {
-  @include title-card();
-  .card-title-text {
-    @include flex-start();
-    h5 {
-      text-transform: uppercase;
-      margin-right: 12px;
-    }
-    span {
-      color: $text-grey-blue;
-      font-size: 12px;
-      margin-right: 6px;
-    }
-  }
-}
-.card-body {
-  margin-top: 40px;
+.cart-body-wrapper {
+  padding-top: 18px;
   h5 {
     text-transform: uppercase;
     font-size: 15px;
