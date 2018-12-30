@@ -1,28 +1,26 @@
-<template lang="html">
-  <div class="card" v-if="currentTeamLocation">
-    <div class="card-title">
-      <div class="card-title-text">
-        <h5>{{$t('mainHome')}}</h5>
+<template>
+  <base-card :class="'title-center'" v-if="currentTeamLocation">
+    <template slot="cardTitle">{{$t('mainHome')}}</template>
+      <div slot="cardBody">
+      <div class="card-body-wrapper">
+        <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
+          <el-form-item prop="location">
+            <el-select v-model="form.location" filterable placeholder="Séléctionner un stade">
+              <el-option v-for="location in homeLocations"
+                :label="location.name" :value="location._id" :key="location._id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <div class="btn-submit">
+            <el-button type="success" class="btn-xl"
+              :loading="isLoading" @click="submitForm('form')">
+              <span>{{$t('changeLocation')}}</span>
+            </el-button>
+          </div>
+        </el-form>
       </div>
     </div>
-    <div class="card-body">
-      <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
-        <el-form-item prop="location">
-          <el-select v-model="form.location" filterable placeholder="Séléctionner un stade">
-            <el-option v-for="location in homeLocations"
-              :label="location.name" :value="location._id" :key="location._id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <div class="btn-submit">
-          <el-button type="success" class="btn-xl"
-            :loading="isLoading" @click="submitForm('form')">
-            <span>{{$t('changeLocation')}}</span>
-          </el-button>
-        </div>
-      </el-form>
-    </div>
-  </div>
+  </base-card>
 </template>
 
 <script>
@@ -66,7 +64,6 @@ export default {
         if (valid) {
           this.updateLocation()
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -109,9 +106,8 @@ export default {
     text-transform: uppercase;
   }
 }
-.card-body {
+.card-body-wrapper {
   padding: 20px;
-  margin-top: 22px;
 }
 .btn-submit {
   @include flex-center();

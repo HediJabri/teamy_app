@@ -2,7 +2,8 @@
   <transition name="fade" mode="out-in">
     <div v-if="team" class="page-wrapper">
       <div class="page-left-container">
-        <card-team-infos :team="team" v-on:showTeam="showTeam()" />
+        <card-team-infos :team="team" @showTeam="showTeam()" />
+        <card-team-home :team="team" />
       </div>
       <div class="page-center-container">
         <card-members-pending v-if="displayPendingMembership" :team="team" />
@@ -30,6 +31,7 @@ import { utilities } from '@/mixins/utilities.js'
 import ApiTeams from '@/services/ApiTeams.js'
 import TeamySpinner from '@/components/global/TeamySpinner'
 import CardTeamInfos from '@/components/cards/teams/CardTeamInfos'
+import CardTeamHome from '@/components/cards/teams/CardTeamHome'
 import CardTeamLink from '@/components/cards/teams/CardTeamLink'
 import CardTeamLarge from '@/components/cards/teams/CardTeamLarge'
 import CardUserLarge from '@/components/cards/users/CardUserLarge'
@@ -42,6 +44,7 @@ export default {
   components: {
     TeamySpinner,
     CardTeamInfos,
+    CardTeamHome,
     CardTeamLink,
     CardTeamLarge,
     CardMembers,

@@ -1,12 +1,10 @@
-<template lang="html">
-  <div class="card" v-if="topPlayers">
-    <div class="card-title">
-      <div class="card-title-text">
-        <h5>{{ $t(statsItem.title) }}</h5>
-        <span v-if="statsItem.subtitle">({{ statsItem.subtitle }})</span>
-      </div>
-    </div>
-    <div class="card-body">
+<template>
+  <base-card v-if="topPlayers">
+    <template slot="cardTitle"> {{$t(statsItem.title)}}</template>
+    <template slot="cardSubTitle">
+      <span v-if="statsItem.subtitle">({{ statsItem.subtitle }})</span>
+    </template>
+    <div slot="cardBody">
       <div class="card-list-item" v-for="(user, index) in topPlayers" 
         :class="{ 'active': isCurrentUser(user) }" :key="index">
         <div class="list-item-content" v-if="user">
@@ -24,7 +22,7 @@
         <span>{{ user[statsItem.key] }}</span>
       </div>
     </div>
-  </div>
+  </base-card>
 </template>
 
 <script>

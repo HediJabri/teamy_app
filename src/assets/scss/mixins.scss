@@ -81,15 +81,17 @@
   left: 0px;
   padding: 10px 20px;
   border-radius: 3px 3px 0 0;
-  h5 {
-    font-weight: bold;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-  }
-  span {
-    color: #7f889a;
-    font-size: 12px;
-    margin-left: 6px;
+  .card-title-text {
+    h5 {
+      font-weight: bold;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    span {
+      color: #7f889a;
+      font-size: 12px;
+      margin-left: 6px;
+    }
   }
 }
 

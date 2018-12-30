@@ -29,13 +29,6 @@ export default {
   padding: 30px 0 10px 0;
   font-size: 13px;
 }
-.card-fixed-l {
-  height: 230px;
-}
-.card-transparent {
-  background-color: transparent;
-  box-shadow: none;
-}
 .card-title {
   @include title-card();
   .card-title-text {
@@ -49,5 +42,18 @@ export default {
 }
 .card-body {
   margin-top: 22px;
+}
+// Class options
+.card.fixed-l {
+  height: 230px;
+}
+.card.transparent {
+  background-color: transparent;
+  box-shadow: none;
+}
+.card.title-center {
+  .card-title-text {
+    @include flex-center();
+  }
 }
 </style>

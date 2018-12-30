@@ -1,5 +1,5 @@
 <template>
-  <base-card :class="'card-fixed-l'" v-if="statsEvents">
+  <base-card :class="'fixed-l'" v-if="statsEvents">
     <template slot="cardTitle">
       {{$t('season')}} {{ statsSeasonFilter.name }}
     </template>

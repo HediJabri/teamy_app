@@ -3,17 +3,18 @@
     <transition name="fade" mode="out-in">
       <div v-if="teamLoaded" class="page-wrapper">
         <div class="page-left-container">
-          <card-team-infos :team="team" v-on:showTeam="showTeam()"/>
+          <card-team-infos :team="team" @showTeam="showTeam()"/>
+          <card-team-home :team="team" />
           <card-team-competitions v-if="teamId" :teamId="teamId" />
         </div>
         <div class="page-center-container">
-          <card-members :team="team" v-on:showMember="showMember($event)"/>
+          <card-members :team="team" @showMember="showMember($event)"/>
         </div>
         <div class="page-right-container">
           <transition name="fade" mode="out-in">
             <card-user-large v-if="memberShowed" 
               :membership="memberShowed" :team="team"
-              v-on:showTeam="showTeam()"/>
+              @showTeam="showTeam()"/>
             <div v-else>
               <card-team-large :team="team" />
             </div>
@@ -31,6 +32,7 @@ import ApiTeams from '@/services/ApiTeams.js'
 import { utilities } from '@/mixins/utilities.js'
 import TeamySpinner from '@/components/global/TeamySpinner'
 import CardTeamInfos from '@/components/cards/teams/CardTeamInfos'
+import CardTeamHome from '@/components/cards/teams/CardTeamHome'
 import CardTeamCompetitions from '@/components/cards/teams/CardTeamCompetitions'
 import CardTeamLarge from '@/components/cards/teams/CardTeamLarge'
 import CardUserLarge from '@/components/cards/users/CardUserLarge'
@@ -42,6 +44,7 @@ export default {
   components: {
     TeamySpinner,
     CardTeamInfos,
+    CardTeamHome,
     CardTeamCompetitions,
     CardTeamLarge,
     CardMembers,
