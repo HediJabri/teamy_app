@@ -1,35 +1,19 @@
 <template>
-    <base-card>
+  <base-card>
     <template slot="cardTitle">{{$t('members')}}</template>
     <buttons-membership-request slot="cardTitleButton"
       v-if="isTeamOverwiew" :team="team" :mode="'openDialog'" 
     />
     <div slot="cardBody">
-      <div class="card-list-item"
-        :class="{'active': activeMember === index}"
-        v-for="(membership, index) in teamMembershipsValidated" :key="index">
-        <div class="list-item-content" @click="showMember(membership, index)">
-          <div class="list-item-img avatar">
-            <img v-if="membership.user.avatar" :src="membership.user.avatar">
-            <img v-else src="../../../assets/img/user.png" >
-          </div>
-          <span v-if="isMainAdmin(membership.user, team)" class="list-item-badge">
-            <i class="material-icons">stars</i>
-          </span>
-          <div class="list-item-body">
-            <p class="list-item-body-top">
-              {{ membership.user.firstName }} {{ membership.user.lastName }}
-              <span v-if=" membership.position" class="list-item-tag">
-                {{ membership.position }}
-              </span>
-            </p>
-          </div>
-        </div>
-        <button-add-role class="list-item-btn"
-          v-if="displayAddRoleButton(membership)"
-          :membership="currentUserMembership(currentUser, team)" :team="team">
+      <list-users-select v-model="selectedItem" :items="teamMembershipsValidated">
+        <span slot="itemTag" slot-scope="{ item }" 
+          class="list-item-tag" v-if=" item.position">
+          {{ item.position }}
+        </span>
+        <button-add-role slot="itemButton" slot-scope="{ item }"  v-if="displayAddRoleButton(item)"
+           :membership="currentUserMembership(currentUser, team)" :team="team">
         </button-add-role>
-      </div>
+      </list-users-select>
     </div>
   </base-card>
 </template>
@@ -38,6 +22,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import { eventBus } from '@/main'
+import ListUsersSelect from '@/components/lists/ListUsersSelect'
 import ButtonsMembershipRequest from '@/components/buttons/memberships/ButtonsMembershipRequest'
 import ButtonAddRole from '@/components/buttons/memberships/ButtonAddRole'
 
@@ -45,9 +30,10 @@ export default {
   name: 'CardMembers',
   mixins: [utilities],
   props: ['team'],
-  components: { ButtonsMembershipRequest, ButtonAddRole },
+  components: { ListUsersSelect, ButtonsMembershipRequest, ButtonAddRole },
   data() {
     return {
+      selectedItem: null,
       activeMember: null,
       dialogMembershipRequest: false
     }
@@ -71,19 +57,16 @@ export default {
         !membership.position &&
         !this.isTeamOverwiew
       )
-    },
-    showMembershipDialog(membership, index) {
-      membership.openDialog = true
-      this.showMember(membership, index)
-    },
-    showMember(membership, index) {
-      this.activeMember = index
-      this.$emit('showMember', membership)
+    }
+  },
+  watch: {
+    selectedItem() {
+      this.$emit('showMember', this.selectedItem)
     }
   },
   created() {
     eventBus.$on('resetActiveTeamMembers', () => {
-      this.activeMember = null
+      this.selectedItem = null
     })
   }
 }

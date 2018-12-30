@@ -1,36 +1,30 @@
-<template lang="html">
-  <div class="card-wrapper" v-if="user">
-    <div class="card">
-      <div class="card-title">
-        <div class="card-title-box">
-          <h5>{{$t('profile')}}</h5>
-        </div>
+<template>
+  <base-card v-if="user">
+    <template slot="cardTitle">{{$t('profile')}}</template>
+    <div slot="cardBody" class="card-body-item">
+      <div  v-if="membership">
+        <p>
+          <i class="fa fa-shield"></i>
+          <span>{{ membership.team.name }}</span> 
+        </p>
+        <p>
+          <i class="material-icons">account_circle</i>
+          <span>{{ formatMemberCategory(membership.category) }} - </span>
+          <span>{{ membership.position }}</span> 
+        </p>
       </div>
-      <div class="card-body">
-        <div v-if="membership">
-          <p>
-            <i class="fa fa-shield"></i>
-            <span>{{ membership.team.name }}</span> 
-          </p>
-          <p>
-            <i class="material-icons">account_circle</i>
-            <span>{{ formatMemberCategory(membership.category) }} - </span>
-            <span>{{ membership.position }}</span> 
-          </p>
-        </div>
-        <div v-if="isTeamMemberShowView">
-          <p><i class="fa fa-envelope"></i>{{ formatEmail(user) }}</p>
-          <p><i class="material-icons">call</i>{{ user.phone }}</p>
-        </div>
-        <div v-else>
-          <p>
-            <i class="material-icons">event</i>
-            {{$t('since')}} {{ formatDateCreatedAt(membership.created_at) }}
-          </p>
-        </div>
+      <div v-if="isTeamMemberShowView">
+        <p><i class="fa fa-envelope"></i>{{ formatEmail(user) }}</p>
+        <p><i class="material-icons">call</i>{{ user.phone }}</p>
+      </div>
+      <div v-else>
+        <p>
+          <i class="material-icons">event</i>
+          {{$t('since')}} {{ formatDateCreatedAt(membership.created_at) }}
+        </p>
       </div>
     </div>
-  </div>
+  </base-card>
 </template>
 
 <script>
@@ -49,21 +43,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  @include card();
-  padding: 30px 0 10px 0;
-  font-size: 14px;
-  font-weight: 500;
-}
-.card-title {
-  @include title-card();
-  padding: 10px 30px;
-  h5 {
-    text-transform: uppercase;
-  }
-}
-.card-body {
-  padding: 40px 20px 20px 20px;
+.card-body-item {
+  padding: 15px 20px;
   color: $text-grey-blue;
   font-weight: 400;
   p {
@@ -83,19 +64,6 @@ export default {
     color: $blue-grey;
     margin: 0 8px 0 0;
     font-size: 18px;
-  }
-}
-.card-body-title {
-  font-weight: 500;
-}
-.card-body-tags {
-  @include flex-start();
-  flex-wrap: wrap;
-  margin-bottom: 22px;
-  margin-left: -5px;
-  text-align: left;
-  span {
-    @include tag-flat();
   }
 }
 </style>

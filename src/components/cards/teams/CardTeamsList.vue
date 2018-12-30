@@ -4,15 +4,16 @@
       <div class="col-xs-12 col-sm-6 col-md-4" v-for="team in teams" :key="team._id">
         <card-teams-list-item :team="team" />
       </div>
+      <div class="btn-next-page" 
+        v-if="page && page.next >= 0 && !page.allRecordsFetched">
+        <el-button type="primary"
+          :loading="page.loadingNext"
+          @click="goToNextPage()">
+          {{ $t('seeMore')}}
+        </el-button>
+      </div>
     </div>
-    <div class="btn-next-page" 
-      v-if="page && page.next >= 0 && !page.allRecordsFetched">
-      <el-button type="primary"
-        :loading="page.loadingNext"
-        @click="goToNextPage()">
-        {{ $t('seeMore')}}
-      </el-button>
-    </div>
+    
   </div>
 </template>
 
