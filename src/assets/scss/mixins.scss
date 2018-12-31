@@ -74,8 +74,6 @@
 
 @mixin title-card() {
   width: 100%;
-  background: white;
-  border-top: solid 1px $grey-light;
   border-bottom: solid 1px $grey-light;
   height: 52px;
   position: absolute;
@@ -83,11 +81,89 @@
   left: 0px;
   padding: 10px 20px;
   border-radius: 3px 3px 0 0;
-  h5 {
-    font-weight: bold;
-    letter-spacing: 0.6px;
+  .card-title-text {
+    h5 {
+      font-weight: bold;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    span {
+      color: #7f889a;
+      font-size: 12px;
+      margin-left: 6px;
+    }
   }
 }
+
+// List Card
+@mixin list-item-m() {
+  @include flex-start();
+  width: 100%;
+  height: 60px;
+  padding: 13px 20px;
+  cursor: pointer;
+  .list-item-img.avatar {
+    @include avatar-s();
+    margin-right: 15px;
+  }
+  .list-item-body {
+    text-align: left;
+    .list-item-body-top {
+      overflow: hidden;
+      text-transform: capitalize;
+      font-weight: 500;
+    }
+    .list-item-body-top,
+    .list-item-body-bottom {
+      margin: 2px 0;
+      height: 20px;
+      display: flex;
+    }
+  }
+}
+
+@mixin list-item-s() {
+  @include flex-space-between();
+  width: 100%;
+  height: 45px;
+  padding: 13px 20px;
+  font-size: 13px;
+  .list-item-img.avatar {
+    @include avatar();
+    margin-right: 10px;
+  }
+  .list-item-content {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 85%;
+  }
+  .list-item-body {
+    width: 78%;
+    text-align: left;
+    .list-item-body-top {
+      overflow: hidden;
+      text-transform: capitalize;
+      font-weight: 500;
+    }
+    .list-item-body-top,
+    .list-item-body-bottom {
+      margin: 2px 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  .list-item-badge {
+    position: absolute;
+    left: 24px;
+    bottom: -7px;
+    color: $blue;
+    i {
+      font-size: 14px;
+    }
+  }
+}
+
 
 @mixin logo-team-card() {
   background: white;
@@ -236,6 +312,19 @@
   background: $solitude;
   padding: 7px 10px;
   border-radius: 16px;
+}
+
+@mixin tag-flat-icon() {
+  font-size: 13px;
+  text-align: center;
+  margin: 5px auto;
+  font-weight: 500;
+  background: $solitude;
+  padding: 7px 10px;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  @include flex-center();
 }
 
 //Icon
@@ -507,85 +596,5 @@
     padding: 4px;
     margin: 0px;
     font-size: 9px;
-  }
-}
-
-// List Card
-@mixin list-item-m() {
-  @include flex-start();
-  width: 100%;
-  background: white;
-  height: 60px;
-  padding: 13px 20px;
-  cursor: pointer;
-  .list-item-img.avatar {
-    @include avatar-s();
-    margin-right: 15px;
-  }
-  .list-item-body {
-    text-align: left;
-    .list-item-body-top {
-      overflow: hidden;
-      text-transform: capitalize;
-      font-weight: 500;
-    }
-    .list-item-body-top,
-    .list-item-body-bottom {
-      margin: 2px 0;
-      height: 20px;
-      display: flex;
-    }
-  }
-  &:hover,
-  &.active {
-    background: $background-grey;
-  }
-}
-
-@mixin list-item-s() {
-  @include flex-space-between();
-  width: 100%;
-  background: white;
-  height: 45px;
-  padding: 13px 20px;
-  font-size: 13px;
-  .list-item-img.avatar {
-    @include avatar();
-    margin-right: 10px;
-  }
-  .list-item-content {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 85%;
-    cursor: pointer;
-  }
-  .list-item-body {
-    width: 78%;
-    text-align: left;
-    .list-item-body-top {
-      overflow: hidden;
-      text-transform: capitalize;
-      font-weight: 500;
-    }
-    .list-item-body-top,
-    .list-item-body-bottom {
-      margin: 2px 0;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-  .list-item-badge {
-    position: absolute;
-    left: 24px;
-    bottom: -7px;
-    color: $blue;
-    i {
-      font-size: 14px;
-    }
-  }
-  &:hover,
-  &.active {
-    background: $background-grey;
   }
 }

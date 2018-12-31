@@ -1,6 +1,6 @@
 <template lang="html">
-  <div class="card-team-empty">
-    <div class="card-team-empty-btn-box">
+  <div class="card">
+    <div class="card-btn-box">
       <router-link to="/home/team-create">
         <el-button type="default">
           {{$t('createTeam')}}
@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-team-empty {
+.card {
   height: 270px;
   width: 95%;
   border: 3px dashed #d6dae7;
@@ -28,7 +28,7 @@ export default {
   @include flex-center;
 }
 
-.card-team-empty-btn-box {
+.card-btn-box {
   text-align: center;
 }
 </style>

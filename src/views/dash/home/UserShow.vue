@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="page-user-show">
     <transition name="fade" mode="out-in">
       <teamy-spinner :logo="true" v-if="!user" />
@@ -55,7 +55,6 @@ export default {
         this.membershipSelected = user.memberships[0]
           ? user.memberships[0]
           : null
-        console.log(user)
       } catch (err) {
         this.errorNotify(err)
       }

@@ -1,6 +1,6 @@
 <template lang="html">
   <div v-if="team">
-    <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
+    <el-form :model="form" :rules="rules" ref="form">
       <el-form-item prop="name">
         <p class="form-label">{{$t('season')}}</p>
         <el-input placeholder="2018-2019" v-model="form.name">
@@ -102,7 +102,6 @@ export default {
         if (valid) {
           this.createSeason()
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -150,6 +149,7 @@ export default {
 .form-label {
   text-align: left;
   margin-bottom: -5px;
+  text-transform: capitalize;
   span {
     font-weight: 400 !important;
     font-size: 13px !important;

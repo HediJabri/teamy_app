@@ -1,20 +1,18 @@
-<template lang="html">
-  <div class="page-user-show">
-    <transition name="fade" mode="out-in">
-      <teamy-spinner :logo="true" v-if="!membership" />
-      <div v-else class="page-wrapper">
-        <div class="page-left-container">
-          <card-user :user="membership.user" :team="membership.team"/>
-        </div>
-        <div class="page-center-container">
-        <card-membership-info :user="membership.user" :membership="membership" />
-        </div>
-        <div class="page-right-container">
-          <card-team :team="currentTeam" />
-        </div>
+<template>
+  <transition name="fade" mode="out-in">
+    <teamy-spinner :logo="true" v-if="!membership" />
+    <div v-else class="page-wrapper">
+      <div class="page-left-container">
+        <card-user :user="membership.user" :team="membership.team"/>
       </div>
-    </transition>
-  </div>
+      <div class="page-center-container">
+      <card-membership-info :user="membership.user" :membership="membership" />
+      </div>
+      <div class="page-right-container">
+        <card-team :team="currentTeam" />
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -23,7 +21,6 @@ import ApiMemberships from '@/services/ApiMemberships.js'
 import TeamySpinner from '@/components/global/TeamySpinner'
 import CardUser from '@/components/cards/users/CardUser'
 import CardMembershipInfo from '@/components/cards/users/CardMembershipInfo'
-// import CardUserStats from '@/components/cards/users/CardUserStats'
 import CardTeam from '@/components/cards/teams/CardTeam'
 
 export default {

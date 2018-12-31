@@ -1,12 +1,8 @@
-<template lang="html">
-  <div class="card-wrapper">
-    <div class="card">
-      <div class="card-title">
-        <div class="card-title-text">
-          <h5>{{ $t('events')}}</h5>
-        </div>
-      </div>
-      <div class="card-body">
+<template>
+  <div>
+    <base-card>
+      <template slot="cardTitle">{{$t('events')}}</template>
+      <div slot="cardBody">
         <div class="card-list-item"
           v-for="filter in filters" :key="filter.name"
           @click="toggleFilter(filter.name)"
@@ -19,9 +15,8 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="card-btn-add"
-      v-if="isAdmin(currentUser, currentTeam)">
+    </base-card>
+    <div class="card-btn-add" v-if="isAdmin(currentUser, currentTeam)">
       <el-button type="primary"
         @click="routeUrl(`/team/${currentTeam._id}/event-new-select`)">
         {{ $t('addEvent')}}
@@ -37,6 +32,7 @@ import { utilities } from '@/mixins/utilities.js'
 
 export default {
   name: 'CardEventsFilter',
+  props: ['events'],
   mixins: [utilities],
   data() {
     return {
@@ -69,49 +65,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  @include card();
-  padding: 30px 0 10px 0;
-  font-size: 13px;
-  .card-body {
-    margin-top: 22px;
-  }
-}
-.card-untitle {
-  @include card();
-  padding: 0 0;
-  min-height: 50px;
-}
-.card-title {
-  @include title-card();
-  .card-title-text {
-    @include flex-start();
-    text-transform: uppercase;
-    i {
-      color: $blue-dark-medium;
-      margin: 0 10px 1px 0;
-      font-size: 20px;
-    }
-  }
-}
-
-.card-list-item,
-.card-list-item:hover {
+.card-list-item {
   @include list-item-s();
   cursor: pointer;
   border-left: 5px solid transparent;
 }
+.card-list-item.active {
+  background: $ghost-white;
+  .list-item-body-top {
+    font-weight: 600;
+  }
+}
 .card-list-item.border-red.active {
   border-left: 5px solid $red;
-  p {
-    font-weight: 600 !important;
-  }
 }
 .card-list-item.border-blue.active {
   border-left: 5px solid $blue;
-  p {
-    font-weight: 600 !important;
-  }
 }
 .card-btn-add {
   @include flex-center();

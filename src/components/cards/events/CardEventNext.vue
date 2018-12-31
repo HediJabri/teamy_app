@@ -1,11 +1,7 @@
 <template lang="html">
-  <div class="card">
-    <div class="card-title">
-      <div class="card-title-text">
-        <h5>{{ $t('nextEvent')}}</h5>
-      </div>
-    </div>
-    <div class="card-body">
+  <base-card>
+    <template slot="cardTitle">{{$t('nextEvent')}}</template>
+    <div slot="cardBody">
       <div class="card-item" v-if="event" 
         @click="routeUrl(`/team/${currentTeam._id}/event/${event._id}`)">
         <div class="calendar-item">
@@ -36,7 +32,7 @@
        {{ $tc('event', 0)}}
       </div>
     </div>
-  </div>
+  </base-card>
 </template>
 
 <script>

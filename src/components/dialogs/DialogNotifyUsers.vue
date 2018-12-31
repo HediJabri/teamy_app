@@ -72,7 +72,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 
 export default {
-  name: 'DialogsCreateParticipations',
+  name: 'DialogsNotifyUsers',
   props: ['openDialog'],
   mixins: [utilities],
   data() {

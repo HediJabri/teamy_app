@@ -1,9 +1,8 @@
-<template lang="html">
-  <div class="card-home-user">
+<template>
+  <div class="card">
     <div class="card-item" @click="routeUrl(`/home/user-show/${currentUser._id}`)">
       <div class="card-item-img">
         <div class="logo-wrapper">
-          <!-- <img class="main-navbar-logo" src="../../../assets/img/logo-circle.png"> -->
           <img v-if="currentUser.avatar" :src="currentUser.avatar">
           <img v-else src="../../../assets/img/user.png">
         </div>
@@ -49,7 +48,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-home-user {
+.card {
   padding-right: 30px;
 }
 .card-item {

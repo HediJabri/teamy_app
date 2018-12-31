@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="card" v-if="statsEvents">
     <div class="card-body">
       <div class="card-item" v-for="(item, index) in teamStatsList" :key="index">

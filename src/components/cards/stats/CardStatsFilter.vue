@@ -1,15 +1,9 @@
-<template lang="html">
-  <div class="card-filter-wrapper">
-    <div class="card-filter">
-      <div class="card-filter-title">
-        <div class="card-filter-title-text">
-          <h5>{{$t('stats')}}</h5>
-        </div>
-        <div class="card-filter-title-btn">
-        </div>
-      </div>
-      <div class="card-filter-body">
-        <div class="card-filter-list-item"
+<template>
+  <div class="card-wrapper">
+    <base-card>
+      <template slot="cardTitle">{{$t('stats')}}</template>
+      <div slot="cardBody">
+        <div class="card-list-item"
           v-for="filter in filters" :key="filter.title"
           @click="toggleFilter(filter.name)"
           :class="{
@@ -21,7 +15,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </base-card>
     <div class="filters-wrapper">
       <h5>{{$t('filters')}}</h5>
       <el-select v-model="seasonSelected">
@@ -137,45 +131,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-filter {
-  @include card();
-  padding: 30px 0 10px 0;
-  font-size: 13px;
-}
-.card-filter-title {
-  @include title-card();
-  @include flex-space-between();
-  .card-filter-title-text {
-    @include flex-start();
-    text-transform: uppercase;
-  }
-}
-.card-filter-body {
-  margin-top: 22px;
-}
-.card-filter-list-item,
-.card-filter-list-item:hover {
+.card-list-item {
   @include list-item-s();
-  cursor: pointer;
   border-left: 5px solid transparent;
+  cursor: pointer;
 }
-.card-filter-list-item.border-red.active {
+.card-list-item.active {
+  background: $ghost-white;
+  .list-item-body-top {
+    font-weight: 600;
+  }
+}
+.card-list-item.border-red.active {
   border-left: 5px solid $red;
-  p {
-    font-weight: 600 !important;
-  }
 }
-.card-filter-list-item.border-blue.active {
+.card-list-item.border-blue.active {
   border-left: 5px solid $blue;
-  p {
-    font-weight: 600 !important;
-  }
 }
-.card-filter-btn-add {
-  @include flex-center();
-  margin-bottom: 20px;
-}
-
 .filters-wrapper {
   padding: 0 5px;
   margin-bottom: 30px;

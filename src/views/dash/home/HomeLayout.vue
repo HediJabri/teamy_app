@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div>
     <transition name="fade" mode="out-in">
       <router-view></router-view>
@@ -9,7 +9,7 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'Home',
+  name: 'HomeLayout',
   methods: {
     ...mapActions(['resetTeam', 'resetNotifications'])
   },

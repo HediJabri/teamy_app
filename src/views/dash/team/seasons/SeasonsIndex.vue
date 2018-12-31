@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="page-seasons">
     <div class="page-wrapper">
       <div class="page-center-container-l">
@@ -31,7 +31,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -43,18 +42,32 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { padding: 0px 10px 60px 10px; }
-  .page-center-container-l { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    padding: 0px 10px 60px 10px;
+  }
+  .page-center-container-l {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-center-container-l { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-center-container-l {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .page-center-container-l { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-center-container-l {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 </style>

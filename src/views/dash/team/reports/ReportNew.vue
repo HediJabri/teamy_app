@@ -1,11 +1,12 @@
-<template lang="html">
+<template>
   <div class="page-report">
     <div class="page-wrapper" v-if="event">
       <div class="page-wrapper-title">
         <h5 v-if="event.reportValidated">{{$t('editReport')}}</h5>
         <h5 v-else>{{$t('newReport')}}</h5>
         <div class="page-wrapper-btn">
-          <el-button type="default" @click="routeUrl(`/team/${currentTeam._id}/event/${event._id}`)">
+          <el-button type="default" 
+            @click="routeUrl(`/team/${currentTeam._id}/event/${event._id}`)">
             {{ $t('back')}} <i class="fa fa-undo blue margin-left"></i>
           </el-button>
         </div>

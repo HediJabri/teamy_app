@@ -1,14 +1,14 @@
-<template lang="html">
+<template>
   <transition name="fade" mode="out-in">
     <div class="card-list" v-if="activities && activities.length">
       <div v-for="activity in activities" :key="activity._id">
-        <card-activity :activity="activity" />
+        <div class="card-infos" v-if="activity">
+          <span>{{ formatDateFromNow(activity.created_at) }}</span>
+        </div>
+        <card-activity-wrapper :activity="activity" />
       </div>
-      <div class="btn-next-page" 
-        v-if="page.next >= 0 && !page.allRecordsFetched">
-        <el-button type="primary"
-          :loading="page.loadingNext"
-          @click="goToNextPage()">
+      <div class="btn-next-page" v-if="page.next >= 0 && !page.allRecordsFetched">
+        <el-button type="primary" :loading="page.loadingNext" @click="goToNextPage()">
           {{$t('seeMore')}}
         </el-button>
       </div>
@@ -18,13 +18,26 @@
 
 <script>
 import { utilities } from '@/mixins/utilities.js'
-import CardActivity from '@/components/cards/activity/CardActivity'
+import CardActivityWrapper from '@/components/cards/activity/CardActivityWrapper'
+import CardActivityEvent from '@/components/cards/activity/CardActivityEvent'
+import CardActivityEventRange from '@/components/cards/activity/CardActivityEventRange'
+import CardActivityResult from '@/components/cards/activity/CardActivityResult'
+import CardActivityCompetition from '@/components/cards/activity/CardActivityCompetition'
+import CardActivityMembership from '@/components/cards/activity/CardActivityMembership'
 
 export default {
   name: 'CardActivityList',
   mixins: [utilities],
   props: ['activities', 'page'],
-  components: { CardActivity },
+  /* eslint-disable vue/no-unused-components */
+  components: {
+    CardActivityWrapper,
+    CardActivityEvent,
+    CardActivityEventRange,
+    CardActivityResult,
+    CardActivityCompetition,
+    CardActivityMembership
+  },
   methods: {
     goToNextPage() {
       this.$emit('goToNextPage')
@@ -34,6 +47,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.card-infos {
+  @include flex-space-between();
+  margin: 30px 15px 10px 15px;
+  color: $text-grey-blue;
+  font-size: 13px;
+}
 .btn-next-page {
   @include flex-center();
 }

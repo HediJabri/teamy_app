@@ -3,17 +3,15 @@
     <div class="card-title">
       <div class="card-title-text">
         <h5 class="card-title-tabs">
-          <span
-            :class="{'active': filter === 'passed'}"
+          <span :class="{'active': filter === 'passed'}" 
             @click="toogleFilterEvent('passed')"
           >
-            {{$t('passed')}}
+          {{$t('passed')}}
           </span>
-          <span
-            :class="{'active': filter === 'future'}"
+          <span :class="{'active': filter === 'future'}"
             @click="toogleFilterEvent('future')"
           >
-            {{$t('next')}}
+          {{$t('next')}}
           </span>
         </h5>
       </div>
@@ -32,9 +30,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="event in filteredEvents"
-                :key="event._id"
+              <tr v-for="event in filteredEvents" :key="event._id"
                 @click="routeUrl(`/team/${currentTeam._id}/event/${event._id}`)"
               >
                 <th scope=row>
@@ -58,24 +54,15 @@
                   <div v-else>-</div>
                 </td>
                 <td class="table-item">
-                  <event-result-info
-                    v-if="eventIsPassed(event)"
-                    :event="event"
-                    :title="false"
-                    :resultButton="false"
+                  <event-result-info v-if="eventIsPassed(event)"
+                    :event="event" :title="false" :resultButton="false"
                   />
                   <div v-else>--</div>
                 </td>
                 <td class="table-item">
                   <div>
-                    <i
-                      v-if="event.locationCategory === 'home'"
-                      class="material-icons"
-                    >home</i>
-                    <i
-                      v-else
-                      class="fa fa-plane"
-                    ></i>
+                    <i v-if="event.locationCategory === 'home'" class="material-icons">home</i>
+                    <i v-else class="fa fa-plane"></i>
                   </div>
                 </td>
               </tr>

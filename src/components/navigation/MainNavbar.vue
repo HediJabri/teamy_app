@@ -112,6 +112,7 @@
         </el-dropdown>
       </div>
     </div>
+    <portal-target name="nav-modals"></portal-target>
   </div>
 </template>
 

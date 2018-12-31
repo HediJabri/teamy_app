@@ -1,47 +1,42 @@
-<template lang="html">
-  <div class="page-team-show">
-    <transition name="fade" mode="out-in">
-      <div v-if="team" class="page-wrapper">
-        <div class="page-left-container">
-          <card-team-infos :team="team" v-on:showTeam="showTeam()" />
-        </div>
-        <div class="page-center-container">
-          <card-members-pending
-            v-if="teamMembershipsPending.length && isAdmin(currentUser, team)" 
-            :team="team" />
-          <card-members :team="team" v-on:showMember="showMember($event)"/>
-        </div>
-        <div class="page-right-container">
-          <transition name="fade" mode="out-in">
-            <card-user-large v-if="memberShowed" :membership="memberShowed" :team="team" 
-              v-on:showTeam="showTeam()"/>
-            <div v-else>
-              <card-team-link :team="team" v-on:openDialogShare="openDialogShareInvitation()"/>
-              <card-team-large :team="team" />
-            </div>
-          </transition>
-        </div>
-        <dialog-share-invitation v-if="dialogShareInvitation" :team="team"
-          v-on:closeDialog="dialogShareInvitation = false" />
+<template>
+  <transition name="fade" mode="out-in">
+    <div v-if="team" class="page-wrapper">
+      <div class="page-left-container">
+        <card-team-infos :team="team" @showTeam="showTeam()" />
+        <card-team-home :team="team" />
       </div>
-      <teamy-spinner v-else :logo="true" />
-    </transition>
-  </div>
+      <div class="page-center-container">
+        <card-members-pending v-if="displayPendingMembership" :team="team" />
+        <card-members :team="team" @showMember="showMember($event)"/>
+      </div>
+      <div class="page-right-container">
+        <transition name="fade" mode="out-in">
+          <card-user-large v-if="memberShowed" :membership="memberShowed" :team="team" 
+            @showTeam="showTeam()"/>
+          <div v-else>
+            <card-team-link :team="team" />
+            <card-team-large :team="team" />
+          </div>
+        </transition>
+      </div>
+    </div>
+    <teamy-spinner v-else :logo="true" />
+  </transition>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { eventBus } from '@/main'
 import { utilities } from '@/mixins/utilities.js'
 import ApiTeams from '@/services/ApiTeams.js'
 import TeamySpinner from '@/components/global/TeamySpinner'
 import CardTeamInfos from '@/components/cards/teams/CardTeamInfos'
+import CardTeamHome from '@/components/cards/teams/CardTeamHome'
 import CardTeamLink from '@/components/cards/teams/CardTeamLink'
 import CardTeamLarge from '@/components/cards/teams/CardTeamLarge'
 import CardUserLarge from '@/components/cards/users/CardUserLarge'
 import CardMembers from '@/components/cards/memberships/CardMembers'
 import CardMembersPending from '@/components/cards/memberships/CardMembersPending'
-import DialogShareInvitation from '@/components/dialogs/DialogShareInvitation'
 
 export default {
   name: 'TeamShow',
@@ -49,12 +44,12 @@ export default {
   components: {
     TeamySpinner,
     CardTeamInfos,
+    CardTeamHome,
     CardTeamLink,
     CardTeamLarge,
     CardMembers,
     CardUserLarge,
-    CardMembersPending,
-    DialogShareInvitation
+    CardMembersPending
   },
   data() {
     return {
@@ -62,16 +57,23 @@ export default {
       team: null,
       competitions: null,
       memberShowed: null,
-      dialogShareInvitation: false
+      selectedItem: null
     }
   },
   computed: {
     ...mapGetters(['currentTeam', 'currentUser']),
-    teamMembershipsPending() {
+    membershipsPending() {
       return this.team.memberships.filter(m => m.status === 'pending')
+    },
+    displayPendingMembership() {
+      return (
+        this.isAdmin(this.currentUser, this.team) &&
+        this.membershipsPending.length
+      )
     }
   },
   methods: {
+    ...mapActions(['openDialogTeamLink']),
     async getTeam(id) {
       try {
         const team = (await ApiTeams.get(id)).data.team
@@ -92,7 +94,7 @@ export default {
             this.team.memberships.length === 1 &&
             this.isMainAdmin(this.currentUser, this.team)
           ) {
-            this.dialogShareInvitation = true
+            this.openDialogTeamLink(true)
           }
         } catch (err) {
           this.errorNotify(err)
@@ -110,9 +112,6 @@ export default {
     },
     showTeam() {
       this.memberShowed = null
-    },
-    openDialogShareInvitation() {
-      this.dialogShareInvitation = true
     }
   },
   watch: {

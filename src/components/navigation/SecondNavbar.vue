@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div>
     <transition name="fade" mode="out-in">
       <div v-if="this.currentTeam && notifsLoaded" class="second-navbar">
@@ -80,25 +80,26 @@
                   </span>
                 </el-dropdown-item>
               </div>
-              <div class="dropdown-link"
-                v-if="isMainAdmin(currentUser, currentTeam)"
-                @click="openDialogDeleteTeam">
+              <button-delete-team class="dropdown-link" 
+                v-if="isMainAdmin(currentUser, currentTeam)" 
+                :team="currentTeam">
                 <el-dropdown-item>
                   <span class="dropdown-text">
                     <i class="material-icons">delete</i>
                     <span>{{$t('deleteTeam')}}</span>
                   </span>
                 </el-dropdown-item>
-              </div>
-              <div v-else class="dropdown-link"
-                @click="openDialogDeleteMembership">
+              </button-delete-team>
+              <button-delete-membership class="dropdown-link" 
+                v-else :team="currentTeam"
+                :membership="currentUserMembership(currentUser, currentTeam)">
                 <el-dropdown-item>
                   <span class="dropdown-text">
                     <i class="material-icons">sync</i>
                     <span>{{$t('removeMyselfFromTeam')}}</span>
                   </span>
                 </el-dropdown-item>
-              </div>
+              </button-delete-membership>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -121,33 +122,21 @@
         </div>
       </div> 
     </transition>
-    <div v-if="currentTeam">
-      <dialog-delete-team
-        v-show="currentTeam"
-        :openDialog="dialogDeleteTeam"
-        @closeDialog="dialogDeleteTeam = false" />
-      <dialog-delete-membership
-        v-show="currentTeam" :membership="currentUserMembership(currentUser, currentTeam)" :team="currentTeam"
-        :openDialog="dialogDeleteMembership"
-        @closeDialog="dialogDeleteMembership = false" />
-    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
-import DialogDeleteTeam from '@/components/dialogs/DialogDeleteTeam'
-import DialogDeleteMembership from '@/components/dialogs/DialogDeleteMembership'
+import ButtonDeleteTeam from '@/components/buttons/teams/ButtonDeleteTeam'
+import ButtonDeleteMembership from '@/components/buttons/memberships/ButtonDeleteMembership'
 
 export default {
   name: 'SecondNavbar',
-  components: { DialogDeleteTeam, DialogDeleteMembership },
+  components: { ButtonDeleteTeam, ButtonDeleteMembership },
   mixins: [utilities],
-  data () {
+  data() {
     return {
-      dialogDeleteTeam: false,
-      dialogDeleteMembership: false,
       eventsRoutesNames: [
         'events-new-select',
         'events-new',
@@ -169,22 +158,16 @@ export default {
       'notifications',
       'sports'
     ]),
-    isHomeView () {
+    isHomeView() {
       return this.$route.name === 'home-dashboard'
     }
   },
   methods: {
-    routeUrl (url) {
+    routeUrl(url) {
       this.$router.push(url)
-    },
-    openDialogDeleteTeam () {
-      this.dialogDeleteTeam = true
-    },
-    openDialogDeleteMembership () {
-      this.dialogDeleteMembership = true
     }
   },
-  created () {
+  created() {
     this.dialogDeleteTeam = false
   }
 }

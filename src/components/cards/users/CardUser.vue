@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div v-if="user">
     <div class="card-user" :class="{'padding-small': isUserShowView }">
       <div class="card-user-link" @click="routeToProfil(user)">
@@ -15,17 +15,14 @@
         v-if="currentTeam && currentUserMembership(user, currentTeam).position">
         <span>{{ currentUserMembership(user, currentTeam).position }}</span>
       </div>
-      <div v-if="isUserShowView && !isCurrentUser(user._id)" class="card-user-btn">
-        <el-button type="default" @click="openDialogContactUser">
-          {{$t('toContact')}} <i class="fa fa-envelope blue margin-left"></i>
-        </el-button>
+      <div>
+        <button-contact-user v-if="isUserShowView && !isCurrentUser(user)" :user="user">
+          <el-button type="default" class="card-user-btn">
+            {{$t('toContact')}} <i class="fa fa-envelope"></i>
+          </el-button>
+        </button-contact-user>
       </div>
     </div>
-    <dialog-contact-user
-      v-show="user"
-      :user="user"
-      :openDialog="dialogContactUser"
-      @closeDialog="dialogContactUser = false" />
   </div>
 </template>
 
@@ -33,18 +30,13 @@
 import moment from 'moment'
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
-import DialogContactUser from '@/components/dialogs/DialogContactUser'
+import ButtonContactUser from '@/components/buttons/users/ButtonContactUser'
 
 export default {
   name: 'CardUser',
   props: ['user', 'team'],
   mixins: [utilities],
-  components: { DialogContactUser },
-  data() {
-    return {
-      dialogContactUser: false
-    }
-  },
+  components: { ButtonContactUser },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
     userAge() {
@@ -58,14 +50,6 @@ export default {
     },
     isTeamDashboardView() {
       return this.$route.name === 'team-dashboard'
-    }
-  },
-  methods: {
-    isCurrentUser(userId) {
-      return userId === this.currentUser._id
-    },
-    openDialogContactUser() {
-      this.dialogContactUser = true
     }
   }
 }
@@ -111,6 +95,11 @@ export default {
 }
 .card-user-btn {
   margin-top: 20px;
+  i {
+    color: $blue;
+    font-size: 11px;
+    margin-left: 5px;
+  }
 }
 .card-user-age {
   height: 14px;

@@ -2,9 +2,9 @@
   <div v-if="event">
     <el-dialog title="" :visible.sync="dialogVisible" :fullscreen="smallDevice()" :top="'5vh'">
       <div class="dialog-body">
-       <h4 class="dialog-title">
-         <span v-if="mode === 'edit'">{{$t('editResult')}}</span>
-         <span v-else>{{$t('addResult')}}</span>
+        <h4 class="dialog-title">
+          <span v-if="mode === 'edit'">{{$t('editResult')}}</span>
+          <span v-else>{{$t('addResult')}}</span>
         </h4><br>
         <div class="dialog-subtitle">
           <event-category-icon :category="event.category" :competition="event.competition "/>

@@ -1,8 +1,8 @@
-<template lang="html">
+<template>
   <div class="page-competitions-index">
     <div class="page-wrapper">
       <div class="page-left-container">
-        <card-competitions-filter v-on:filterChange="changeFilter($event)"/>
+        <card-competitions-filter v-on:filterChange="changeFilter($event)" :competitions="competitions"/>
       </div>
       <div class="page-center-container">
         <transition name="fade" mode="out-in">

@@ -8,7 +8,7 @@
           <router-view></router-view>
         </transition>
       </div>
-     <button-contact />
+     <button-contact><span>Contact</span></button-contact>
     </div>
     <teamy-spinner v-else :fullMode="true" :logo="true" />
   </div>
@@ -23,10 +23,10 @@ import ApiUsers from '@/services/ApiUsers.js'
 import TeamySpinner from '@/components/global/TeamySpinner'
 import MainNavbar from '@/components/navigation/MainNavbar.vue'
 import SecondNavbar from '@/components/navigation/SecondNavbar.vue'
-import ButtonContact from '@/components/buttons/ButtonContact'
+import ButtonContact from '@/components/buttons/users/ButtonContact'
 
 export default {
-  name: 'Dash',
+  name: 'DashLayout',
   mixins: [utilities],
   components: {
     MainNavbar,

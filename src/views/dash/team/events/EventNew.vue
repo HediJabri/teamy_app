@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="page-event-new">
     <div class="page-wrapper">
       <div class="page-center-container-l">

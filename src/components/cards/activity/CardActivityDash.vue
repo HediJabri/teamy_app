@@ -1,48 +1,44 @@
-<template lang="html">
-  <div class="card">
-    <div class="card-title">
-      <div class="card-title-text">
-        <h5>{{$t('dashboard')}}</h5>
-      </div>
-      <el-button type="primary" v-if="isAdmin(currentUser, currentTeam)"
-        class="card-title-btn" @click="routeUrl(`/team/${currentTeam._id}/event-new-select`)">
-        <span> {{$t('addEvent')}}</span>
-        <i class="fa fa-plus-circle margin-left"></i>
-      </el-button>
-    </div>
-    <br>
-    <br>
-    <p class="card-date">
-      <span class="card-day">{{ formatCurrentDay() }} </span> 
-      <span class="card-day-number">{{ formatCurrentDayNumber() }} </span>
-      <span class="card-month">{{ formatCurrentDayMonth() }} </span></p>
-    <div class="clear"></div>
-    <p class="card-header" :class="{'text-blue': todayEvents.length}">
-      <i class="material-icons">event</i>
-      <span> {{$tc('event', todayEvents.length)}} {{$t('today')}}</span>
-     </p>
-    <hr>
-    <div class="card-item" v-for="event in todayEvents" :key="event._id">
-      <div class="card-item-wrapper" @click="routeUrl(`/team/${currentTeam._id}/event/${event._id}`)">
-        <div class="item-text">
-          <p class="text">
-            <span class="text-wrapper">{{ event.name }} </span> 
-            <event-participation-info :event="event" iconMode="true"/>
-          </p>
-          <p class="subtext">
-            <span v-if="event.opponent">{{ event.opponent }} - </span>
-            <span v-else>{{ event.location.name }} - </span>
-             {{$t('at')}} {{ event.time }}
-          </p>
-        </div>
-        <div class="item-logo">
-          <event-category-icon :category="event.category" 
-            :competition="event.competition" :size="'s'" />
-        </div>
-      </div>
+<template>
+  <base-card>
+    <template slot="cardTitle">{{$t('dashboard')}}</template>
+    <el-button slot="cardTitleButton" type="primary" v-if="isAdmin(currentUser, currentTeam)"
+      class="card-title-btn" @click="routeUrl(`/team/${currentTeam._id}/event-new-select`)">
+      <span> {{$t('addEvent')}}</span>
+      <i class="fa fa-plus-circle margin-left"></i>
+    </el-button>
+    <div slot="cardBody" class="card-body-wrapper">
+      <p class="card-date">
+        <span class="card-day">{{ formatCurrentDay() }} </span> 
+        <span class="card-day-number">{{ formatCurrentDayNumber() }} </span>
+        <span class="card-month">{{ formatCurrentDayMonth() }} </span>
+      </p>
+      <p class="card-header" :class="{'text-blue': todayEvents.length}">
+        <i class="material-icons">event</i>
+        <span> {{$tc('event', todayEvents.length)}} {{$t('today')}}</span>
+      </p>
       <hr>
+      <div class="card-item" v-for="event in todayEvents" :key="event._id">
+        <div class="card-item-wrapper" @click="routeUrl(`/team/${currentTeam._id}/event/${event._id}`)">
+          <div class="item-text">
+            <p class="text">
+              <span class="text-wrapper">{{ event.name }} </span> 
+              <event-participation-info :event="event" iconMode="true"/>
+            </p>
+            <p class="subtext">
+              <span v-if="event.opponent">{{ event.opponent }} - </span>
+              <span v-else>{{ event.location.name }} - </span>
+              {{$t('at')}} {{ event.time }}
+            </p>
+          </div>
+          <div class="item-logo">
+            <event-category-icon :category="event.category" 
+              :competition="event.competition" :size="'s'" />
+          </div>
+        </div>
+        <hr>
+      </div>
     </div>
-  </div>
+  </base-card>
 </template>
 
 <script>
@@ -66,28 +62,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  @include card();
-  padding: 30px 30px 10px 30px;
+.card-body-wrapper {
+  padding: 20px 30px 0 30px;
 }
-.card-title {
-  @include title-card();
-  .card-title-text {
-    @include flex-start();
+.card-date {
+  color: $blue-dark;
+  font-size: 18px;
+  text-align: left;
+  .card-day {
+    font-weight: 400;
     text-transform: uppercase;
-    i {
-      color: $blue-dark-medium;
-      margin: 0 0 4px 6px;
-      font-size: 20px;
-    }
   }
-  .card-title-btn {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    &:hover {
-      cursor: pointer;
-    }
+  .card-day-number {
+    font-weight: 200;
+  }
+  .card-month {
+    font-weight: 200;
+    text-transform: uppercase;
   }
 }
 .card-header {
@@ -105,23 +96,6 @@ export default {
 .card-header.text-blue {
   i {
     color: $primary-color;
-  }
-}
-
-.card-date {
-  color: $blue-dark;
-  font-size: 18px;
-  text-align: left;
-  .card-day {
-    font-weight: 400;
-    text-transform: uppercase;
-  }
-  .card-day-number {
-    font-weight: 200;
-  }
-  .card-month {
-    font-weight: 200;
-    text-transform: uppercase;
   }
 }
 

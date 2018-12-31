@@ -1,17 +1,13 @@
-<template lang="html">
-  <div class="card" v-if="statsEvents">
-    <div class="card-title">
-      <div class="card-title-text">
-        <h5>{{ $t('lastGames') }}</h5>
-      </div>
-    </div>
-    <div class="card-body">
+<template>
+  <base-card :class="'title-center'" v-if="statsEvents" >
+    <template slot="cardTitle">{{$t('lastGames')}}</template>
+    <div slot="cardBody" class="body-center">
       <span class="tag-rounded" v-for="(event, index) in lastEvents"
         :key="index" :class="classTag(event.result)">
         {{ formatResultLetter(event.result) }}
       </span>
     </div>
-  </div>
+  </base-card>
 </template>
 
 <script>
@@ -44,22 +40,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  @include card();
-  padding: 30px 0 10px 0;
-  font-size: 13px;
-}
-.card-title {
-  @include title-card();
-  .card-title-text {
-    @include flex-center();
-    text-transform: uppercase;
-  }
+.title-center {
+  @include flex-center();
 }
 
-.card-body {
+.body-center {
   @include flex-center();
-  margin-top: 40px;
+  padding: 18px 0 12px 0;
 }
 
 .tag-rounded {

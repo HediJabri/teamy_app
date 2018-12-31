@@ -1,12 +1,8 @@
-<template lang="html">
-  <div class="card-wrapper">
-    <div class="card">
-      <div class="card-title">
-        <div class="card-title-text">
-          <h5>{{$t('community')}}</h5>
-        </div>
-      </div>
-      <div class="card-body">
+<template>
+  <div>
+    <base-card>
+      <template slot="cardTitle">{{$t('community')}}</template>
+      <div slot="cardBody">
         <div class="card-list-item border-blue active"
           v-for="filter in filters" :key="filter.id">
           <div class="list-item-body">
@@ -14,7 +10,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </base-card>
     <div class="filters-wrapper">
       <h5>{{$t('filters')}}</h5>
       <el-select v-model="sportSelected" placeholder="Sports">
@@ -54,36 +50,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  @include card();
-  padding: 30px 0 10px 0;
-  font-size: 13px;
-  margin-bottom: 30px;
-}
-.card-title {
-  @include title-card();
-  .card-title-text {
-    @include flex-start();
-    text-transform: uppercase;
-  }
-}
-.card-body {
-  margin-top: 22px;
-}
 .card-list-item,
 .card-list-item:hover {
   @include list-item-s();
   border-left: 5px solid transparent;
 }
-.card-list-item.border-red.active {
-  border-left: 5px solid $red;
-  p {
-    font-weight: 600;
-  }
-}
+
 .card-list-item.border-blue.active {
   border-left: 5px solid $blue;
-  p {
+  background: $ghost-white;
+  .list-item-body-top {
     font-weight: 600;
   }
 }

@@ -48,11 +48,11 @@
           <event-participation-info v-if="!eventIsPassed(event)" :event="event" />
         </div>
         <div class="card-item-result">
-          <event-result-info v-if="eventIsPassed(event)" :event="event" :resultButton="true" />
+          <event-result-info v-if="eventIsPassed(event)" :event="event" :resultButton="false" />
         </div>
       </router-link>
     </div>
-     <div class="btn-next-page" 
+    <div class="btn-next-page" 
       v-if="page.next >= 0 && !page.allRecordsFetched">
       <el-button type="primary"
         :loading="page.loadingNext"
@@ -62,6 +62,9 @@
     </div>
     <div v-else-if="events.length === 0" class="card-list-empty">
       <div class="card-list-empty-wrapper">
+        <span class="tag">
+         <i class="material-icons">event</i>
+        </span>
         <p >{{ $tc('event', 0)}} </p>
         <div class="card-btn-add" v-if="displayAddButton">
           <el-button type="primary"
@@ -84,15 +87,13 @@ import EventCategoryIcon from '@/components/global/events/EventCategoryIcon'
 export default {
   name: 'CardEventsList',
   mixins: [utilities],
-  props: ['events', 'page', 'filter', 'eventFrom'],
+  props: ['events', 'page', 'filter'],
   components: { EventResultInfo, EventParticipationInfo, EventCategoryIcon },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam']),
     displayAddButton() {
       return (
-        this.isAdmin(this.currentUser, this.currentTeam) &&
-        this.eventFrom === 'currentTeam' &&
-        this.filter === 'future'
+        this.isAdmin(this.currentUser, this.currentTeam) && !this.events.length
       )
     }
   },
@@ -189,15 +190,20 @@ export default {
   margin-top: 10px;
 }
 .card-list-empty {
-  height: 200px;
+  height: 270px;
   @include flex-center();
 }
 .card-list-empty-wrapper {
+  color: $blue-grey;
   p {
     text-align: center;
+    margin-bottom: 30px;
   }
-  .card-list-no-team {
-    margin-top: 20px;
+  .tag {
+    @include tag-flat-icon;
+    i {
+      font-size: 15px;
+    }
   }
   .card-btn-add,
   .card-btn-no-team {
