@@ -2,25 +2,12 @@
   <div>
     <el-dropdown trigger="click">
       <span class="el-dropdown-link">
-        <i
-          class="material-icons icon-lang"
-          :class="{'white': iconWhite }"
-        >language</i>
+        <i class="material-icons icon-lang" :class="{'white': iconWhite }">language</i>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item
-          :class="{'active': lang.locale === $i18n.locale}"
-          v-for="lang in languages"
-          :key="lang.flag"
-        >
-          <span
-            class="dropdown-text"
-            @click="changeLocale(lang.locale)"
-          >
-            <flag
-              :iso="lang.flag"
-              v-bind:squared=false
-            />
+        <el-dropdown-item :class="{'active': lang.locale === $i18n.locale}"
+          v-for="lang in languages" :key="lang.flag">
+          <span class="dropdown-text" @click="changeLocale(lang.locale)">
             <span>{{ $t(lang.title) }}</span>
           </span>
         </el-dropdown-item>
@@ -69,7 +56,7 @@ export default {
 
 <style lang="scss" scoped>
 .icon-lang {
-  font-size: 22px;
+  font-size: 20px;
   margin: 5px 10px;
 }
 .icon-lang.white {

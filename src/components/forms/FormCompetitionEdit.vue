@@ -55,11 +55,6 @@
         <p v-for="error in errors" :key="error">{{ error }}</p>
       </div>
     </div>
-     <dialog-delete-competition
-      v-show="competition"
-      :competition="competition"
-      :openDialog="dialogDeleteCompetition"
-      @closeDialog="dialogDeleteCompetition = false" />
   </div>
 </template>
 
@@ -68,20 +63,16 @@ import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import dataForms from '@/data/forms.js'
 import ApiCompetitions from '@/services/ApiCompetitions.js'
-import DialogDeleteCompetition from '@/components/dialogs/DialogDeleteCompetition'
 
 export default {
   name: 'FormCompetitionEdit',
   mixins: [utilities],
   props: ['competition'],
-  components: { DialogDeleteCompetition },
   data() {
     return {
       isLoading: false,
       formData: dataForms,
-      dialogDeleteCompetition: false,
       labelPosition: 'top',
-      infosPlaceholder: 'Ligue du mardi, Saison 2017...',
       errors: [],
       form: {
         name: null,
@@ -117,9 +108,6 @@ export default {
     toggleForm() {
       this.$emit('toggleForm')
     },
-    openDialogDeleteCompetition() {
-      this.dialogDeleteCompetition = true
-    },
     fillFormCompetition() {
       this.form.name = this.competition.name
       this.form.category = this.competition.category
@@ -131,7 +119,6 @@ export default {
         if (valid) {
           this.editCompetition()
         } else {
-          console.log('error submit!!')
           return false
         }
       })

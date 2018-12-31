@@ -147,9 +147,12 @@
                 <el-form-item prop="location">
                   <div class="form-label-group">
                     <p class="form-label">{{ $t('eventLocation') }}</p>
-                    <el-button class="btn-m" type="primary" @click="openDialogAddLocation()" >
-                      <span>{{ $t('addLocation') }}<i class="fa fa-plus-circle margin-left"></i></span>
-                    </el-button>
+                    <button-add-location :team="currentTeam" :category="form.locationCategory" 
+                      @created="locationCreated($event)">
+                      <el-button class="btn-m" type="primary">
+                        <span>{{ $t('addLocation') }}<i class="fa fa-plus-circle margin-left"></i></span>
+                      </el-button>
+                    </button-add-location>
                   </div>
                   <el-select v-model="form.location" filterable :placeholder="$t('selectLocation')">
                     <el-option v-for="location in teamLocations"
@@ -193,11 +196,6 @@
         </div>
       </div>
     </div>
-    <dialog-add-location
-      v-show="currentTeam" :team="currentTeam"
-      :openDialog="dialogAddLocation" :category="form.locationCategory"
-      v-on:locationCreated="locationCreated($event)"
-      @closeDialog="dialogAddLocation = false" />
   </div>
 </template>
 
@@ -206,15 +204,15 @@ import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import data from '@/data/forms.js'
 import ApiEvents from '@/services/ApiEvents.js'
-import DialogAddLocation from '@/components/dialogs/DialogAddLocation'
+import ButtonAddLocation from '@/components/buttons/events/ButtonAddLocation'
 import EventCategoryIcon from '@/components/global/events/EventCategoryIcon'
 
 export default {
   name: 'FormEventCreate',
   mixins: [utilities],
   props: ['eventCategory', 'competition'],
-  components: { DialogAddLocation, EventCategoryIcon },
-  data () {
+  components: { ButtonAddLocation, EventCategoryIcon },
+  data() {
     return {
       errors: [],
       formData: data,
@@ -223,7 +221,6 @@ export default {
       otherCategory: null,
       competitionEventCategories: null,
       opponent: true,
-      dialogAddLocation: false,
       recurrenceCategories: [{ title: this.$t('weekly'), value: 'weekly' }],
       recurrenceDaysList: data.recurrenceDaysList,
       form: {
@@ -303,21 +300,18 @@ export default {
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam', 'currentTeamLocation']),
-    hasErrors () {
+    hasErrors() {
       return this.errors.length > 0
     },
-    teamLocations () {
+    teamLocations() {
       return this.currentTeam.locations
     }
   },
   methods: {
-    openDialogAddLocation () {
-      this.dialogAddLocation = true
-    },
-    locationCreated (location) {
+    locationCreated(location) {
       this.form.location = location._id
     },
-    submitForm (formName) {
+    submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.newLocationName ? this.createLocation() : this.createEvent()
@@ -327,12 +321,12 @@ export default {
         }
       })
     },
-    createEvent () {
+    createEvent() {
       this.form.recurring
         ? this.createRecurrentEvent()
         : this.createUniqueEvent()
     },
-    async createUniqueEvent () {
+    async createUniqueEvent() {
       this.isLoading = true
       this.formatForm()
       try {
@@ -349,7 +343,7 @@ export default {
         this.isLoading = false
       }
     },
-    async createRecurrentEvent () {
+    async createRecurrentEvent() {
       this.isLoading = true
       this.formatForm()
       try {
@@ -366,7 +360,7 @@ export default {
         this.isLoading = false
       }
     },
-    formatForm () {
+    formatForm() {
       this.form.team = this.currentTeam._id
       this.form.season = this.currentSeason(this.currentTeam)._id
       if (this.competition) this.form.competition = this.competition._id
@@ -374,18 +368,18 @@ export default {
       if (this.form.name === this.$t('other'))
         this.form.name = this.otherCategory
     },
-    fillCompetitionCategory () {
+    fillCompetitionCategory() {
       for (let competitionType of this.formData.competitionCategories) {
         if (competitionType.category === this.competition.category) {
           this.eventCategories = competitionType.eventCategories
         }
       }
     },
-    fillEventCategories () {
+    fillEventCategories() {
       this.form.name = this.$t(this.eventCategory)
     }
   },
-  created () {
+  created() {
     this.competition
       ? this.fillCompetitionCategory()
       : this.fillEventCategories()

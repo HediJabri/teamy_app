@@ -81,9 +81,17 @@
   left: 0px;
   padding: 10px 20px;
   border-radius: 3px 3px 0 0;
-  h5 {
-    font-weight: bold;
-    letter-spacing: 0.6px;
+  .card-title-text {
+    h5 {
+      font-weight: bold;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    span {
+      color: #7f889a;
+      font-size: 12px;
+      margin-left: 6px;
+    }
   }
 }
 
@@ -313,9 +321,9 @@
   font-weight: 500;
   background: $solitude;
   padding: 7px 10px;
-  border-radius: 16px;
+  border-radius: 50%;
   width: 35px;
-  height: 30px;
+  height: 35px;
   @include flex-center();
 }
 

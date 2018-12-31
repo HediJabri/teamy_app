@@ -5,7 +5,7 @@
         <card-teams-list-item :team="membership.team" />
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
-         <card-team-empty v-if="cardTeamEmpty" />
+        <card-team-empty v-if="cardTeamEmpty" />
       </div>
     </div>
   </div>

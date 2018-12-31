@@ -64,14 +64,11 @@
         <p v-for="error in errors" :key="error">{{ error }}</p>
       </div>
     </div>
-    <div class="form-user-bottom" @click="openDialogDeleteAccount()"
-      v-if="!onbordingMode">
-       {{$t('deleteMyAccount')}}
+    <div class="form-user-bottom" v-if="!onbordingMode">
+      <button-delete-account>
+        {{$t('deleteMyAccount')}}
+      </button-delete-account>
     </div>
-    <dialog-delete-account
-      v-show="currentUser"
-      :openDialog="dialogDeleteAccount"
-      @closeDialog="dialogDeleteAccount = false" />
   </div>
 </template>
 
@@ -81,13 +78,13 @@ import ApiUsers from '@/services/ApiUsers.js'
 import { utilities } from '@/mixins/utilities.js'
 import formData from '@/data/forms.js'
 import ImageUpload from '@/components/global/ImageUpload'
-import DialogDeleteAccount from '@/components/dialogs/DialogDeleteAccount'
+import ButtonDeleteAccount from '@/components/buttons/users/ButtonDeleteAccount'
 
 export default {
   name: 'FormUserEdit',
   mixins: [utilities],
   props: ['onbordingMode'],
-  components: { ImageUpload, DialogDeleteAccount },
+  components: { ImageUpload, ButtonDeleteAccount },
 
   data() {
     var validatePhone = (rule, value, callback) => {
@@ -104,7 +101,6 @@ export default {
     }
     return {
       isLoading: false,
-      dialogDeleteAccount: false,
       photoIsLoading: false,
       labelPosition: 'top',
       defaultBirthdate: new Date(90, 0),
@@ -158,9 +154,6 @@ export default {
   },
   methods: {
     ...mapActions(['initUser']),
-    openDialogDeleteAccount() {
-      this.dialogDeleteAccount = true
-    },
     fillFormUser() {
       if (this.currentUser) {
         this.form.avatar = this.currentUser.avatar

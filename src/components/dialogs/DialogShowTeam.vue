@@ -33,20 +33,9 @@
               </div>
             </div>
             <div class="dialog-footer-buttons">
-              <el-button type="primary"
-                v-if="isPendingMember(team._id)"
-                :loading="isLoading"
-                @click="desactivateMembership">
-                {{$t('cancelRequest')}}
-                <i class="fa fa-times margin-left"></i>
-              </el-button>
-              <el-button type="primary" class="card-activity-dash-title-btn"
-                v-else-if="!isMember(currentUser, team) && !teamMembershipsIsFull(team)"
-                @click="displayForm = true">
-                {{$t('joinTeam')}}
-                <i class="fa fa-plus-circle margin-left"></i>
-              </el-button>
-              <el-button type="default" :loading="isLoading"
+              <buttons-membership-request :team="team" :mode="'displayForm'" 
+                @displayForm="displayForm = true" />
+              <el-button type="default" :loading="isLoading" class="margin-left"
                 @click="routeUrl(`/home/team/${team._id}/overview`)">
                 {{$t('seeTeam')}}
               </el-button>
@@ -66,12 +55,13 @@ import ApiTeams from '@/services/ApiTeams.js'
 import ApiMemberships from '@/services/ApiMemberships.js'
 import TeamySpinner from '@/components/global/TeamySpinner'
 import FormRoleSelect from '@/components/forms/FormRoleSelect'
+import ButtonsMembershipRequest from '@/components/buttons/memberships/ButtonsMembershipRequest'
 
 export default {
   name: 'DialogShowTeam',
   props: ['teamId', 'openDialog'],
   mixins: [utilities],
-  components: { FormRoleSelect, TeamySpinner },
+  components: { FormRoleSelect, TeamySpinner, ButtonsMembershipRequest },
   data() {
     return {
       team: null,
@@ -223,9 +213,6 @@ export default {
 .dialog-footer-buttons {
   @include flex-center();
   margin: 10px 0;
-  .btn-network {
-    margin-right: 12px;
-  }
 }
 .teamy-spinner {
   @include flex-center();

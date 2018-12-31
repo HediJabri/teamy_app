@@ -2,10 +2,9 @@
   <div v-if="event" class="form-wrapper">
     <div class="form-header">
       <h5>{{ $t('editEvent') }}</h5>
-      <span class="form-header-tag"
-        @click="openDialogDeleteEvent">
-        {{ $t('delete') }}
-      </span>
+     <button-delete-event :event="event">
+       <span class="form-header-tag">{{ $t('delete') }}</span>
+     </button-delete-event>
     </div>
     <div class="form-card">
       <div class="form-body">
@@ -63,9 +62,12 @@
                 <el-form-item prop="location">
                   <div class="form-label-group">
                     <p class="form-label">{{ $t('eventLocation') }}</p>
-                    <el-button class="btn-m" type="primary" @click="openDialogAddLocation()" >
-                      <span>{{ $t('addLocation') }}<i class="fa fa-plus-circle margin-left"></i></span>
-                    </el-button>
+                    <button-add-location :team="currentTeam" :category="form.locationCategory" 
+                      @created="locationCreated($event)">
+                      <el-button class="btn-m" type="primary">
+                        <span>{{ $t('addLocation') }}<i class="fa fa-plus-circle margin-left"></i></span>
+                      </el-button>
+                    </button-add-location>
                   </div>
                   <el-select v-model="form.location" filterable :placeholder="$t('selectLocation')">
                     <el-option v-for="location in teamLocations"
@@ -137,21 +139,10 @@
         </div>
       </div>
     </div>
-    <dialog-add-location
-      v-show="currentTeam" :team="currentTeam"
-      :openDialog="dialogAddLocation" :category="form.locationCategory"
-      v-on:locationCreated="locationCreated($event)"
-      @closeDialog="dialogAddLocation = false" />
-    <dialog-delete-event
-      v-show="event"
-      :event="event"
-      :openDialog="dialogDeleteEvent"
-      @closeDialog="dialogDeleteEvent = false" />
     <dialog-edit-event
-      v-show="event"
-      :event="event"
-      :openDialog="dialogEditEvent"
-      @confirmEditEvent="editEvent($event)" />
+        :event="event"
+        :openDialog="dialogEditEvent"
+        @confirmEditEvent="editEvent($event)" />
   </div>
 </template>
 
@@ -160,8 +151,8 @@ import { mapGetters, mapActions } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import data from '@/data/forms.js'
 import ApiEvents from '@/services/ApiEvents.js'
-import DialogAddLocation from '@/components/dialogs/DialogAddLocation'
-import DialogDeleteEvent from '@/components/dialogs/DialogDeleteEvent'
+import ButtonAddLocation from '@/components/buttons/events/ButtonAddLocation'
+import ButtonDeleteEvent from '@/components/buttons/events/ButtonDeleteEvent'
 import DialogEditEvent from '@/components/dialogs/DialogEditEvent'
 import EventCategoryIcon from '@/components/global/events/EventCategoryIcon'
 
@@ -169,9 +160,9 @@ export default {
   name: 'FormEventEdit',
   mixins: [utilities],
   components: {
-    DialogAddLocation,
+    ButtonAddLocation,
     DialogEditEvent,
-    DialogDeleteEvent,
+    ButtonDeleteEvent,
     EventCategoryIcon
   },
   data() {
@@ -183,8 +174,6 @@ export default {
       otherCategory: null,
       competitionEventCategories: null,
       opponent: true,
-      dialogAddLocation: false,
-      dialogDeleteEvent: false,
       dialogEditEvent: false,
       form: {
         locationCategory: this.$t('atHome'),
@@ -240,14 +229,8 @@ export default {
   },
   methods: {
     ...mapActions(['initEvent']),
-    openDialogDeleteEvent() {
-      this.dialogDeleteEvent = true
-    },
     openDialogEditEvent() {
       this.dialogEditEvent = true
-    },
-    openDialogAddLocation() {
-      this.dialogAddLocation = true
     },
     locationCreated(location) {
       this.form.location = location._id
@@ -315,17 +298,11 @@ export default {
           this.eventCategories = competitionType.eventCategories
         }
       }
-    },
-    fillEventCategories() {
-      // this.form.name = this.$t(this.eventCategory)
     }
   },
   created() {
     this.fillEventForm()
-    console.log(this.event)
-    this.event.competition
-      ? this.fillCompetitionCategory()
-      : this.fillEventCategories()
+    if (this.event.competition) this.fillCompetitionCategory()
   }
 }
 </script>

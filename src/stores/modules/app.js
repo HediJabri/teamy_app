@@ -1,6 +1,7 @@
 const state = {
   infoHighlighted: false,
-  contactHighlighted: false
+  contactHighlighted: false,
+  dialogTeamLinkOpen: false
 }
 
 const mutations = {
@@ -9,6 +10,9 @@ const mutations = {
   },
   EDIT_CONTACT_HIGHLIGHTED(state, data) {
     state.contactHighlighted = data
+  },
+  OPEN_DIALOG_TEAM_LINK(state, data) {
+    state.dialogTeamLinkOpen = data
   }
 }
 
@@ -18,6 +22,9 @@ const actions = {
   },
   editContactHighlighted: ({ commit }, data) => {
     commit('EDIT_CONTACT_HIGHLIGHTED', data)
+  },
+  openDialogTeamLink: ({ commit }, data) => {
+    commit('OPEN_DIALOG_TEAM_LINK', data)
   }
 }
 
@@ -27,6 +34,9 @@ const getters = {
   },
   contactHighlighted: state => {
     return state.contactHighlighted
+  },
+  dialogTeamLinkOpen: state => {
+    return state.dialogTeamLinkOpen
   }
 }
 

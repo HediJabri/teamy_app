@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <transition name="fade" mode="out-in">
     <div class="page-wrapper">
       <div class="page-left-container">

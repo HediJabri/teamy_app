@@ -1,17 +1,17 @@
 <template lang="html">
-  <div class="form-team-wrapper"
+  <div class="form-wrapper"
     v-if="currentTeam">
-    <div class="form-team-left-container">
-      <div class="form-team-card">
-        <div class="form-team-title">
+    <div class="form-left-container">
+      <div class="form-card">
+        <div class="form-title">
           <h5 class="uppercase">
             <span>{{$t('editTeam')}}</span>
           </h5>
         </div>
         <el-form :model="form" :rules="rules" ref="form" label-position="labelPosition">
-          <div class="row form-team-header">
+          <div class="row form-header">
             <div class="col-xs-6">
-              <p class="form-team-photo-label">
+              <p class="form-photo-label">
                 <i class="material-icons">add_a_photo</i>
                 <span>{{$t('teamPhoto')}}</span>
               </p>
@@ -20,7 +20,7 @@
                 @photoIsLoading="photoIsLoading = $event" />
             </div>
             <div class="col-xs-6">
-              <p class="form-team-photo-label">
+              <p class="form-photo-label">
                 <i class="material-icons">stars</i>
                 <span>{{$t('logo')}}</span>
               </p>
@@ -37,7 +37,7 @@
             <p class="form-label form-label-small">{{$t('city')}}</p>
             <input-search-cities v-on:addCity="addCity($event)"/>
           </el-form-item>
-          <div class="form-team-btn-submit">
+          <div class="form-btn-submit">
             <el-button type="success"
               class="btn-xl"
               :class="{'disabled': photoIsLoading}"
@@ -47,12 +47,12 @@
             </el-button>
           </div>
         </el-form>
-        <div class="form-team-errors" v-if="hasErrors" >
+        <div class="form-errors" v-if="hasErrors" >
           <p v-for="error in errors" :key="error">{{ error }}</p>
         </div>
       </div>
     </div>
-    <div class="form-team-right-container">
+    <div class="form-right-container">
       <card-team-preview
         :photo="form.photo" :logo="form.logo"
         :name="form.name" :section="form.city" />
@@ -72,7 +72,7 @@ import ImageUpload from '@/components/global/ImageUpload'
 import InputSearchCities from '@/components/global/InputSearchCities'
 
 export default {
-  name: 'form-team',
+  name: 'FormTeamEdit',
   mixins: [guards, utilities],
   components: {
     CardTeamPreview,
@@ -193,7 +193,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form-team-wrapper {
+.form-wrapper {
   width: 100%;
   margin: 0px auto;
   padding: 0 0 60px 0;
@@ -201,28 +201,33 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
 }
-.form-team-left-container {
+.form-left-container {
   width: 63%;
   display: flex;
   flex-direction: column;
   margin: 0px auto;
 }
-.form-team-right-container {
+.form-right-container {
   width: 37%;
   display: flex;
   flex-direction: column;
   margin: 0px auto;
 }
-.form-team-card {
+.form-card {
   @include card();
   padding: 20px 60px 30px 60px;
   overflow: visible;
 }
-.form-team-title {
+.form-title {
   @include title-card();
   text-align: center;
+  h5 {
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
 }
-.form-team-photo-label {
+.form-photo-label {
   @include flex-start();
   color: $nepal;
   i {
@@ -230,19 +235,19 @@ export default {
     font-size: 20px;
   }
 }
-.form-team-select-left {
+.form-select-left {
   float: left;
 }
-.form-team-select-right {
+.form-select-right {
   float: right;
   color: #8492a6;
   font-size: 12px;
 }
-.form-team-btn-submit {
+.form-btn-submit {
   padding-top: 20px;
   text-align: center;
 }
-.form-team-errors {
+.form-errors {
   text-align: center;
   color: $red;
 }
@@ -271,16 +276,16 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .form-team-card {
+  .form-card {
     padding: 20px 20px 30px 20px;
   }
-  .form-team-right-container {
+  .form-right-container {
     display: none;
   }
-  .form-team-left-container {
+  .form-left-container {
     width: 100%;
   }
-  .form-team-header {
+  .form-header {
     display: none;
   }
   .el-select-dropdown.el-popper {
@@ -292,20 +297,20 @@ export default {
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .form-team-card {
+  .form-card {
     padding: 20px 40px 30px 40px;
     font-size: 12px;
   }
-  .form-team-right-container {
+  .form-right-container {
     display: none;
   }
-  .form-team-left-container {
+  .form-left-container {
     width: 100%;
   }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .form-team-card {
+  .form-card {
     padding: 20px 40px 30px 40px;
   }
 }

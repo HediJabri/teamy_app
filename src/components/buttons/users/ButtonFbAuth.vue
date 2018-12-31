@@ -1,20 +1,11 @@
 <template>
   <div class="button-fb-auth">
-    <a
-      :href="`${url}`"
-      class="btn-facebook"
-    >
+    <a :href="`${url}`" class="btn-facebook">
       <i class="fa fa-facebook-official"></i>
       {{ text }} <span>{{$t('with')}}</span> Facebook
-      <i
-        v-if="loading"
-        class="el-icon-loading"
-      ></i>
+      <i v-if="loading" class="el-icon-loading"></i>
     </a>
-    <p
-      v-if="loading"
-      class="loading"
-    >
+    <p v-if="loading" class="loading">
       {{$t('login')}} {{$t('inProgress')}}...
     </p>
   </div>

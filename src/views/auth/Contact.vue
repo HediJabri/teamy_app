@@ -1,23 +1,25 @@
-<template lang="html">
+<template>
   <div>
     <div class="card">
       <div class="header">
         <h4>Contact 👋</h4>
         <p v-html="$t('contactUsSentence')"></p>
       </div>
-      <el-form class="form-body" :model="form" :rules="rules" ref="form" label-position="labelPosition">
+      <el-form 
+        class="form-body" :model="form" :rules="rules" 
+        ref="form" label-position="labelPosition">
         <el-form-item prop="email">
           <el-input :placeholder="$t('email')" type="email" v-model="form.email">
           </el-input>
         </el-form-item>
         <el-form-item prop="message">
-          <el-input type="textarea" :rows="4" v-model="form.message" :placeholder="`${$t('leaveYourMessageHere')}...`">
+          <el-input type="textarea" :rows="4" v-model="form.message" 
+            :placeholder="`${$t('leaveYourMessageHere')}...`">
           </el-input>
         </el-form-item>
-        <!-- <hr> -->
         <el-form-item class="text-center">
           <el-button type="success"
-            class="btn-send"
+            class="form-btn"
             :loading="isLoading"
             @click="submitForm('form')">
             {{$t('send')}}
@@ -28,7 +30,7 @@
         <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
       </div>
     </div>
-    <div class="banner-footer">
+    <div class="footer">
       <router-link to="/register" class="link">{{$t('signUp')}}</router-link>
       <router-link to="/login" class="link">{{$t('login')}}</router-link>
     </div>
@@ -91,7 +93,6 @@ export default {
         if (valid) {
           this.sendMessage()
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -125,48 +126,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.banner {
-  background-image: linear-gradient(to bottom, #1f69bd, $blue);
-  min-height: 100vh;
-  @include flex-center();
-}
-
-.banner-logo-wrapper {
-  @include flex-center();
-  margin-bottom: 30px;
-  a {
-    cursor: pointer;
-  }
-  .logo {
-    height: 40px;
-  }
-}
-
-.banner-footer {
-  padding: 15px 0;
-  color: $ghost-white;
-  @include flex-center();
-  .link {
-    font-weight: 600;
-    margin-left: 20px;
-    color: $ghost-white;
-  }
-}
-
 .card {
   width: 425px;
   background: white;
   padding: 25px 45px;
   border-radius: 3px;
   @include box-shadow();
-}
-
-.btn-send {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  padding: 8px 25px;
-  line-height: 20px;
 }
 
 .header {
@@ -180,29 +145,27 @@ export default {
   }
 }
 
-.header-social-auth {
-  padding-bottom: 15px;
-  margin-bottom: 5px;
-  text-align: center;
-}
-
-.header-separator {
-  margin-top: 15px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .header-separator-line {
-    width: 100%;
-    border-bottom: 1px solid $mystic;
-  }
-  .header-separator-text {
-    width: 80px;
+.footer {
+  padding: 15px 0;
+  color: $ghost-white;
+  @include flex-center();
+  .link {
+    font-weight: 600;
+    margin-left: 10px;
+    color: $ghost-white;
   }
 }
 
 .form-body {
   margin-top: 20px;
+}
+
+.form-btn {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 8px 25px;
+  line-height: 20px;
 }
 
 .error-message {
@@ -215,7 +178,7 @@ export default {
     width: 260px;
     padding: 25px 25px 15px 25px;
     margin: 0 auto;
-    .btn-send {
+    .form-btn {
       font-size: 13px;
       padding: 7px 20px;
     }

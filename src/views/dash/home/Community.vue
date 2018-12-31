@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="page-community">
     <div class="page-wrapper">
       <div class="page-left-container">
@@ -94,9 +94,6 @@ export default {
     @include flex-center();
     height: 300px;
   }
-  // .teamy-spinner-bottom {
-  //   margin-top: auto;
-  // }
 }
 
 @media only screen and (max-width: 479px) {

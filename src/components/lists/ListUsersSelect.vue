@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'ListItemsSelect',
+  name: 'ListUsersSelect',
   props: ['items', 'selectedItem'],
   model: {
     prop: 'selectedItem',

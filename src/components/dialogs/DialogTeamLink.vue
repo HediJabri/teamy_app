@@ -34,12 +34,12 @@ import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 
 export default {
-  name: 'DialogShareInvitation',
+  name: 'DialogTeamLink',
   mixins: [utilities],
-  props: ['team'],
+  props: ['openDialog', 'team'],
   data() {
     return {
-      dialogVisible: true,
+      dialogVisible: false,
       isLoading: false
     }
   },
@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     closeDialog() {
-      this.$emit('closeDialog')
+      this.$emit('closeDialog', null)
     },
     linkToRegister() {
       window.open(`${this.linkTeam}/view_mode`, '_blank')
@@ -65,6 +65,19 @@ export default {
         center: true,
         duration: 1000
       })
+    }
+  },
+  watch: {
+    openDialog: {
+      immediate: true,
+      handler: function() {
+        this.dialogVisible = this.openDialog
+      }
+    },
+    dialogVisible() {
+      if (this.dialogVisible === false) {
+        this.$emit('closeDialog', null)
+      }
     }
   }
 }

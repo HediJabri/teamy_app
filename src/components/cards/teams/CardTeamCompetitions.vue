@@ -1,13 +1,9 @@
 <template lang="html">
   <div v-if="competitions && competitions.length">
     <transition name="fade" mode="out-in">
-      <div class="card">
-        <div class="card-title">
-          <div class="card-title-text">
-            <h5>{{$t('competitions')}}</h5>
-          </div>
-        </div>
-        <div class="card-body">
+      <base-card>
+        <template slot="cardTitle">{{$t('competitions')}}</template>
+        <div slot="cardBody">
           <div class="card-list-item" 
             v-for="competition in competitions" :key="competition._id">
             <div class="list-item-body">
@@ -15,10 +11,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </base-card>
     </transition>
   </div>
-  
 </template>
 
 <script>

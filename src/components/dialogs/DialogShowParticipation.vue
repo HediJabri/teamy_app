@@ -110,7 +110,7 @@ export default {
     },
     dialogVisible() {
       if (this.dialogVisible === false) {
-        this.$emit('closeDialog', null)
+        this.$emit('closeDialog')
       }
     }
   }

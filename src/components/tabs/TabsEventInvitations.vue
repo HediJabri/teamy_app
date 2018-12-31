@@ -2,81 +2,37 @@
   <div v-if="event">
     <div class="row">
       <div class="col-xs-12 col-sm-6">
-        <div class="card-filter">
-          <div class="card-filter-title">
-            <div class="card-filter-title-text">
-              <h5>{{$t('invitations')}}</h5>
-              <h5 class="card-invitations-count">{{ event.participations.length }}</h5>
-            </div>
-          </div>
-          <div class="card-filter-body">
-            <div
-              class="card-filter-list-item"
-              v-for="filter in filters"
-              :key="filter.id"
-              @click="toggleFilter(filter)"
-              :class="classFilter(filter)"
-            >
+        <base-card>
+          <template slot="cardTitle">{{$t('invitations')}}</template>
+          <h5 class="text-bold" slot="cardTitleButton">{{ event.participations.length }}</h5>
+          <div slot="cardBody">
+            <div class="card-filter-list-item" v-for="filter in filters" :key="filter.id"
+              @click="toggleFilter(filter)" :class="classFilter(filter)">
               <div class="list-item-body">
                 <p class="list-item-body-top">{{ $t(filter.title) }}</p>
               </div>
             </div>
           </div>
-        </div>
+        </base-card>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <div
-          class="card-responses"
-          v-if="participationsFiltered"
-        >
-          <div class="card-title">
-            <div class="card-title-text">
-              <h5>{{ $t(currentFilter.title) }}</h5>
-              <h5 class="card-count">{{ participationsFiltered.length }}</h5>
-            </div>
+        <base-card :class="'transparent'">
+          <template slot="cardTitle">{{$t(currentFilter.title)}}</template>
+          <h5 class="text-bold" slot="cardTitleButton">{{ participationsFiltered.length }}</h5>
+          <div slot="cardBody">
+            <list-users-select v-model="participationSelected" 
+              :items="participationsFiltered" v-if="participationsFiltered.length">
+            </list-users-select>
           </div>
-          <div
-            class="card-body"
-            v-if="participationsFiltered.length"
-          >
-            <div
-              class="card-list-item"
-              v-for="(participation, index) in participationsFiltered"
-              :key="index"
-              @click="toggleParticipationDialog(participation)"
-            >
-              <div class="list-item-content">
-                <div class="list-item-img avatar">
-                  <img
-                    v-if="participation.user.avatar"
-                    :src="participation.user.avatar"
-                  >
-                  <img
-                    v-else
-                    src="../../assets/img/user.png"
-                  >
-                </div>
-                <span
-                  v-if="isMainAdmin(participation.user, event.team)"
-                  class="list-item-badge"
-                ><i class="material-icons">stars</i></span>
-                <div class="list-item-body">
-                  <p class="list-item-body-top">
-                    {{ participation.user.firstName }} {{ participation.user.lastName }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </base-card>
       </div>
     </div>
     <dialog-show-participation
       :mode="'invitations'"
-      v-show="participationShowed"
-      :participation="participationShowed"
+      v-show="participationSelected"
+      :participation="participationSelected"
       :openDialog="dialogShowParticipation"
-      @closeDialog="toggleParticipationDialog($event)"
+      @closeDialog="closeParticipationDialog($event)"
     />
   </div>
 </template>
@@ -84,12 +40,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
+import ListUsersSelect from '@/components/lists/ListUsersSelect'
 import DialogShowParticipation from '@/components/dialogs/DialogShowParticipation'
 
 export default {
   name: 'TabsEventInvitations',
   mixins: [utilities],
-  components: { DialogShowParticipation },
+  components: { ListUsersSelect, DialogShowParticipation },
   data() {
     return {
       filters: [
@@ -103,7 +60,7 @@ export default {
         name: 'pending',
         border: 'blue'
       },
-      participationShowed: null,
+      participationSelected: null,
       dialogShowParticipation: false
     }
   },
@@ -116,9 +73,8 @@ export default {
     }
   },
   methods: {
-    toggleParticipationDialog(participation) {
-      this.dialogShowParticipation = !this.dialogShowParticipation
-      this.participationShowed = participation
+    toggleFilter(filter) {
+      this.currentFilter = filter
     },
     classFilter(filter) {
       return {
@@ -128,8 +84,19 @@ export default {
         'border-blue': filter.border === 'blue'
       }
     },
-    toggleFilter(filter) {
-      this.currentFilter = filter
+    openParticipationDialog() {
+      this.dialogShowParticipation = true
+    },
+    closeParticipationDialog() {
+      this.dialogShowParticipation = false
+      this.participationSelected = null
+    }
+  },
+  watch: {
+    participationSelected() {
+      if (this.participationSelected) {
+        this.openParticipationDialog()
+      }
     }
   },
   created() {
@@ -140,36 +107,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-filter {
-  @include card();
-  padding: 30px 0 10px 0;
-  font-size: 13px;
-}
-.card-filter-title {
-  @include title-card();
-  .card-filter-title-text {
-    @include flex-start();
-    text-transform: uppercase;
-    position: relative;
-    i {
-      color: $blue-dark-medium;
-      margin: 0 10px 1px 0;
-      font-size: 14px;
-    }
-    .card-invitations-count {
-      position: absolute;
-      right: 10px;
-      top: 0;
-    }
-  }
-}
-.card-filter-body {
-  margin-top: 22px;
-}
 .card-filter-list-item {
   @include list-item-s();
   border-left: 5px solid transparent;
+  cursor: pointer;
 }
+
+.card-filter-list-item.active,
+.card-filter-list-item:hover {
+  background-color: $ghost-white;
+  .list-item-body-top {
+    font-weight: 600;
+  }
+}
+
 .card-filter-list-item.border-red.active,
 .card-filter-list-item.border-red:hover {
   border-left: 5px solid $red;
@@ -183,82 +134,9 @@ export default {
   border-left: 5px solid $blue;
 }
 
-.card-responses {
-  @include card();
-  background-color: $ghost-white;
-  box-shadow: none;
-  padding: 30px 0 10px 0;
-  font-size: 13px;
-  .card-title {
-    @include title-card();
-    background: $ghost-white;
-    border-top: none;
-    // border-bottom: none;
-    .card-title-text {
-      @include flex-start();
-      text-transform: uppercase;
-      position: relative;
-      // h5 { font-weight: 600; }
-      i {
-        margin: 0 10px 1px 0;
-        font-size: 18px;
-      }
-      .card-count {
-        position: absolute;
-        right: 10px;
-        top: 0;
-      }
-    }
-  }
-  .card-body {
-    margin-top: 22px;
-  }
-  .card-list-item {
-    @include list-item-s();
-    background: $ghost-white;
-    &:hover {
-      background: $ghost-white;
-    }
-  }
-  .card-empty-item {
-    height: 80px;
-    margin-top: 30px;
-    padding: 0 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-style: italic;
-    color: $text-grey-light;
-    i {
-      color: $red;
-    }
-  }
-}
-
 @media only screen and (max-width: 479px) {
   .col-xs-12 {
     padding: 0;
-  }
-  .card-filter {
-    font-size: 12px;
-    .card-filter-title-text h5 {
-      font-size: 13px;
-    }
-    .card-filter-list-item {
-      padding: 10px;
-      font-size: 12px;
-    }
-  }
-  .card-responses {
-    font-size: 12px;
-    .card-title-text h5 {
-      font-size: 13px;
-    }
-    .card-list-item {
-      padding: 10px;
-      font-size: 12px;
-    }
   }
 }
 </style>

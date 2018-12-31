@@ -1,18 +1,18 @@
 <template lang="html">
  <transition name="fade" mode="out-in">
-      <teamy-spinner :logo="true" v-if="!currentUser" />
-      <div v-else class="page-wrapper">
-        <div class="page-left-container">
-          <card-user :user="currentUser" :team="currentTeam"/>
-        </div>
-        <div class="page-center-container">
-          <form-user-edit />
-        </div>
-        <div class="page-right-container">
-          <form-user-account />
-        </div>
+    <teamy-spinner :logo="true" v-if="!currentUser" />
+    <div v-else class="page-wrapper">
+      <div class="page-left-container">
+        <card-user :user="currentUser" :team="currentTeam"/>
       </div>
-    </transition>
+      <div class="page-center-container">
+        <form-user-edit />
+      </div>
+      <div class="page-right-container">
+        <form-user-account />
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>

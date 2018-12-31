@@ -1,35 +1,20 @@
 <template>
-  <div
-    class="tabs-topic"
-    v-if="event"
-  >
-    <div
-      class="tabs-comments"
-      v-if="event.topic"
-    >
+  <div class="tabs-topic" v-if="event">
+    <div class="tabs-comments" v-if="event.topic">
       <div class="tabs-comments-header">
-        <h5 v-if="event.topic.comments"> {{$tc('Comment', event.topic.comments.length)}}</h5>
+        <h5 v-if="event.topic.comments"> 
+          {{$tc('Comment', event.topic.comments.length)}}
+        </h5>
       </div>
-      <div
-        class="tabs-comments-list"
-        v-if="event.topic.comments && event.topic.comments.length"
-      >
-        <div
-          class="tabs-comments-list-item-wrapper"
-          v-for="comment in event.topic.comments"
-          :key="comment._id"
-        >
+      <div class="tabs-comments-list" 
+        v-if="event.topic.comments && event.topic.comments.length">
+        <div class="tabs-comments-list-item-wrapper"
+          v-for="comment in event.topic.comments" :key="comment._id">
           <div class="tabs-comments-list-item">
             <div class="list-item-content">
               <div class="list-item-img avatar">
-                <img
-                  v-if="comment.user.avatar"
-                  :src="comment.user.avatar"
-                >
-                <img
-                  v-else
-                  src="../../assets/img/user.png"
-                >
+                <img v-if="comment.user.avatar" :src="comment.user.avatar">
+                <img v-else src="../../assets/img/user.png">
               </div>
               <div class="list-item-body">
                 <p class="list-item-body-top">
@@ -41,78 +26,44 @@
           </div>
           <p class="list-item-content-bottom">
             {{ comment.content }}
-            <el-tooltip
-              v-if="comment.membersToNotify"
+            <el-tooltip v-if="comment.membersToNotify"
               :content="`${$tc('membersNotified', comment.membersToNotify)}`"
-              placement="top"
-              :open-delay="300"
-            >
+              placement="top" :open-delay="300">
               <i class="fa fa-envelope"></i>
-            </el-tooltip>
+            </el-tooltip> 
           </p>
         </div>
       </div>
       <div class="tabs-comments-form">
-        <el-input
-          type="textarea"
-          :rows="3"
-          v-model="newComment"
-          :placeholder="$t('writeYourMessageHere')"
-        >
+        <el-input type="textarea" :rows="3" v-model="newComment" 
+          :placeholder="$t('writeYourMessageHere')">
         </el-input>
         <div class="tabs-comments-buttons">
           <div class="tabs-comments-btn">
-            <el-button
-              type="default"
-              :disabled="newComment.length === 0"
-              @click="openDialogNotifyMembers"
-            >
-              {{$t('notify')}}
-              <i
-                class="fa fa-envelope margin-left"
-                :class="{'blue': newComment.length}"
-              ></i>
-            </el-button>
-            <div
-              v-if="membersToNotify.length"
-              class="tabs-comments-tag"
-            >
+            <button-notify-users>
+              <el-button type="default" :disabled="!newComment.length">
+                {{$t('notify')}}
+                <i class="fa fa-envelope margin-left" :class="{'blue': newComment.length}"></i>
+              </el-button>
+            </button-notify-users>
+            <div v-if="membersToNotify.length" class="tabs-comments-tag">
               <span> {{$tc('member', membersToNotify.length)}}</span>
             </div>
           </div>
           <div class="tabs-comments-btn">
-            <el-button
-              type="primary"
-              :disabled="newComment.length === 0"
-              @click="postComment"
-            >
+            <el-button type="primary" :disabled="!newComment.length" @click="postComment">
               {{$t('add')}}
               <i class="fa fa-plus-circle margin-left"></i>
             </el-button>
           </div>
-
         </div>
       </div>
     </div>
-    <div
-      class="tabs-comments-empty-item"
-      v-else
-    >
-      <el-button
-        type="primary"
-        @click="createTopic()"
-        :loading="isTopicLoading"
-      >
+    <div class="tabs-comments-empty-item" v-else>
+      <el-button type="primary" @click="createTopic()" :loading="isTopicLoading">
         {{$t('addComment')}} <i class="material-icons">forum</i>
       </el-button>
     </div>
-    <dialog-notify-members
-      v-show="event"
-      :team="event.team"
-      :openDialog="dialogNotifyMembers"
-      @closeDialog="dialogNotifyMembers = false"
-      v-on:initMembersToNotify="initMembersToNotify($event)"
-    />
   </div>
 </template>
 
@@ -121,12 +72,12 @@ import { mapGetters, mapActions } from 'vuex'
 import { utilities } from '@/mixins/utilities.js'
 import ApiComments from '@/services/ApiComments'
 import ApiTopics from '@/services/ApiTopics'
-import DialogNotifyMembers from '@/components/dialogs/DialogNotifyMembers'
+import ButtonNotifyUsers from '@/components/buttons/users/ButtonNotifyUsers'
 
 export default {
   name: 'TabsEventComments',
   mixins: [utilities],
-  components: { DialogNotifyMembers },
+  components: { ButtonNotifyUsers },
   data() {
     return {
       membersToNotify: [],
@@ -140,9 +91,6 @@ export default {
   },
   methods: {
     ...mapActions(['addEventTopic', 'addEventTopicComment']),
-    openDialogNotifyMembers() {
-      this.dialogNotifyMembers = true
-    },
     initMembersToNotify(members) {
       this.membersToNotify = members
     },

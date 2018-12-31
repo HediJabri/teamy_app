@@ -29,27 +29,32 @@ import FormCompetitionEdit from '@/components/forms/FormCompetitionEdit'
 export default {
   name: 'CompetitionsShow',
   mixins: [guards, utilities],
-  components: { TeamySpinner, CardTeam, CardCompetitionLarge, FormCompetitionEdit },
-  data () {
+  components: {
+    TeamySpinner,
+    CardTeam,
+    CardCompetitionLarge,
+    FormCompetitionEdit
+  },
+  data() {
     return {
       loadingCompetition: true,
       displayFormEdit: false,
-      competition: null,    
+      competition: null
     }
   },
   computed: {
     ...mapGetters(['currentUser', 'currentTeam'])
   },
   methods: {
-     toggleForm () {
+    toggleForm() {
       this.displayFormEdit = !this.displayFormEdit
     },
-    reloadCompetition () {
-       this.loadingCompetition = false
-       this.toggleForm()
-       this.getCompetition(this.competition._id)
+    reloadCompetition() {
+      this.loadingCompetition = false
+      this.toggleForm()
+      this.getCompetition(this.competition._id)
     },
-    async getCompetition (id) {
+    async getCompetition(id) {
       try {
         const competition = (await ApiCompetitions.get(id)).data.competition
         competition.events = this.sortedEvents(competition.events)
@@ -60,19 +65,19 @@ export default {
         this.loadingCompetition = false
       }
     },
-    sortedEvents (events) {
-      return events.sort(function(a,b){
-        return new Date(b.dateStart) - new Date(a.dateStart);
+    sortedEvents(events) {
+      return events.sort(function(a, b) {
+        return new Date(b.dateStart) - new Date(a.dateStart)
       })
     }
   },
   watch: {
-    '$route' () {
+    $route() {
       const competitionId = this.$route.params.id
       if (competitionId) this.getCompetition(competitionId)
     }
   },
-  created () {
+  created() {
     const competitionId = this.$route.params.id
     if (competitionId) this.getCompetition(competitionId)
   }
@@ -80,7 +85,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .page-wrapper {
   @include page-wrapper();
 }
@@ -96,18 +100,32 @@ export default {
 }
 
 @media only screen and (max-width: 479px) {
-  .page-wrapper { padding: 0px 10px 60px 10px; }
-  .page-center-container-l { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-wrapper {
+    padding: 0px 10px 60px 10px;
+  }
+  .page-center-container-l {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 719px) {
-  .page-center-container-l { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-center-container-l {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 720px) and (max-width: 960px) {
-  .page-center-container-l { width: 100% !important; }
-  .page-right-container { display: none }
+  .page-center-container-l {
+    width: 100% !important;
+  }
+  .page-right-container {
+    display: none;
+  }
 }
 </style>

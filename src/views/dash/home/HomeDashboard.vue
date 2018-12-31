@@ -1,24 +1,24 @@
-<template lang="html">
-<div class="page-dashboard" >
-  <div v-if="userLoaded">
-    <div class="page-wrapper">
-      <div class="page-left-container">
-        <card-home-user />
-      </div>
-      <div class="page-center-container-l">
-        <div class="page-center-title">
-          <h5>{{$t('myTeams')}}</h5>
-          <el-button type="primary" class="card-btn" @click="routeUrl('/home/community')">
-            <span>{{$t('joinATeam')}}</span><i class="fa fa-share margin-left"></i>
-          </el-button>
+<template>
+  <transition name="fade" mode="out-in">
+    <div class="page-home-dashboard" v-if="userLoaded">
+      <div class="page-wrapper">
+        <div class="page-left-container">
+          <card-home-user />
         </div>
-        <card-teams-user-list :memberships="validatedMemberships" :cardTeamEmpty="true"/>
+        <div class="page-center-container-l">
+          <div class="page-center-title">
+            <h5>{{$t('myTeams')}}</h5>
+            <el-button type="primary" class="card-btn" @click="routeUrl('/home/community')">
+              <span>{{$t('joinATeam')}}</span><i class="fa fa-share margin-left"></i>
+            </el-button>
+          </div>
+          <card-teams-user-list :memberships="validatedMemberships" :cardTeamEmpty="true"/>
+        </div>
       </div>
+      <dialog-user-welcome v-if="currentUser.onbording.userWelcome" />
     </div>
-    <dialog-user-welcome v-if="currentUser.onbording.userWelcome" />
-  </div>
-  <teamy-spinner v-else />
-</div>
+    <teamy-spinner v-else />
+  </transition>
 </template>
 
 <script>

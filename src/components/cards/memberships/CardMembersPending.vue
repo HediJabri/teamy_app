@@ -1,44 +1,32 @@
 <template>
-  <div class="card"
-    v-if="team && teamMembershipsPending.length">
-    <div class="card-title">
-      <div class="card-title-text">
-        <h5>{{$t('pendingRequests')}}</h5>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="card-list-item" v-for="membership in teamMembershipsPending" :key="membership._id">
-        <div class="list-item-content">
-          <div class="list-item-img avatar">
-            <img v-if="membership.user.avatar" :src="membership.user.avatar">
-            <img v-else src="../../../assets/img/user.png">
-          </div>
-          <div class="list-item-body">
-            <p class="list-item-body-top">
-              {{ membership.user.firstName }} {{ membership.user.lastName }}
-            </p>
-          </div>
-        </div>
-        <div class="list-item-body-right icons">
-          <span class="list-item-body-icons" >
+  <base-card>
+    <template slot="cardTitle">{{$t('pendingRequests')}}</template>
+    <div slot="cardBody">
+      <list-users :items="teamMembershipsPending">
+         <div  slot="itemButton" class="item-icons">
+          <span class="item-icons-wrapper">
             <i class="fa fa-check-circle green" @click="validateMembership(membership)"></i>
             <i class="fa fa-times-circle red" @click="desactivateMembership(membership)"></i>
           </span>
         </div>
-      </div>
+      </list-users>
     </div>
-  </div>
+  </base-card>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import ApiMemberships from '@/services/ApiMemberships.js'
 import { utilities } from '@/mixins/utilities.js'
+import ApiMemberships from '@/services/ApiMemberships.js'
+import ListUsers from '@/components/lists/ListUsers'
 
 export default {
   name: 'CardMemberPending',
   mixins: [utilities],
   props: ['team'],
+  components: {
+    ListUsers
+  },
   computed: {
     teamMembershipsPending() {
       return this.team.memberships.filter(m => m.status === 'pending')
@@ -89,34 +77,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  @include card();
-  padding: 30px 0 10px 0;
-  font-size: 13px;
-}
-.card-title {
-  @include title-card();
-  .card-title-text {
-    @include flex-start();
-    text-transform: uppercase;
-    i {
-      color: $blue-dark-medium;
-      margin: 0 10px 1px 0;
-      font-size: 20px;
-    }
-  }
-}
-.card-body {
-  margin-top: 22px;
-}
 .card-list-item {
   @include list-item-s();
   cursor: default;
 }
-.list-item-body-right.icons {
+.item-icons {
   width: 65px;
 }
-.list-item-body-icons {
+.item-icons-wrapper {
   width: 65px;
   margin-left: 6px;
   i {
