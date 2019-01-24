@@ -8,7 +8,7 @@ export default {
       required: true
     }
   },
-  render: function(createElement, { props }) {
+  render: function(h, { props }) {
     function appropriateActivityComponent() {
       const category = props.activity.category
       const activitySwitch = key =>
@@ -22,7 +22,7 @@ export default {
         }[key])
       return activitySwitch(category)
     }
-    return createElement(appropriateActivityComponent(), { props })
+    return h(appropriateActivityComponent(), { props })
   }
 }
 </script>
