@@ -166,7 +166,7 @@ export default {
       this.$router.push(`/team/${this.currentTeam._id}/dashboard`)
       this.$notify({
         title: this.$t('success'),
-        message: this.$t('teamedited'),
+        message: this.$t('teamEdited'),
         type: 'success'
       })
     },

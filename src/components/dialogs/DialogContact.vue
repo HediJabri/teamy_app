@@ -2,7 +2,7 @@
   <div v-if="user">
     <el-dialog title="" :visible.sync="dialogVisible" :fullscreen="smallDevice()">
       <div class="dialog-body">
-        <h4 class="dialog-title">Salut {{ currentUser.firstName }} 👋</h4>
+        <h4 class="dialog-title">{{$t('hello')}} {{ currentUser.firstName }} 👋</h4>
         <br>
         <p v-html="$t('dialogContactSentence')"></p>
         <br>
